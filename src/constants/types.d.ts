@@ -3,8 +3,9 @@ import {Component, ReactElement} from 'react';
 export type Block = {};
 
 export type SlackMessage = {
-  channel: string;
+  channel?: string;
   blocks?: Block[];
+  text?: string;
 };
 
 type AnyFunction = () => any;
