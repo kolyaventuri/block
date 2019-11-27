@@ -1,10 +1,11 @@
 import test from 'ava';
 import React from 'react';
 
-import parse from '../src';
+import render from '../src';
+import Block from '../src/components/block';
 
 test('can accept React component without erroring', t => {
-  const fn = () => parse(<div/>);
+  const fn = () => render(<Block>child</Block>);
 
   t.notThrows(fn);
 });

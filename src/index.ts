@@ -1,3 +1,3 @@
-import parse from './parser';
+import render from './renderer';
 
-export default parse;
+export default render;
