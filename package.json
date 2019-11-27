@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "npm run lint && ava",
-    "lint": "tsc -p . --noEmit && xo"
+    "lint": "tsc -p . --noEmit && xo",
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
@@ -49,7 +50,7 @@
   "xo": {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "project": "./tsconfig.json"
+      "project": "tsconfig.json"
     },
     "extends": [
       "xo-typescript",
@@ -88,6 +89,9 @@
     ],
     "include": [
       "**/*.ts"
+    ],
+    "ignore": [
+      "test/**/*.ts"
     ]
   },
   "ava": {
