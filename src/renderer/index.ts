@@ -15,10 +15,21 @@ const render = (element: Element): SlackMessage => {
 
   const result = parser(props.children);
 
-  return {
+  const json = {
     channel: props.channel || null,
     ...result
   };
+
+  if (props.replyTo) {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    json.thread_ts = props.replyTo;
+  }
+
+  if (typeof props.markdown !== 'undefined') {
+    json.mrkdwn = props.markdown;
+  }
+
+  return json;
 };
 
 export default render;

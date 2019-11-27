@@ -1,11 +1,16 @@
 import {Component, ReactElement} from 'react';
 
 export type Block = {};
+export type Attachment = {};
 
 export type SlackMessage = {
   channel?: string;
-  blocks?: Block[];
   text?: string;
+  blocks?: Block[];
+  attachments?: Attachment[];
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  thread_ts?: string;
+  mrkdwn?: boolean;
 };
 
 type AnyFunction = () => any;

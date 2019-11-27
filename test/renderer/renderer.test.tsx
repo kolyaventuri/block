@@ -35,3 +35,16 @@ test('it accepts channel as a prop and renders it', t => {
 
   t.is(result.channel, channel);
 });
+
+test('it accepts a replyTo prop and renders it', t => {
+  const thread_ts = '12345.56';
+  const result = render(<Message replyTo={thread_ts}>Foo</Message>);
+
+  t.is(result.thread_ts, thread_ts);
+});
+
+test('it accepts a markdown prop and renders it', t => {
+  const result = render(<Message markdown={false}>Foo</Message>);
+
+  t.is(result.mrkdwn, false);
+});
