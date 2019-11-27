@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "npm run lint && ava",
-    "lint": "tsc -p . --noEmit && xo",
+    "lint": "tsc -p ./src -p ./test --noEmit && xo",
     "build": "tsc -p ."
   },
   "repository": {
@@ -50,7 +50,7 @@
   "xo": {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "project": "tsconfig.json"
+      "project": ["./src/tsconfig.json", "./test/tsconfig.json"]
     },
     "extends": [
       "xo-typescript",
@@ -76,8 +76,11 @@
           "protected": "^_"
         }
       ],
-      "indent": 0, 
-      "@typescript-eslint/indent": ["error", 2]
+      "indent": 0,
+      "@typescript-eslint/indent": [
+        "error",
+        2
+      ]
     },
     "settings": {
       "react": {
@@ -89,9 +92,6 @@
     ],
     "include": [
       "**/*.ts"
-    ],
-    "ignore": [
-      "test/**/*.ts"
     ]
   },
   "ava": {

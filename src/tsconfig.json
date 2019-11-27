@@ -6,6 +6,6 @@
     "rootDir": "./src",
     "target": "es5"
   },
-  "exclude": ["node_modules", "test"],
-  "include": ["src/**/*.ts"] 
+  "exclude": ["node_modules", "test/**/*"],
+  "include": ["src"] 
 }
