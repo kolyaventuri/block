@@ -4,8 +4,10 @@
   "description": "React-based Slack message renderer",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npm run lint && ava",
+    "test": "npm run lint && npm run unit-coverage",
     "test:cicd": "npm run test && nyc report --reporter=text-lcov | coveralls",
+    "unit": "ava",
+    "unit-coverage": "nyc ava",
     "lint": "tsc -p ./src -p ./test --noEmit && xo",
     "build": "tsc -p ."
   },
