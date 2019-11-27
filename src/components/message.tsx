@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class Block extends React.Component {
+export default class Message extends React.Component {
   render(): null { 
     return null;
   }
