@@ -1,7 +1,13 @@
-import React from "react";
+import React from 'react';
+import {Element} from '../constants/types'; 
 
-export default class Message extends React.Component {
-  render(): null { 
-    return null;
+type Props = {
+  channel?: string;
+  children: string | Element | Element[];
+};
+
+export default class Message extends React.Component<Props> {
+  transform() {
+    return 'hi';
   }
 }

@@ -16,7 +16,7 @@ const render = (element: Element): SlackMessage => {
   const result = parser(props.children);
 
   return {
-    channel: '',
+    channel: props.channel || null,
     ...result
   };
 };

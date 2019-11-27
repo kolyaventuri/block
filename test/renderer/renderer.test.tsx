@@ -23,7 +23,15 @@ test('it throws an error if the passed component is not a <Message> component', 
 });
 
 test('it throws an error if no children are passed', t => {
+  // @ts-ignore - We want to explicitly check the lack of children 
   const fn = () => render(<Message/>);
 
   t.throws(fn);
+});
+
+test('it accepts channel as a prop and renders it', t => {
+  const channel = 'abcde12345';
+  const result = render(<Message channel={channel}>Foo</Message>);
+
+  t.is(result.channel, channel);
 });
