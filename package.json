@@ -4,7 +4,8 @@
   "description": "React-based Slack message renderer",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "xo"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,8 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.7.1",
+    "eslint-config-xo": "^0.27.2",
+    "eslint-config-xo-react": "^0.20.0",
     "eslint-plugin-react": "^7.16.0",
     "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
@@ -36,5 +39,44 @@
     "sinon": "^7.5.0",
     "typescript": "^3.7.2",
     "xo": "^0.25.3"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "xo": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+    },
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "xo-react/space"
+    ],
+    "space": true,
+    "compilerOptions": {
+      "strict": true
+    },
+    "rules": {
+      "react/jsx-fragments": [
+        true,
+        "element"
+      ],
+      "@typescript-eslint/member-naming": [
+        "error",
+        {
+          "private": "^__",
+          "protected": "^_"
+        }
+      ]
+    },
+    "settings": {
+      "react": {
+        "version": "16.5"
+      }
+    },
+    "env": [
+      "node"
+    ]
   }
 }
