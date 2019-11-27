@@ -5,6 +5,7 @@
     "outDir": "../lib" ,
     "rootDir": ".",
     "target": "es5",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "jsx": "react" 
   }
 }
