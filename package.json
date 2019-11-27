@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "npm run lint && ava",
+    "test:cicd": "npm run test && nyc report --reporter=text-lcov | coveralls",
     "lint": "tsc -p ./src -p ./test --noEmit && xo",
     "build": "tsc -p ."
   },
@@ -28,6 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "ava": "^2.4.0",
+    "coveralls": "^3.0.9",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.7.1",
@@ -50,7 +52,10 @@
   "xo": {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "project": ["./src/tsconfig.json", "./test/tsconfig.json"]
+      "project": [
+        "./src/tsconfig.json",
+        "./test/tsconfig.json"
+      ]
     },
     "extends": [
       "xo-typescript",
