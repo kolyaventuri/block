@@ -1,0 +1,25 @@
+{
+  "name": "block",
+  "version": "0.0.1",
+  "description": "React-based Slack message renderer",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kolyaventuri/block.git"
+  },
+  "keywords": [
+    "react",
+    "slack",
+    "message",
+    "bot"
+  ],
+  "author": "Kolya Venturi <me@kolya.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kolyaventuri/block/issues"
+  },
+  "homepage": "https://github.com/kolyaventuri/block#readme"
+}
