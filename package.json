@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/kolyaventuri/block#readme",
   "devDependencies": {
+    "@types/react": "^16.9.13",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "ava": "^2.4.0",
@@ -42,6 +43,7 @@
     "proxyquire": "^2.1.3",
     "sinon": "^7.5.0",
     "ts-node": "^8.5.2",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.2",
     "xo": "^0.25.3"
   },
@@ -95,22 +97,27 @@
       "node"
     ],
     "include": [
-      "**/*.ts"
+      "**/*.ts?(x)"
     ]
   },
   "ava": {
     "compileEnhancements": false,
     "extensions": [
-      "ts"
+      "ts",
+      "tsx"
     ],
     "files": [
-      "test/**/*.test.ts"
+      "test/**/*.test.ts?(x)"
     ],
     "helpers": [
       "test/helpers/**/*.ts"
     ],
     "require": [
-      "ts-node/register"
+      "ts-node/register",
+      "tsconfig-paths/register"
     ]
+  },
+  "dependencies": {
+    "react": "^16.12.0"
   }
 }

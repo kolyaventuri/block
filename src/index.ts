@@ -1,1 +1,3 @@
-export default (name: string): string => `Hello, ${name}!`;
+import parse from './parser';
+
+export default parse;

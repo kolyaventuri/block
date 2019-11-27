@@ -4,6 +4,7 @@
     "removeComments": true,
     "outDir": "../lib" ,
     "rootDir": ".",
-    "target": "es5"
+    "target": "es5",
+    "esModuleInterop": true
   }
 }
