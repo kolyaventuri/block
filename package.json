@@ -4,8 +4,8 @@
   "description": "React-based Slack message renderer",
   "main": "lib/index.js",
   "scripts": {
-    "test": "xo && ava",
-    "lint": "xo"
+    "test": "npm run lint && ava",
+    "lint": "tsc -p . --noEmit && xo"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,9 @@
     "eslint": "^6.7.1",
     "eslint-config-xo": "^0.27.2",
     "eslint-config-xo-react": "^0.20.0",
+    "eslint-config-xo-typescript": "^0.23.0",
     "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "nyc": "^14.1.1",
     "pre-commit": "^1.2.2",
     "proxyquire": "^2.1.3",
@@ -47,12 +49,15 @@
   "xo": {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "ecmaVersion": 2017,
-      "sourceType": "module"
+      "project": "./tsconfig.json"
     },
     "extends": [
+      "xo-typescript",
       "plugin:@typescript-eslint/recommended",
       "xo-react/space"
+    ],
+    "extensions": [
+      "ts"
     ],
     "space": true,
     "compilerOptions": {
@@ -60,7 +65,7 @@
     },
     "rules": {
       "react/jsx-fragments": [
-        true,
+        2,
         "element"
       ],
       "@typescript-eslint/member-naming": [
@@ -69,7 +74,9 @@
           "private": "^__",
           "protected": "^_"
         }
-      ]
+      ],
+      "indent": 0, 
+      "@typescript-eslint/indent": ["error", 2]
     },
     "settings": {
       "react": {
@@ -78,6 +85,9 @@
     },
     "env": [
       "node"
+    ],
+    "include": [
+      "**/*.ts"
     ]
   },
   "ava": {

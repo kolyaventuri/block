@@ -1,5 +1,7 @@
 import test from 'ava';
 
+import testFn from '../src';
+
 test('works', t => {
-  t.is(1, 1);
+  t.is(testFn('Joe'), 'Hello, Joe!');
 });
