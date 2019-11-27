@@ -2,10 +2,8 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "removeComments": true,
-    "outDir": "./lib" ,
-    "rootDir": "./src",
+    "outDir": "../lib" ,
+    "rootDir": ".",
     "target": "es5"
-  },
-  "exclude": ["node_modules", "test/**/*"],
-  "include": ["src"] 
+  }
 }
