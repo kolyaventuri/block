@@ -4,7 +4,12 @@ import {stub} from 'sinon';
 import proxyquire from 'proxyquire';
 
 const fooTransformer = stub();
-const divTransformer = stub();
+const divTransformer = stub().callsFake(elem => {
+  return {
+    type: 'div',
+    text: elem.props.children 
+  }
+});
 
 const parser = proxyquire('../../src/parser', {
   '../transformers': {
@@ -37,4 +42,14 @@ test('it passes the item to the right transformer', t => {
 
   t.true(divTransformer.calledWith(elem));
   t.true(fooTransformer.calledWith(elem2));
+});
+
+test('it returns the result of the transformers', t => {
+  const res = parser(<div>Foo</div>);
+
+  t.deepEqual(res, {
+    blocks: [
+      {type: 'div', text: 'Foo'}
+    ]
+  });
 });

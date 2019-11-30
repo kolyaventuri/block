@@ -11,15 +11,19 @@ export default (children: Child): SlackMessage => {
     children = [children];
   }
 
-  const transformedBlocks: {[index: string]: any} = {};
+  const transformedBlocks: any[] = [];
   for (const child of children) {
     const type = getType(child);
     const transformer = transformers[type];
 
     if (transformer) {
-      transformedBlocks[type] = transformer(child);
+      transformedBlocks.push(transformer(child));
     } else {
       console.warn(`No transformer for child type '${type}' exists and will be ignored.`);
     }
   }
+
+  return {
+    blocks: transformedBlocks
+  };
 };
