@@ -1,11 +1,12 @@
 import {SlackMessage, Element} from '../constants/types';
 import parser from '../parser';
+import getType from '../utils/get-type';
 
 const render = (element: Element): SlackMessage => {
-  const {type, props = {}} = element || {};
+  const {props = {}} = element || {};
 
-  const fnType = type as () => void;
-  if (type !== 'Message' && fnType.name !== 'Message') {
+  const typeName = getType(element);
+  if (typeName !== 'Message') {
     throw new TypeError('Provided top-level element must be a Message type.');
   }
 
