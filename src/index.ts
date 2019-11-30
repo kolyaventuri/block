@@ -1,1 +1,3 @@
-export default (name: string): string => `Hello, ${name}!`;
+import render from './renderer';
+
+export default render;
