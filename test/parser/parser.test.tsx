@@ -53,3 +53,9 @@ test('it returns the result of the transformers', t => {
     ]
   });
 });
+
+test('it does not transform unkown types', t => {
+  const res = parser(<p>Hi</p>);
+
+  t.deepEqual(res, {});
+});

@@ -1,4 +1,4 @@
-import {SlackMessage, Child} from '../constants/types';
+import {SlackMessage, Child, Block} from '../constants/types';
 import transformers from '../transformers';
 import getType from '../utils/get-type';
 
@@ -23,7 +23,10 @@ export default (children: Child): SlackMessage => {
     }
   }
 
-  return {
-    blocks: transformedBlocks
-  };
+  const result: {blocks?: Block[]} = {};
+  if (transformedBlocks.length > 0) {
+    result.blocks = transformedBlocks;
+  }
+
+  return result;
 };
