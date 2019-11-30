@@ -1,7 +1,5 @@
 import React from 'react';
-import {Element} from '../constants/types'; 
-import Block from './block';
-import Attachment from './attachment';
+import {Block, Element} from '../constants/types'; 
 
 type Props = {
   children: string | Element | Element[];
@@ -9,7 +7,6 @@ type Props = {
   replyTo?: string;
   markdown?: boolean;
   blocks?: Block[];
-  attachments?: Attachment[];
 };
 
 export default class Message extends React.Component<Props> {}
