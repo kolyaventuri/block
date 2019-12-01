@@ -1,6 +1,7 @@
 import {Component, ReactElement} from 'react';
 
 export type Block = {};
+export type BlockElement = {};
 
 export type SlackMessage = {
   channel?: string;
