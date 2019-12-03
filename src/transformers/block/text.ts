@@ -1,14 +1,13 @@
-import {Child, Element} from "../../constants/types";
+import {Child, Element} from '../../constants/types';
 
-export type Text = {
-  type: 'plain_text' | 'mrkdwn',
-  text: string
-  emoji?: boolean,
-  verbatim?: boolean
+export type TextProps = {
+  type: 'plain_text' | 'mrkdwn';
+  text: string;
+  emoji?: boolean;
+  verbatim?: boolean;
 };
 
-export default (child: Child): Text => {
-  const elem = child as Element;
+export default (elem: Element): TextProps => {
   const {
     props: {
       plainText,
@@ -18,7 +17,7 @@ export default (child: Child): Text => {
     }
   } = elem;
 
-  const res: Text = {
+  const res: TextProps = {
     type: plainText ? 'plain_text' : 'mrkdwn',
     text: children
   };

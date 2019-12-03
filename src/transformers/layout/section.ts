@@ -1,18 +1,18 @@
-import {Element, BlockElement} from "../../constants/types";
-import {Text} from "../block/text";
-import {transform} from "..";
-import Section from "../../components/layout/section";
+import {Element, BlockElement} from '../../constants/types';
+import {TextProps as Text} from '../block/text';
 import TextComponent from '../../components/block/text';
+import {transform} from '..';
 
 type SectionType = {
-  type: 'section',
-  text: Text,
-  block_id?: string,
-  fields?: Text[],
-  accessory?: BlockElement
+  type: 'section';
+  text: Text;
+  /* eslint-disable-next-line @typescript-eslint/camelcase */
+  block_id?: string;
+  fields?: Text[];
+  accessory?: BlockElement;
 };
 
-export default (elem: Section): SectionType => {
+export default (elem: Element): SectionType => {
   const {
     props: {
       text,
@@ -20,15 +20,15 @@ export default (elem: Section): SectionType => {
       children,
       accessory
     }
-  } = elem; 
+  } = elem;
 
   const res: SectionType = {
     type: 'section',
-    text: transform(text) as Text
+    text: transform(text as Element) as Text
   };
 
   if (blockId) {
-    // @ts-ignore
+    /* eslint-disable-next-line @typescript-eslint/camelcase */
     res.block_id = blockId;
   }
 
@@ -50,4 +50,4 @@ export default (elem: Section): SectionType => {
   }
 
   return res;
-}
+};
