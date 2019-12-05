@@ -1,7 +1,9 @@
 import {Component, ReactElement} from 'react';
+import Text from '../components/block/text';
 
 export type Block = {};
-export type BlockElement = {};
+export type BlockElement = ReactElement<Text>;
+export type SerializedBlockElement = {};
 
 export type SlackMessage = {
   channel?: string;

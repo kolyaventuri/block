@@ -1,4 +1,4 @@
-import {Element, BlockElement} from '../../constants/types';
+import {Element, SerializedBlockElement} from '../../constants/types';
 import {TextProps as Text} from '../block/text';
 import TextComponent from '../../components/block/text';
 import {transform} from '..';
@@ -9,7 +9,7 @@ type SectionType = {
   /* eslint-disable-next-line @typescript-eslint/camelcase */
   block_id?: string;
   fields?: Text[];
-  accessory?: BlockElement;
+  accessory?: SerializedBlockElement;
 };
 
 export default (elem: Element): SectionType => {
@@ -33,7 +33,7 @@ export default (elem: Element): SectionType => {
   }
 
   if (accessory) {
-    res.accessory = accessory;
+    res.accessory = transform(accessory);
   }
 
   if (children) {
