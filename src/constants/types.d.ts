@@ -6,6 +6,8 @@ import Button from '../components/block/button';
 import Section from '../components/layout/section';
 import Actions from '../components/layout/actions';
 
+import {ButtonType} from '../transformers/block/button';
+
 export type Block = ReactElement<Section> | ReactElement<Actions>;
 
 export type InteractiveBlockElement = ReactElement<Button>;
@@ -13,11 +15,12 @@ export type StandardBlockElement = ReactElement<Text>;
 export type BlockElement = InteractiveBlockElement & StandardBlockElement;
 export type SerializedBlockElement = {};
 
+export type SerializedInteractiveBlockElement = ButtonType;
+
 export type SlackMessage = {
   channel?: string;
   text?: string;
   blocks?: Block[];
-  // eslint-disable-next-line @typescript-eslint/camelcase
   thread_ts?: string;
   mrkdwn?: boolean;
 };

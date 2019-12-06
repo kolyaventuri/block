@@ -8,7 +8,7 @@ import { transform } from "..";
 import Text from "../../components/block/text";
 import Confirmation from '../../components/block/confirmation';
 
-type Button = {
+export type ButtonType = {
   type: 'button';
   text: TextType;
   actionId: string;
@@ -18,10 +18,10 @@ type Button = {
   confirm?: ConfirmationType;
 };
 
-export default (child: Element): Button => {
+export default (child: Element): ButtonType => {
   const {actionId, children, url, value, style, confirm}: ButtonProps = child.props;
 
-  const res: Button = {
+  const res: ButtonType = {
     type: 'button',
     text: transform(<Text plainText>{children}</Text>) as TextType,
     actionId

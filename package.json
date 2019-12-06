@@ -73,6 +73,7 @@
       "strict": true
     },
     "rules": {
+      "@typescript-eslint/camelcase": 0,
       "react/jsx-fragments": [
         2,
         "element"

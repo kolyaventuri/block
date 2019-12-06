@@ -6,6 +6,7 @@ import Confirmation from './block/confirmation';
 import Button from './block/button';
 
 import Section from './layout/section';
+import Actions from './layout/actions';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -13,6 +14,7 @@ type TransformersType = {
 
 const Transformers: TransformersType = {
   Section,
+  Actions,
 
   Text,
   Confirmation,

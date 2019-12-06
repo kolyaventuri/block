@@ -6,7 +6,6 @@ import {transform} from '..';
 type SectionType = {
   type: 'section';
   text: Text;
-  /* eslint-disable-next-line @typescript-eslint/camelcase */
   block_id?: string;
   fields?: Text[];
   accessory?: SerializedBlockElement;
@@ -28,7 +27,6 @@ export default (elem: Element): SectionType => {
   };
 
   if (blockId) {
-    /* eslint-disable-next-line @typescript-eslint/camelcase */
     res.block_id = blockId;
   }
 
