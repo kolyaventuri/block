@@ -23,7 +23,6 @@ test('transforms a basic context block', t => {
     </Context>
   );
 
-  console.dir(res, {depth:null})
   t.deepEqual(res, {
     type: 'context',
     elements: [

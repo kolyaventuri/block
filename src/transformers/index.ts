@@ -11,6 +11,7 @@ import Actions from './layout/actions';
 import Context from './layout/context';
 import Divider from './layout/divider';
 import File from './layout/file';
+import ImageLayout from './layout/image';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -22,6 +23,7 @@ const Transformers: TransformersType = {
   Context,
   Divider,
   File,
+  ImageLayout,
 
   Text,
   Confirmation,
