@@ -1,6 +1,6 @@
 import React from 'react';
 
-type Props = {
+export type Props = {
   children: string;
   plainText?: boolean;
   emoji?: boolean;

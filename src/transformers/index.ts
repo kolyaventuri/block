@@ -4,9 +4,11 @@ import getType from '../utils/get-type';
 import Text from './block/text';
 import Confirmation from './block/confirmation';
 import Button from './block/button';
+import Image from './block/image';
 
 import Section from './layout/section';
 import Actions from './layout/actions';
+import Context from './layout/context';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -15,10 +17,12 @@ type TransformersType = {
 const Transformers: TransformersType = {
   Section,
   Actions,
+  Context,
 
   Text,
   Confirmation,
-  Button
+  Button,
+  Image
 };
 
 export default Transformers;
