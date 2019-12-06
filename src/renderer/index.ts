@@ -22,7 +22,6 @@ const render = (element: Element): SlackMessage => {
   };
 
   if (props.replyTo) {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     json.thread_ts = props.replyTo;
   }
 
