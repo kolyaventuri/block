@@ -1,5 +1,5 @@
 import {Element, SerializedBlockElement} from '../../constants/types';
-import {TextProps as Text} from '../block/text';
+import {TextType as Text} from '../block/text';
 import TextComponent from '../../components/block/text';
 import {transform} from '..';
 
@@ -31,7 +31,7 @@ export default (elem: Element): SectionType => {
   }
 
   if (accessory) {
-    res.accessory = transform(accessory);
+    res.accessory = transform(accessory) as SerializedBlockElement;
   }
 
   if (children) {

@@ -1,13 +1,13 @@
 import {Element} from '../../constants/types';
 
-export type TextProps = {
+export type TextType = {
   type: 'plain_text' | 'mrkdwn';
   text: string;
   emoji?: boolean;
   verbatim?: boolean;
 };
 
-export default (elem: Element): TextProps => {
+export default (elem: Element): TextType => {
   const {
     props: {
       plainText,
@@ -17,7 +17,7 @@ export default (elem: Element): TextProps => {
     }
   } = elem;
 
-  const res: TextProps = {
+  const res: TextType = {
     type: plainText ? 'plain_text' : 'mrkdwn',
     text: children
   };

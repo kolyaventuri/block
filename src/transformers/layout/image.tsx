@@ -1,6 +1,6 @@
 import React from 'react';
 import {Element} from '../../constants/types';
-import {TextProps as TextType} from '../block/text';
+import {TextType} from '../block/text';
 import {Props as ImageProps} from '../../components/layout/image';
 import { transform } from '..';
 import Text from '../../components/block/text';

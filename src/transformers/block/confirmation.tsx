@@ -1,6 +1,6 @@
 import React from 'react';
 import { Element } from "../../constants/types";
-import { TextProps as TextType } from "./text";
+import { TextType } from "./text";
 import { transform } from "..";
 import { ConfirmationProps } from '../../components/block/confirmation';
 import Text from "../../components/block/text";

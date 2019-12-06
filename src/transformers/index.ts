@@ -13,6 +13,8 @@ import Divider from './layout/divider';
 import File from './layout/file';
 import ImageLayout from './layout/image';
 
+import TextInput from './input/text';
+
 type TransformersType = {
   [index: string]: (child: Child) => {};
 };
@@ -28,7 +30,9 @@ const Transformers: TransformersType = {
   Text,
   Confirmation,
   Button,
-  Image
+  Image,
+
+  TextInput
 };
 
 export default Transformers;

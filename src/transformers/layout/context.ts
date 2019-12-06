@@ -1,7 +1,7 @@
 import {Element} from '../../constants/types';
 
 import {Props as ContextProps, ImageOrText as ImageOrTextElem} from '../../components/layout/context';
-import {TextProps as TextType} from '../block/text';
+import {TextType} from '../block/text';
 import {ImageType} from '../block/image';
 import {transform} from '..';
 
