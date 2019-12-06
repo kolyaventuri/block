@@ -12,6 +12,7 @@ import Context from './layout/context';
 import Divider from './layout/divider';
 import File from './layout/file';
 import ImageLayout from './layout/image';
+import Input from './layout/input';
 
 import TextInput from './input/text';
 
@@ -26,6 +27,7 @@ const Transformers: TransformersType = {
   Divider,
   File,
   ImageLayout,
+  Input,
 
   Text,
   Confirmation,
