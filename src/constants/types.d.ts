@@ -1,8 +1,11 @@
 import {Component, ReactElement} from 'react';
 import Text from '../components/block/text';
+import Button from '../components/block/button';
 
 export type Block = {};
-export type BlockElement = ReactElement<Text>;
+export type InteractiveBlockElement = ReactElement<Button>;
+export type StandardBlockElement = ReactElement<Text>;
+export type BlockElement = InteractiveBlockElement & StandardBlockElement;
 export type SerializedBlockElement = {};
 
 export type SlackMessage = {

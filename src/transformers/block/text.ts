@@ -1,4 +1,4 @@
-import {Child, Element} from '../../constants/types';
+import {Element} from '../../constants/types';
 
 export type TextProps = {
   type: 'plain_text' | 'mrkdwn';
