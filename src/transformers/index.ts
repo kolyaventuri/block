@@ -1,7 +1,11 @@
 import {Child, Element} from '../constants/types';
 import getType from '../utils/get-type';
-import Section from './layout/section';
+
 import Text from './block/text';
+import Confirmation from './block/confirmation';
+import Button from './block/button';
+
+import Section from './layout/section';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -9,7 +13,10 @@ type TransformersType = {
 
 const Transformers: TransformersType = {
   Section,
-  Text
+
+  Text,
+  Confirmation,
+  Button
 };
 
 export default Transformers;
