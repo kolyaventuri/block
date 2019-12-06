@@ -15,6 +15,7 @@ import ImageLayout from './layout/image';
 import Input from './layout/input';
 
 import TextInput from './input/text';
+import DatePicker from './input/date-picker';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -34,7 +35,8 @@ const Transformers: TransformersType = {
   Button,
   Image,
 
-  TextInput
+  TextInput,
+  DatePicker
 };
 
 export default Transformers;
