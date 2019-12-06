@@ -9,6 +9,7 @@ import Image from './block/image';
 import Section from './layout/section';
 import Actions from './layout/actions';
 import Context from './layout/context';
+import Divider from './layout/divider';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -18,6 +19,7 @@ const Transformers: TransformersType = {
   Section,
   Actions,
   Context,
+  Divider,
 
   Text,
   Confirmation,
