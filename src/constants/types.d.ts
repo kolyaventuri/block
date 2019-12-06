@@ -1,8 +1,13 @@
 import {Component, ReactElement} from 'react';
+
 import Text from '../components/block/text';
 import Button from '../components/block/button';
 
-export type Block = {};
+import Section from '../components/layout/section';
+import Actions from '../components/layout/actions';
+
+export type Block = ReactElement<Section> | ReactElement<Actions>;
+
 export type InteractiveBlockElement = ReactElement<Button>;
 export type StandardBlockElement = ReactElement<Text>;
 export type BlockElement = InteractiveBlockElement & StandardBlockElement;

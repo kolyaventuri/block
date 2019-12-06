@@ -6,4 +6,4 @@ type Props = {
   blockId?: string;
 };
 
-export class Actions extends React.Component<Props> {}
+export default class Actions extends React.Component<Props> {}
