@@ -3,11 +3,12 @@ import Confirmation from '../block/confirmation';
 import Option from './option';
 import OptionGroup from './option-group';
 
+type SingleOrArray<P> = P | P[];
+
 export type Props = {
   placeholder: string;
-  action_id: string;
-  options?: React.ReactElement<Option>[];
-  optionGroups?: React.ReactElement<OptionGroup>[];
+  actionId: string;
+  children: SingleOrArray<React.ReactElement<Option>> | SingleOrArray<React.ReactElement<OptionGroup>>;
   initialOptions?: React.ReactElement<Option>[];
   confirm?: Confirmation;
   maxSelectedItems?: number;
