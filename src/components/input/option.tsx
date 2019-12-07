@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type Props = {
-  text: string;
+  children: string;
   value: string;
   url?: string;
 };
