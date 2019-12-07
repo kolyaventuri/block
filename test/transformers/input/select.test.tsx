@@ -54,3 +54,16 @@ test('transforms a select with OptionGroups', t => {
     option_groups: optionGroups
   });
 });
+
+test('disallows options AND optionGroups in the same select block', t => {
+  const fn = () => transformer(
+    <Select placeholder="p" actionId="a">
+      <Option value="v">O</Option>
+      <OptionGroup label="l">
+        <Option value="o">V</Option>
+      </OptionGroup>
+    </Select>
+  );
+
+  t.throws(fn);
+});

@@ -40,6 +40,15 @@ export default (child: Element): SelectType => {
   }
 
   const type = getType(elements[0] as Element);
+  if (elements.some((element: React.ReactElement) => getType(element as Element) !== type)) {
+    if (type === OPTION && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION_GROUP)) {
+      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+    } else if (type === OPTION_GROUP && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION)) {
+      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+    }
+    throw new TypeError('Only allowed types are Option OR OptionGroup');
+  }
+
   if (type === OPTION) {
     elements = elements as React.ReactElement<Option>[];
 
