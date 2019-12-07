@@ -9,6 +9,7 @@ import Option from '../../components/input/option';
 import Text from '../../components/block/text';
 import {transform} from '..';
 import getType from '../../utils/get-type';
+import OptionGroup from '../../components/input/option-group';
 
 export type SelectType = {
   type: 'multi_static_select';
@@ -43,6 +44,10 @@ export default (child: Element): SelectType => {
     elements = elements as React.ReactElement<Option>[];
 
     res.options = elements.map(element => transform(element as Element)) as OptionType[];
+  } else if (type === OPTION_GROUP) {
+    elements = elements as React.ReactElement<OptionGroup>[];
+
+    res.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
   }
 
   return res;

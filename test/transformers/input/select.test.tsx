@@ -30,3 +30,27 @@ test('transforms a select with options', t => {
     options
   });
 });
+
+test('transforms a select with OptionGroups', t => {
+  const option = <Option value="v">O</Option>;
+  const option2 = <Option value="O">V</Option>;
+
+  const optionGroup = <OptionGroup label="ogLabel">{option}{option2}</OptionGroup>;
+  const optionGroups = [optionGroupTransformer(optionGroup)];
+
+  const res = transformer(
+    <Select placeholder="placeholder" actionId="aid">
+      {optionGroup}
+    </Select>
+  );
+
+  t.deepEqual(res, {
+    type: 'multi_static_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'placeholder'
+    },
+    action_id: 'aid',
+    option_groups: optionGroups
+  });
+});
