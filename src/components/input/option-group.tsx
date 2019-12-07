@@ -3,7 +3,7 @@ import Option from './option';
 
 export type Props = {
   label: string;
-  options: React.ReactElement<Option>;
+  children: React.ReactElement<Option> | React.ReactElement<Option>[];
 };
 
 export default class OptionGroup extends React.Component<Props> {}

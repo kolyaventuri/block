@@ -11,10 +11,12 @@ import Actions from '../components/layout/actions';
 import TextInput from '../components/input/text';
 import DatePicker from '../components/input/date-picker';
 import Option from '../components/input/option';
+import OptionGroup from '../components/input/option-group';
 
 import {TextType as TextInputType} from '../transformers/input/text';
 import {DatePickerType} from '../transformers/input/date-picker';
 import {OptionType} from '../transformers/input/option';
+import {OptionGroupType} from '../transformers/input/option-group';
 
 import {TextType} from '../transformers/block/text';
 import {ImageType} from '../transformers/block/image';
@@ -26,8 +28,8 @@ export type InteractiveBlockElement = ReactElement<Button>;
 export type SerializedInteractiveBlockElement = ButtonType;
 
 export type StandardBlockElement = ReactElement<Text> | ReactElement<Image> | ReactElement<Confirmation>;
-export type InputBlockElement = ReactElement<TextInput> | ReactElement<DatePicker> | ReactElement<Option>;
-export type SerializedInputBlockElement = TextInputType | DatePickerType | OptionType;
+export type InputBlockElement = ReactElement<TextInput> | ReactElement<DatePicker> | ReactElement<Option> | ReactElement<OptionGroup>;
+export type SerializedInputBlockElement = TextInputType | DatePickerType | OptionType | OptionGroupType;
 
 export type BlockElement = InteractiveBlockElement & StandardBlockElement & InputBlockElement;
 export type SerializedBlockElement = TextType | ImageType;
