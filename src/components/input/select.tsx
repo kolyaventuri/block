@@ -10,7 +10,7 @@ export type Props = {
   actionId: string;
   children: SingleOrArray<React.ReactElement<Option>> | SingleOrArray<React.ReactElement<OptionGroup>>;
   initialOptions?: React.ReactElement<Option>[];
-  confirm?: Confirmation;
+  confirm?: React.ReactElement<Confirmation>;
   maxSelectedItems?: number;
 }
 

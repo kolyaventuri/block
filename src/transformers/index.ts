@@ -16,6 +16,7 @@ import Input from './layout/input';
 
 import TextInput from './input/text';
 import DatePicker from './input/date-picker';
+import Select from './input/select';
 import Option from './input/option';
 import OptionGroup from './input/option-group';
 
@@ -39,6 +40,7 @@ const Transformers: TransformersType = {
 
   TextInput,
   DatePicker,
+  Select,
 
   Option,
   OptionGroup

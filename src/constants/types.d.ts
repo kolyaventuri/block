@@ -10,11 +10,13 @@ import Actions from '../components/layout/actions';
 
 import TextInput from '../components/input/text';
 import DatePicker from '../components/input/date-picker';
+import Select from '../components/input/select';
 import Option from '../components/input/option';
 import OptionGroup from '../components/input/option-group';
 
 import {TextType as TextInputType} from '../transformers/input/text';
 import {DatePickerType} from '../transformers/input/date-picker';
+import {SelectType} from '../transformers/input/select';
 import {OptionType} from '../transformers/input/option';
 import {OptionGroupType} from '../transformers/input/option-group';
 
@@ -28,8 +30,8 @@ export type InteractiveBlockElement = ReactElement<Button>;
 export type SerializedInteractiveBlockElement = ButtonType;
 
 export type StandardBlockElement = ReactElement<Text> | ReactElement<Image> | ReactElement<Confirmation>;
-export type InputBlockElement = ReactElement<TextInput> | ReactElement<DatePicker> | ReactElement<Option> | ReactElement<OptionGroup>;
-export type SerializedInputBlockElement = TextInputType | DatePickerType | OptionType | OptionGroupType;
+export type InputBlockElement = ReactElement<TextInput> | ReactElement<DatePicker> | ReactElement<Option> | ReactElement<OptionGroup> | ReactElement<Select>;
+export type SerializedInputBlockElement = TextInputType | DatePickerType | OptionType | OptionGroupType | SelectType;
 
 export type BlockElement = InteractiveBlockElement & StandardBlockElement & InputBlockElement;
 export type SerializedBlockElement = TextType | ImageType;

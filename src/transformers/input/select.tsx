@@ -59,5 +59,17 @@ export default (child: Element): SelectType => {
     res.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
   }
 
+  if (confirm) {
+    res.confirm = transform(confirm as Element) as ConfirmationType;
+  }
+
+  if (initialOptions) {
+    res.initial_options = initialOptions.map(element => transform(element as Element)) as OptionType[];
+  }
+
+  if (maxSelectedItems) {
+    res.max_selected_items = maxSelectedItems;
+  }
+
   return res;
 };

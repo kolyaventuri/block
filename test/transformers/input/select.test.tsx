@@ -10,6 +10,10 @@ import Option from '../../../src/components/input/option';
 import optionGroupTransformer from '../../../src/transformers/input/option-group';
 import OptionGroup from '../../../src/components/input/option-group';
 
+import confirmationTransformer from '../../../src/transformers/block/confirmation';
+import Confirmation from '../../../src/components/block/confirmation';
+import Text from '../../../src/components/block/text';
+
 test('transforms a select with options', t => {
   const option = <Option value="v">O</Option>;
   const options = [optionTransformer(option)];
@@ -66,4 +70,50 @@ test('disallows options AND optionGroups in the same select block', t => {
   );
 
   t.throws(fn);
+});
+
+test('it transforms additional options on the Select block', t => {
+  const option = <Option value="v">O</Option>;
+  const option2 = <Option value="c">C</Option>;
+  const options = [option, option2].map(optionTransformer);
+
+  const initialOptions = [option];
+  const transformedInitialOptions = initialOptions.map(optionTransformer);
+  
+  const confirm = (
+    <Confirmation
+      title="cTitle"
+      confirm="confirm"
+      deny="deny"
+    >
+      <Text>cText</Text>
+    </Confirmation>
+  );
+  const transformedConfirm = confirmationTransformer(confirm);
+
+  const res = transformer(
+    <Select
+      placeholder="placeholder"
+      actionId="aid"
+      initialOptions={initialOptions}
+      confirm={confirm}
+      maxSelectedItems={2}
+    >
+      {option}
+      {option2}
+    </Select>
+  );
+
+  t.deepEqual(res, {
+    type: 'multi_static_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'placeholder'
+    },
+    action_id: 'aid',
+    options,
+    confirm: transformedConfirm,
+    initial_options: transformedInitialOptions,
+    max_selected_items: 2
+  });
 });
