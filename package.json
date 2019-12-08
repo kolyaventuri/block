@@ -1,6 +1,6 @@
 {
   "name": "slackblock",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "React-based Slack message renderer",
   "main": "index.js",
   "scripts": {
