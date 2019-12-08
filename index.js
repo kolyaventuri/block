@@ -3,5 +3,5 @@ var __importdefault = (this && this.__importdefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 
-var renderer = __importdefault(require('./lib'));
-exports.default = renderer;
+var renderer = __importdefault(require('./lib')).default;
+exports.default = renderer.default;
