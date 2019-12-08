@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0
+- Add all additional props to the top level `<Message/>` component
+- Remove `token` / `channel` prop since they are out of scope for the component
+
 ### 0.0.4
 - Fix issue where `<Actions/>` block would have incorrect type
 
