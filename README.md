@@ -18,7 +18,7 @@ Install the library with `npm i slackblock`
 const text = <Text plainText>Hello</Text>;
 
 const message = render(
-  <Message channel='someChannelId'>
+  <Message channel='someChannelId' token='Your token'>
     <Section text={text}>
       <Text>Some *message* for _Slack_.</Text>
     </Section>

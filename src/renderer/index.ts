@@ -17,7 +17,8 @@ const render = (element: Element): SlackMessage => {
   const result = parser(props.children);
 
   const json = {
-    channel: props.channel || null,
+    token: props.token,
+    channel: props.channel,
     ...result
   };
 
@@ -27,6 +28,40 @@ const render = (element: Element): SlackMessage => {
 
   if (typeof props.markdown !== 'undefined') {
     json.mrkdwn = props.markdown;
+  }
+
+  json.text = props.text || '';
+
+  if (props.iconEmoji) {
+    json.icon_emoji = props.iconEmoji;
+  }
+
+  if (props.iconUrl) {
+    json.icon_url = props.iconUrl;
+  }
+
+  if (props.parse) {
+    json.parse = props.parse;
+  }
+
+  if (props.username) {
+    json.username = props.username;
+  }
+
+  if (props.asUser) {
+    json.as_user = props.asUser;
+  }
+
+  if (props.replyBroadcast) {
+    json.reply_broadcast = props.replyBroadcast;
+  }
+
+  if (props.unfurlLinks) {
+    json.unfurl_links = props.unfurlLinks;
+  }
+
+  if (typeof props.unfurlMedia !== 'undefined') {
+    json.unfurl_media = props.unfurlMedia;
   }
 
   return json;

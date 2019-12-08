@@ -1,12 +1,21 @@
 import React from 'react';
-import {Block, Element} from '../constants/types'; 
+import {Element} from '../constants/types'; 
 
 type Props = {
   children: string | Element | Element[];
-  channel?: string;
-  replyTo?: string;
+  token: string;
+  channel: string;
+  text?: string;
+  asUser?: boolean;
+  iconEmoji?: string;
+  iconUrl?: string;
   markdown?: boolean;
-  blocks?: Block[];
+  parse?: 'full' | 'none';
+  replyBroadcast?: boolean;
+  replyTo?: string;
+  unfurlLinks?: boolean;
+  unfurlMedia?: boolean;
+  username?: string;
 };
 
 export default class Message extends React.Component<Props> {}
