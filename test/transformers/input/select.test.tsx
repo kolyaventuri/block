@@ -140,7 +140,7 @@ test('can transform a selcet with external options', t => {
   });
 });
 
-test('does not transform child options when external', t => {
+test('does not transform child options when not statc type', t => {
   const res = transformer(
     <Select
       type="external"
@@ -158,5 +158,71 @@ test('does not transform child options when external', t => {
       text: 'p'
     },
     action_id: 'aid'
+  });
+});
+
+test('allows initialUsers prop if type is a user select', t => {
+  const users = ['A', 'B', 'C'];
+  const res = transformer(
+    <Select
+      type="user"
+      placeholder="p"
+      actionId="aid"
+      initialUsers={users}
+    />
+  );
+
+  t.deepEqual(res, {
+    type: 'multi_users_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'p'
+    },
+    action_id: 'aid',
+    initial_users: users
+  });
+});
+
+test('allows initialConversations prop if type is conversation', t => {
+  const conversations = ['A', 'B', 'C'];
+  const res = transformer(
+    <Select
+      type="conversation"
+      placeholder="p"
+      actionId="aid"
+      initialConversations={conversations}
+    />
+  );
+
+  t.deepEqual(res, {
+    type: 'multi_conversations_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'p'
+    },
+    action_id: 'aid',
+    initial_conversations: conversations
+  });
+});
+
+test('allows initialChannels prop if type is channel', t => {
+  const channels = ['A', 'B', 'C'];
+  const res = transformer(
+    <Select
+      type="channel"
+      placeholder="p"
+      actionId="aid"
+      initialChannels={channels}
+    />
+  );
+
+  t.deepEqual(res, {
+    type: 'multi_channels_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'p'
+    },
+    action_id: 'aid',
+    initial_channels: channels
   });
 });

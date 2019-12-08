@@ -11,7 +11,12 @@ import {transform} from '..';
 import getType from '../../utils/get-type';
 import OptionGroup from '../../components/input/option-group';
 
-type ValidSelectType = 'multi_static_select' | 'multi_external_select';
+type ValidSelectType =
+  'multi_static_select' |
+  'multi_external_select' |
+  'multi_users_select' |
+  'multi_conversations_select' |
+  'multi_channels_select';
 export type SelectType = {
   type: ValidSelectType;
   placeholder: TextType;
@@ -21,6 +26,9 @@ export type SelectType = {
   initial_options?: OptionType[];
   confirm?: ConfirmationType;
   max_selected_items?: number;
+  initial_users?: string[];
+  initial_conversations?: string[];
+  initial_channels?: string[];
 };
 
 const OPTION = 'Option';
@@ -28,11 +36,25 @@ const OPTION_GROUP = 'OptionGroup';
 
 const types = {
   [selectTypes.STATIC]: 'multi_static_select',
-  [selectTypes.EXTERNAL]: 'multi_external_select'
+  [selectTypes.EXTERNAL]: 'multi_external_select',
+  [selectTypes.USER]: 'multi_users_select',
+  [selectTypes.CONVERSATION]: 'multi_conversations_select',
+  [selectTypes.CHANNEL]: 'multi_channels_select'
 };
 
 export default (child: Element): SelectType => {
-  const {placeholder, actionId, children, initialOptions, confirm, maxSelectedItems, type: typeProp}: SelectProps = child.props;
+  const {
+    placeholder,
+    actionId,
+    children,
+    initialOptions,
+    confirm,
+    maxSelectedItems,
+    type: typeProp,
+    initialUsers,
+    initialConversations,
+    initialChannels
+  }: SelectProps = child.props;
 
   const type = typeProp || selectTypes.STATIC;
   const res: SelectType = {
@@ -67,13 +89,33 @@ export default (child: Element): SelectType => {
       res.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
     }
   }
-  
+
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
   }
 
-  if (initialOptions) {
-    res.initial_options = initialOptions.map(element => transform(element as Element)) as OptionType[];
+  if (type !== selectTypes.USER && initialOptions) {
+  }
+
+  switch (type) {
+    case selectTypes.USER:
+      if (initialUsers) {
+        res.initial_users = initialUsers;
+      }
+      break;
+    case selectTypes.CONVERSATION:
+      if (initialConversations) {
+        res.initial_conversations = initialConversations;
+      }
+      break;
+    case selectTypes.CHANNEL:
+      if (initialChannels) {
+        res.initial_channels = initialChannels;
+      }
+    default:
+      if (initialOptions) {
+        res.initial_options = initialOptions.map(element => transform(element as Element)) as OptionType[];
+      }
   }
 
   if (maxSelectedItems) {

@@ -7,12 +7,18 @@ type SingleOrArray<P> = P | P[];
 
 export const selectTypes = {
   STATIC: 'static',
-  EXTERNAL: 'external'
+  EXTERNAL: 'external',
+  USER: 'user',
+  CONVERSATION: 'conversation',
+  CHANNEL: 'channel'
 };
 
 type SelectType =
   'static' |
-  'external';
+  'external' |
+  'user' |
+  'conversation' |
+  'channel';
 
 export type Props = {
   placeholder: string;
@@ -22,7 +28,9 @@ export type Props = {
   initialOptions?: React.ReactElement<Option>[];
   confirm?: React.ReactElement<Confirmation>;
   maxSelectedItems?: number;
-  external?: boolean;
+  initialUsers?: string[];
+  initialConversations?: string[];
+  initialChannels?: string[];
 }
 
 export default class Select extends React.Component<Props> {}
