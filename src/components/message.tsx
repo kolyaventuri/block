@@ -3,8 +3,6 @@ import {Element} from '../constants/types';
 
 type Props = {
   children: string | Element | Element[];
-  token: string;
-  channel: string;
   text?: string;
   asUser?: boolean;
   iconEmoji?: string;

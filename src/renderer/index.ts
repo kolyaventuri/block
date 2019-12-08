@@ -14,13 +14,7 @@ const render = (element: Element): SlackMessage => {
     throw new Error('Cannot render a Message with no children.');
   }
 
-  const result = parser(props.children);
-
-  const json = {
-    token: props.token,
-    channel: props.channel,
-    ...result
-  };
+  const json = {...parser(props.children)};
 
   if (props.replyTo) {
     json.thread_ts = props.replyTo;

@@ -11,7 +11,7 @@ const render = proxyquire('../../src/renderer', {
 
 test('it passes a list of children to the parser', t => {
   const content = 'block-content';
-  render(<Message token="t" channel="c">{content}</Message>);
+  render(<Message>{content}</Message>);
 
   t.true(parser.calledWith(content));
 });
@@ -29,32 +29,10 @@ test('it throws an error if no children are passed', t => {
   t.throws(fn);
 });
 
-test('it accepts channel as a prop and renders it', t => {
-  const channel = 'abcde12345';
-  const result = render(<Message token="t" channel={channel}>Foo</Message>);
-
-  t.is(result.channel, channel);
-});
-
-test('it accepts a replyTo prop and renders it', t => {
-  const thread_ts = '12345.56';
-  const result = render(<Message token="t" channel="c" replyTo={thread_ts}>Foo</Message>);
-
-  t.is(result.thread_ts, thread_ts);
-});
-
-test('it accepts a markdown prop and renders it', t => {
-  const result = render(<Message token="t" channel="c" markdown={false}>Foo</Message>);
-
-  t.is(result.mrkdwn, false);
-});
-
 test('can render all props', t => {
   const content = 'content-of-block';
   const res = render(
     <Message
-      token="token"
-      channel="channel"
       text="text"
       iconEmoji=":icon_emoji:"
       iconUrl="iconUrl"
@@ -72,8 +50,6 @@ test('can render all props', t => {
   );
 
   t.deepEqual(res, {
-    token: 'token',
-    channel: 'channel',
     text: 'text',
     icon_emoji: ':icon_emoji:',
     icon_url: 'iconUrl',
@@ -91,7 +67,7 @@ test('can render all props', t => {
 });
 
 test('if no text prop is passed, uses a blank string', t => {
-  const res = render(<Message token="t" channel="c">Hello</Message>);
+  const res = render(<Message>Hello</Message>);
 
   t.is(res.text, '');
 });

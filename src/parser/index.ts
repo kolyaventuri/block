@@ -1,8 +1,8 @@
-import {PartialSlackMessage, Child, Block} from '../constants/types';
+import {Child, Block, SlackMessage} from '../constants/types';
 import transformers from '../transformers';
 import getType from '../utils/get-type';
 
-export default (children: Child): PartialSlackMessage => {
+export default (children: Child): SlackMessage => {
   if (typeof children === 'string') {
     return {text: children};
   }
