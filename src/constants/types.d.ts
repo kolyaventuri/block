@@ -61,11 +61,19 @@ export type BlockElement = InteractiveBlockElement & StandardBlockElement & Inpu
 export type SerializedBlockElement = TextType | ImageType | ConfirmationType;
 
 export type SlackMessage = {
-  channel?: string;
   text?: string;
+  as_user?: boolean;
   blocks?: Block[];
-  thread_ts?: string;
+  icon_emoji?: string;
+  icon_url?: string;
+  link_names?: boolean;
   mrkdwn?: boolean;
+  parse?: 'full' | 'none';
+  reply_broadcast?: boolean;
+  thread_ts?: string;
+  unfurl_links?: boolean;
+  unfurl_media?: boolean;
+  username?: string;
 };
 
 type AnyFunction = () => any;

@@ -18,7 +18,7 @@ Install the library with `npm i slackblock`
 const text = <Text plainText>Hello</Text>;
 
 const message = render(
-  <Message channel='someChannelId'>
+  <Message>
     <Section text={text}>
       <Text>Some *message* for _Slack_.</Text>
     </Section>
@@ -28,7 +28,6 @@ const message = render(
 console.log(message);
 /*
   {
-    "channel": "someChannelId",
     "blocks": [
       {
         "type": "section",
@@ -49,7 +48,7 @@ console.log(message);
 ```
 
 ## Things to note
-- The outputted message can be passed directly to the slack API for sending messages!
+- The outputted message only needs to have your `token` and desired `channel_id` added, and it will be ready to send to the slack API!
 - There is current _very little to no_ input validation. Non-recognized blocks will be ignored, but Slack will be the ultimate decider if your message is valid. Validation is on the roadmap.
 - There is currently almost no documentation. This will be resolved, but in general...
   - If a Slack message wants a property in format `foo_bar`, you will add it as a `fooBar` property in your message(ex: `<Element fooBar='blah'/>`)

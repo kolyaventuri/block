@@ -1,4 +1,4 @@
-import {SlackMessage, Child, Block} from '../constants/types';
+import {Child, Block, SlackMessage} from '../constants/types';
 import transformers from '../transformers';
 import getType from '../utils/get-type';
 

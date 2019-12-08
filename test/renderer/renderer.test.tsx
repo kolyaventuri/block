@@ -29,22 +29,45 @@ test('it throws an error if no children are passed', t => {
   t.throws(fn);
 });
 
-test('it accepts channel as a prop and renders it', t => {
-  const channel = 'abcde12345';
-  const result = render(<Message channel={channel}>Foo</Message>);
+test('can render all props', t => {
+  const content = 'content-of-block';
+  const res = render(
+    <Message
+      text="text"
+      iconEmoji=":icon_emoji:"
+      iconUrl="iconUrl"
+      markdown={false}
+      parse="none"
+      username="username"
+      replyTo="replyTo"
+      asUser
+      replyBroadcast
+      unfurlLinks
+      unfurlMedia
+    >
+      {content}
+    </Message>
+  );
 
-  t.is(result.channel, channel);
+  t.deepEqual(res, {
+    text: 'text',
+    icon_emoji: ':icon_emoji:',
+    icon_url: 'iconUrl',
+    mrkdwn: false,
+    parse: 'none',
+    username: 'username',
+    thread_ts: 'replyTo',
+    as_user: true,
+    reply_broadcast: true,
+    unfurl_links: true,
+    unfurl_media: true
+  });
+
+  t.true(parser.calledWith(content));
 });
 
-test('it accepts a replyTo prop and renders it', t => {
-  const thread_ts = '12345.56';
-  const result = render(<Message replyTo={thread_ts}>Foo</Message>);
+test('if no text prop is passed, uses a blank string', t => {
+  const res = render(<Message>Hello</Message>);
 
-  t.is(result.thread_ts, thread_ts);
-});
-
-test('it accepts a markdown prop and renders it', t => {
-  const result = render(<Message markdown={false}>Foo</Message>);
-
-  t.is(result.mrkdwn, false);
+  t.is(res.text, '');
 });
