@@ -14,6 +14,7 @@ import Select from '../components/input/select';
 import Option from '../components/input/option';
 import OptionGroup from '../components/input/option-group';
 import Overflow from '../components/input/overflow';
+import RadioGroup from '../components/input/radio-group';
 
 import {TextType as TextInputType} from '../transformers/input/text';
 import {DatePickerType} from '../transformers/input/date-picker';
@@ -21,22 +22,43 @@ import {SelectType} from '../transformers/input/select';
 import {OptionType} from '../transformers/input/option';
 import {OptionGroupType} from '../transformers/input/option-group';
 import {OverflowType} from '../transformers/input/overflow';
+import {RadioGroupType} from '../transformers/input/radio-group';
 
 import {TextType} from '../transformers/block/text';
 import {ImageType} from '../transformers/block/image';
 import {ButtonType} from '../transformers/block/button';
+import {ConfirmationType} from '../transformers/block/confirmation';
 
 export type Block = ReactElement<Section> | ReactElement<Actions>;
 
 export type InteractiveBlockElement = ReactElement<Button>;
 export type SerializedInteractiveBlockElement = ButtonType;
 
-export type StandardBlockElement = ReactElement<Text> | ReactElement<Image> | ReactElement<Confirmation>;
-export type InputBlockElement = ReactElement<TextInput> | ReactElement<DatePicker> | ReactElement<Option> | ReactElement<OptionGroup> | ReactElement<Select> | ReactElement<Overflow>;
-export type SerializedInputBlockElement = TextInputType | DatePickerType | OptionType | OptionGroupType | SelectType | OverflowType;
+export type StandardBlockElement =
+  ReactElement<Text> |
+  ReactElement<Image> |
+  ReactElement<Confirmation>;
+
+export type InputBlockElement =
+  ReactElement<TextInput> |
+  ReactElement<DatePicker> |
+  ReactElement<Option> |
+  ReactElement<OptionGroup> |
+  ReactElement<Select> |
+  ReactElement<Overflow> |
+  ReactElement<RadioGroup>;
+
+export type SerializedInputBlockElement =
+  TextInputType |
+  DatePickerType |
+  OptionType |
+  OptionGroupType |
+  SelectType |
+  OverflowType |
+  RadioGroupType;
 
 export type BlockElement = InteractiveBlockElement & StandardBlockElement & InputBlockElement;
-export type SerializedBlockElement = TextType | ImageType;
+export type SerializedBlockElement = TextType | ImageType | ConfirmationType;
 
 export type SlackMessage = {
   channel?: string;
