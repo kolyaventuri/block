@@ -58,6 +58,17 @@ const render = (element: Element): SlackMessage => {
     json.unfurl_media = props.unfurlMedia;
   }
 
+  if (props.color && json.blocks) {
+    json.attachments = [
+      {
+        color: props.color as string,
+        blocks: json.blocks
+      }
+    ];
+
+    delete json.blocks;
+  }
+
   return json;
 };
 

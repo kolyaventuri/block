@@ -7,6 +7,7 @@ import Confirmation from '../components/block/confirmation';
 
 import Section from '../components/layout/section';
 import Actions from '../components/layout/actions';
+import Context from '../components/layout/context';
 
 import TextInput from '../components/input/text';
 import DatePicker from '../components/input/date-picker';
@@ -29,7 +30,11 @@ import {ImageType} from '../transformers/block/image';
 import {ButtonType} from '../transformers/block/button';
 import {ConfirmationType} from '../transformers/block/confirmation';
 
-export type Block = ReactElement<Section> | ReactElement<Actions>;
+export type Block = ReactElement<Section> | ReactElement<Actions> | ReactElement<Context>;
+export type Attachment = {
+  color: string;
+  blocks: Block[];
+};
 
 export type InteractiveBlockElement = ReactElement<Button>;
 export type SerializedInteractiveBlockElement = ButtonType;
@@ -64,6 +69,7 @@ export type SlackMessage = {
   text?: string;
   as_user?: boolean;
   blocks?: Block[];
+  attachments?: Attachment[];
   icon_emoji?: string;
   icon_url?: string;
   link_names?: boolean;

@@ -14,6 +14,7 @@ type Props = {
   unfurlLinks?: boolean;
   unfurlMedia?: boolean;
   username?: string;
+  color?: string;
 };
 
 export default class Message extends React.Component<Props> {}

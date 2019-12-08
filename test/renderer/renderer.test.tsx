@@ -4,6 +4,7 @@ import proxyquire from 'proxyquire';
 import {stub} from 'sinon';
 
 import Message from '../../src/components/message';
+import Text from '../../src/components/block/text';
 const parser = stub();
 const render = proxyquire('../../src/renderer', {
   '../parser': { default: parser }
@@ -70,4 +71,29 @@ test('if no text prop is passed, uses a blank string', t => {
   const res = render(<Message>Hello</Message>);
 
   t.is(res.text, '');
+});
+
+test('if a color is passed, transforms the block elements to be within an attachment', t => {
+  const content = 'abc';
+  const returnContent = '<CONTENT>abc</CONTENT>'
+  parser.withArgs(content).returns({
+    blocks: [returnContent]
+  });
+  const res = render(
+    <Message color="#FF0000">
+      {content}
+    </Message>
+  );
+
+  t.deepEqual(res, {
+    text: '',
+    attachments: [
+      {
+        color: '#FF0000',
+        blocks: [
+          returnContent
+        ]
+      }
+    ]
+  })
 });
