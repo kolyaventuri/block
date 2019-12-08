@@ -15,6 +15,12 @@ import ImageLayout from './layout/image';
 import Input from './layout/input';
 
 import TextInput from './input/text';
+import DatePicker from './input/date-picker';
+import Select from './input/select';
+import Option from './input/option';
+import OptionGroup from './input/option-group';
+import Overflow from './input/overflow';
+import RadioGroup from './input/radio-group';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -34,7 +40,14 @@ const Transformers: TransformersType = {
   Button,
   Image,
 
-  TextInput
+  TextInput,
+  DatePicker,
+  Select,
+  Overflow,
+  RadioGroup,
+
+  Option,
+  OptionGroup
 };
 
 export default Transformers;
