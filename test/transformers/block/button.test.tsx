@@ -20,7 +20,7 @@ test('can transform a basic button', t => {
       type: 'plain_text',
       text: 'FooBar'
     },
-    actionId: 'actionId'
+    action_id: 'actionId'
   });
 });
 
@@ -54,7 +54,7 @@ test('can transform a more advanced button', t => {
       type: 'plain_text',
       text: 'FooBar'
     },
-    actionId: 'actionId',
+    action_id: 'actionId',
     url: 'someURL',
     value: 'someValue',
     style: 'danger',

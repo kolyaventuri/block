@@ -11,7 +11,7 @@ import Confirmation from '../../components/block/confirmation';
 export type ButtonType = {
   type: 'button';
   text: TextType;
-  actionId: string;
+  action_id: string;
   url?: string;
   value?: string;
   style?: 'primary' | 'danger';
@@ -24,7 +24,7 @@ export default (child: Element): ButtonType => {
   const res: ButtonType = {
     type: 'button',
     text: transform(<Text plainText>{children}</Text>) as TextType,
-    actionId
+    action_id: actionId
   };
 
   if (url) {
