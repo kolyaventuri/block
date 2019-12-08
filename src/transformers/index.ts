@@ -20,6 +20,7 @@ import Select from './input/select';
 import Option from './input/option';
 import OptionGroup from './input/option-group';
 import Overflow from './input/overflow';
+import RadioGroup from './input/radio-group';
 
 type TransformersType = {
   [index: string]: (child: Child) => {};
@@ -43,6 +44,7 @@ const Transformers: TransformersType = {
   DatePicker,
   Select,
   Overflow,
+  RadioGroup,
 
   Option,
   OptionGroup
