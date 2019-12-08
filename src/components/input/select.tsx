@@ -23,6 +23,7 @@ export type Props = {
   placeholder: string;
   actionId: string;
   type?: SelectType;
+  multi?: boolean;
   children?: SingleOrArray<React.ReactElement<Option>> | SingleOrArray<React.ReactElement<OptionGroup>>;
   initialOptions?: React.ReactElement<Option>[];
   confirm?: React.ReactElement<Confirmation>;

@@ -12,11 +12,17 @@ import getType from '../../utils/get-type';
 import OptionGroup from '../../components/input/option-group';
 
 type ValidSelectType =
+  'static_select' |
   'multi_static_select' |
+  'external_select' |
   'multi_external_select' |
+  'users_select' |
   'multi_users_select' |
+  'conversations_select' |
   'multi_conversations_select' |
+  'channels_select' |
   'multi_channels_select';
+
 export type SelectType = {
   type: ValidSelectType;
   placeholder: TextType;
@@ -35,17 +41,19 @@ const OPTION = 'Option';
 const OPTION_GROUP = 'OptionGroup';
 
 const types = {
-  [selectTypes.STATIC]: 'multi_static_select',
-  [selectTypes.EXTERNAL]: 'multi_external_select',
-  [selectTypes.USER]: 'multi_users_select',
-  [selectTypes.CONVERSATION]: 'multi_conversations_select',
-  [selectTypes.CHANNEL]: 'multi_channels_select'
+  [selectTypes.STATIC]: 'static_select',
+  [selectTypes.EXTERNAL]: 'external_select',
+  [selectTypes.USER]: 'users_select',
+  [selectTypes.CONVERSATION]: 'conversations_select',
+  [selectTypes.CHANNEL]: 'channels_select'
 };
+const MULTI_PREFIX = 'multi_';
 
 export default (child: Element): SelectType => {
   const {
     placeholder,
     actionId,
+    multi,
     children,
     initialOptions,
     confirm,
@@ -57,8 +65,10 @@ export default (child: Element): SelectType => {
   }: SelectProps = child.props;
 
   const type = typeProp || selectTypes.STATIC;
+  const typeString = `${multi ? MULTI_PREFIX : ''}${types[type]}` as ValidSelectType;
+
   const res: SelectType = {
-    type: types[type] as ValidSelectType,
+    type: typeString,
     placeholder: transform(<Text plainText>{placeholder}</Text>) as TextType,
     action_id: actionId
   };

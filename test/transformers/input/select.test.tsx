@@ -25,6 +25,27 @@ test('transforms a select with options', t => {
   );
 
   t.deepEqual(res, {
+    type: 'static_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'placeholder'
+    },
+    action_id: 'aid',
+    options
+  });
+});
+
+test('transforms multi-select with options', t => {
+  const option = <Option value="v">O</Option>;
+  const options = [optionTransformer(option)];
+
+  const res = transformer(
+    <Select placeholder="placeholder" actionId="aid" multi>
+      {option}
+    </Select>
+  );
+
+  t.deepEqual(res, {
     type: 'multi_static_select',
     placeholder: {
       type: 'plain_text',
@@ -49,7 +70,7 @@ test('transforms a select with OptionGroups', t => {
   );
 
   t.deepEqual(res, {
-    type: 'multi_static_select',
+    type: 'static_select',
     placeholder: {
       type: 'plain_text',
       text: 'placeholder'
@@ -105,7 +126,7 @@ test('it transforms additional options on the Select block', t => {
   );
 
   t.deepEqual(res, {
-    type: 'multi_static_select',
+    type: 'static_select',
     placeholder: {
       type: 'plain_text',
       text: 'placeholder'
@@ -131,7 +152,7 @@ test('can transform a selcet with external options', t => {
   const res = fn();
 
   t.deepEqual(res, {
-    type: 'multi_external_select',
+    type: 'external_select',
     placeholder:  {
       type: 'plain_text',
       text: 'placeholder'
@@ -140,7 +161,7 @@ test('can transform a selcet with external options', t => {
   });
 });
 
-test('does not transform child options when not statc type', t => {
+test('does not transform child options when not static type', t => {
   const res = transformer(
     <Select
       type="external"
@@ -152,7 +173,7 @@ test('does not transform child options when not statc type', t => {
   );
 
   t.deepEqual(res, {
-    type: 'multi_external_select',
+    type: 'external_select',
     placeholder:  {
       type: 'plain_text',
       text: 'p'
@@ -173,7 +194,7 @@ test('allows initialUsers prop if type is a user select', t => {
   );
 
   t.deepEqual(res, {
-    type: 'multi_users_select',
+    type: 'users_select',
     placeholder: {
       type: 'plain_text',
       text: 'p'
@@ -195,7 +216,7 @@ test('allows initialConversations prop if type is conversation', t => {
   );
 
   t.deepEqual(res, {
-    type: 'multi_conversations_select',
+    type: 'conversations_select',
     placeholder: {
       type: 'plain_text',
       text: 'p'
@@ -217,7 +238,7 @@ test('allows initialChannels prop if type is channel', t => {
   );
 
   t.deepEqual(res, {
-    type: 'multi_channels_select',
+    type: 'channels_select',
     placeholder: {
       type: 'plain_text',
       text: 'p'
