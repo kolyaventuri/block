@@ -1,5 +1,5 @@
 {
-  "name": "block",
+  "name": "slackblock",
   "version": "0.0.1",
   "description": "React-based Slack message renderer",
   "main": "lib/index.js",
@@ -8,7 +8,8 @@
     "test:tsc": "tsc -p ./src -p ./test --noEmit",
     "test:lint": "xo",
     "test:unit": "ava",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "prepublish": "npm-run-all test:* build"
   },
   "repository": {
     "type": "git",
