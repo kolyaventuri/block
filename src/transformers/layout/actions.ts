@@ -3,7 +3,7 @@ import {Props as ActionProps} from '../../components/layout/actions';
 import {transform} from '..';
 
 type ActionType = {
-  type: 'action';
+  type: 'actions';
   elements: SerializedInteractiveBlockElement[];
   block_id?: string;
 };
@@ -17,7 +17,7 @@ export default (child: Element): ActionType => {
   }
 
   const res: ActionType = {
-    type: 'action',
+    type: 'actions',
     elements: elements.map(element => transform(element as Element) as SerializedInteractiveBlockElement)
   };
 

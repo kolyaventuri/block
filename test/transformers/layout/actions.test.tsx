@@ -17,7 +17,7 @@ test('transforms a basic actions block', t => {
   );
 
   t.deepEqual(res, {
-    type: 'action',
+    type: 'actions',
     elements: [transformedButton]
   });
 });
