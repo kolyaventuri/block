@@ -4,15 +4,16 @@ import {TextType} from '../block/text';
 import {OptionType} from './option';
 import {OptionGroupType} from './option-group';
 import {ConfirmationType} from '../block/confirmation';
-import {Props as SelectProps } from '../../components/input/select';
+import {Props as SelectProps, selectTypes} from '../../components/input/select';
 import Option from '../../components/input/option';
 import Text from '../../components/block/text';
 import {transform} from '..';
 import getType from '../../utils/get-type';
 import OptionGroup from '../../components/input/option-group';
 
+type ValidSelectType = 'multi_static_select' | 'multi_external_select';
 export type SelectType = {
-  type: 'multi_static_select' | 'multi_external_select';
+  type: ValidSelectType;
   placeholder: TextType;
   action_id: string;
   options?: OptionType[];
@@ -25,11 +26,17 @@ export type SelectType = {
 const OPTION = 'Option';
 const OPTION_GROUP = 'OptionGroup';
 
-export default (child: Element): SelectType => {
-  const {placeholder, actionId, children, initialOptions, confirm, maxSelectedItems, external}: SelectProps = child.props;
+const types = {
+  [selectTypes.STATIC]: 'multi_static_select',
+  [selectTypes.EXTERNAL]: 'multi_external_select'
+};
 
+export default (child: Element): SelectType => {
+  const {placeholder, actionId, children, initialOptions, confirm, maxSelectedItems, type: typeProp}: SelectProps = child.props;
+
+  const type = typeProp || selectTypes.STATIC;
   const res: SelectType = {
-    type: 'multi_static_select',
+    type: types[type] as ValidSelectType,
     placeholder: transform(<Text plainText>{placeholder}</Text>) as TextType,
     action_id: actionId
   };
@@ -39,9 +46,7 @@ export default (child: Element): SelectType => {
     elements = [elements] as React.ReactElement[];
   }
 
-  if (external) {
-    res.type = 'multi_external_select';
-  } else {
+  if (type === selectTypes.STATIC) {
     const type = getType(elements[0] as Element);
     if (elements.some((element: React.ReactElement) => getType(element as Element) !== type)) {
       if (type === OPTION && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION_GROUP)) {

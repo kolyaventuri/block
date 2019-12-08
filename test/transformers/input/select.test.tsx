@@ -121,9 +121,9 @@ test('it transforms additional options on the Select block', t => {
 test('can transform a selcet with external options', t => {
   const fn = () => transformer(
     <Select
+      type="external"
       placeholder="placeholder"
       actionId="aid"
-      external
     />
   );
 
@@ -143,9 +143,9 @@ test('can transform a selcet with external options', t => {
 test('does not transform child options when external', t => {
   const res = transformer(
     <Select
+      type="external"
       placeholder="p"
       actionId="aid"
-      external
     >
       <Option value="V">O</Option>
     </Select>
