@@ -2,8 +2,7 @@ import React from 'react';
 import Confirmation from '../block/confirmation';
 import Option from './option';
 import OptionGroup from './option-group';
-
-type SingleOrArray<P> = P | P[];
+import {SingleOrArray} from '../../utils/type-helpers';
 
 export const selectTypes = {
   STATIC: 'static',
