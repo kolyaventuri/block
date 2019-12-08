@@ -12,7 +12,7 @@ import getType from '../../utils/get-type';
 import OptionGroup from '../../components/input/option-group';
 
 export type SelectType = {
-  type: 'multi_static_select';
+  type: 'multi_static_select' | 'multi_external_select';
   placeholder: TextType;
   action_id: string;
   options?: OptionType[];
@@ -26,7 +26,7 @@ const OPTION = 'Option';
 const OPTION_GROUP = 'OptionGroup';
 
 export default (child: Element): SelectType => {
-  const {placeholder, actionId, children, initialOptions, confirm, maxSelectedItems}: SelectProps = child.props;
+  const {placeholder, actionId, children, initialOptions, confirm, maxSelectedItems, external}: SelectProps = child.props;
 
   const res: SelectType = {
     type: 'multi_static_select',
@@ -39,26 +39,30 @@ export default (child: Element): SelectType => {
     elements = [elements] as React.ReactElement[];
   }
 
-  const type = getType(elements[0] as Element);
-  if (elements.some((element: React.ReactElement) => getType(element as Element) !== type)) {
-    if (type === OPTION && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION_GROUP)) {
-      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
-    } else if (type === OPTION_GROUP && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION)) {
-      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+  if (external) {
+    res.type = 'multi_external_select';
+  } else {
+    const type = getType(elements[0] as Element);
+    if (elements.some((element: React.ReactElement) => getType(element as Element) !== type)) {
+      if (type === OPTION && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION_GROUP)) {
+        throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+      } else if (type === OPTION_GROUP && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION)) {
+        throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+      }
+      throw new TypeError('Only allowed types are Option OR OptionGroup');
     }
-    throw new TypeError('Only allowed types are Option OR OptionGroup');
+
+    if (type === OPTION) {
+      elements = elements as React.ReactElement<Option>[];
+
+      res.options = elements.map(element => transform(element as Element)) as OptionType[];
+    } else if (type === OPTION_GROUP) {
+      elements = elements as React.ReactElement<OptionGroup>[];
+
+      res.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
+    }
   }
-
-  if (type === OPTION) {
-    elements = elements as React.ReactElement<Option>[];
-
-    res.options = elements.map(element => transform(element as Element)) as OptionType[];
-  } else if (type === OPTION_GROUP) {
-    elements = elements as React.ReactElement<OptionGroup>[];
-
-    res.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
-  }
-
+  
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
   }

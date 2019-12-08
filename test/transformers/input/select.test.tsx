@@ -117,3 +117,46 @@ test('it transforms additional options on the Select block', t => {
     max_selected_items: 2
   });
 });
+
+test('can transform a selcet with external options', t => {
+  const fn = () => transformer(
+    <Select
+      placeholder="placeholder"
+      actionId="aid"
+      external
+    />
+  );
+
+  t.notThrows(fn);
+  const res = fn();
+
+  t.deepEqual(res, {
+    type: 'multi_external_select',
+    placeholder:  {
+      type: 'plain_text',
+      text: 'placeholder'
+    },
+    action_id: 'aid'
+  });
+});
+
+test('does not transform child options when external', t => {
+  const res = transformer(
+    <Select
+      placeholder="p"
+      actionId="aid"
+      external
+    >
+      <Option value="V">O</Option>
+    </Select>
+  );
+
+  t.deepEqual(res, {
+    type: 'multi_external_select',
+    placeholder:  {
+      type: 'plain_text',
+      text: 'p'
+    },
+    action_id: 'aid'
+  });
+});

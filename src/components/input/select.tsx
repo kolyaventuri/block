@@ -8,10 +8,11 @@ type SingleOrArray<P> = P | P[];
 export type Props = {
   placeholder: string;
   actionId: string;
-  children: SingleOrArray<React.ReactElement<Option>> | SingleOrArray<React.ReactElement<OptionGroup>>;
+  children?: SingleOrArray<React.ReactElement<Option>> | SingleOrArray<React.ReactElement<OptionGroup>>;
   initialOptions?: React.ReactElement<Option>[];
   confirm?: React.ReactElement<Confirmation>;
   maxSelectedItems?: number;
+  external?: boolean;
 }
 
 export default class Select extends React.Component<Props> {}
