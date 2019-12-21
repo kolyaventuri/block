@@ -2,10 +2,13 @@ import React from 'react';
 import test from 'ava';
 
 import Container from '../../../src/components/layout/container';
+import Text from '../../../src/components/block/text';
 import transformer from '../../../src/transformers/layout/container';
+import textTransformer from '../../../src/transformers/block/text';
+import { Child } from '../../../src/constants/types';
 
 test('passes elements through', t => {
-  const elem = <p>FooBar</p>;
+  const elem = <Text>Foo</Text>
 
   const res = transformer(
     <Container>
@@ -13,12 +16,12 @@ test('passes elements through', t => {
     </Container>
   );
 
-  t.deepEqual(res, [elem]);
+  t.deepEqual(res, [textTransformer(elem)] as any[]);
 });
 
 test('can pass multiple elements through', t => {
-  const elem = <p>FooBar</p>;
-  const elem2 = <div>BarFoo</div>;
+  const elem = <Text>Foo</Text>;
+  const elem2 = <Text>Bar</Text>;
 
   const res = transformer(
     <Container>
@@ -27,5 +30,5 @@ test('can pass multiple elements through', t => {
     </Container>
   );
 
-  t.deepEqual(res, [elem, elem2]);
+  t.deepEqual(res, [elem, elem2].map(textTransformer) as any[]);
 });
