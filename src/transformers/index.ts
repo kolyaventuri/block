@@ -6,6 +6,7 @@ import Confirmation from './block/confirmation';
 import Button from './block/button';
 import Image from './block/image';
 
+import Container from './layout/container';
 import Section from './layout/section';
 import Actions from './layout/actions';
 import Context from './layout/context';
@@ -27,6 +28,7 @@ type TransformersType = {
 };
 
 const Transformers: TransformersType = {
+  Container,
   Section,
   Actions,
   Context,
