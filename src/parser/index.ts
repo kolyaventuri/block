@@ -25,7 +25,7 @@ export default (children: Child): SlackMessage => {
 
   const result: {blocks?: Block[]} = {};
   if (transformedBlocks.length > 0) {
-    result.blocks = transformedBlocks;
+    result.blocks = transformedBlocks.concat.apply([], transformedBlocks); // Flatten 1 deep
   }
 
   return result;

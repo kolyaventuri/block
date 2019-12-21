@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.3.0
+- Add `Container` block to allow for better conditional rendering
+
 ### 0.2.0
 - Add ability to color messages
 

@@ -4,7 +4,7 @@ import proxyquire from 'proxyquire';
 import {stub} from 'sinon';
 
 import Message from '../../src/components/message';
-import Text from '../../src/components/block/text';
+import Container from '../../src/components/layout/container';
 const parser = stub();
 const render = proxyquire('../../src/renderer', {
   '../parser': { default: parser }
@@ -97,3 +97,42 @@ test('if a color is passed, transforms the block elements to be within an attach
     ]
   })
 });
+
+test('can render with a container block', t => {
+  const content = 'content-of-block';
+  const res = render(
+    <Message
+      text="text"
+      iconEmoji=":icon_emoji:"
+      iconUrl="iconUrl"
+      markdown={false}
+      parse="none"
+      username="username"
+      replyTo="replyTo"
+      asUser
+      replyBroadcast
+      unfurlLinks
+      unfurlMedia
+    >
+      <Container>
+        {content}
+      </Container>
+    </Message>
+  );
+
+  t.deepEqual(res, {
+    text: 'text',
+    icon_emoji: ':icon_emoji:',
+    icon_url: 'iconUrl',
+    mrkdwn: false,
+    parse: 'none',
+    username: 'username',
+    thread_ts: 'replyTo',
+    as_user: true,
+    reply_broadcast: true,
+    unfurl_links: true,
+    unfurl_media: true
+  });
+
+  t.true(parser.calledWith(content));
+})
