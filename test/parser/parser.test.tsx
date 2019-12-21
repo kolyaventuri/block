@@ -59,3 +59,9 @@ test('it does not transform unkown types', t => {
 
   t.deepEqual(res, {});
 });
+
+test('it does not explode on null', t => {
+  const fn = () => parser(null);
+
+  t.notThrows(fn);
+});

@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.3.1
+- Fix issue that caused an error to be thrown if a child is `null`
+
 ### 0.3.0
 - Add `Container` block to allow for better conditional rendering
 

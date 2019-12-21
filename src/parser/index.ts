@@ -18,7 +18,7 @@ export default (children: Child): SlackMessage => {
 
     if (transformer) {
       transformedBlocks.push(transformer(child));
-    } else {
+    } else if (type !== 'null') {
       console.warn(`No transformer for child type '${type}' exists and will be ignored.`);
     }
   }
