@@ -5,6 +5,10 @@ export default (element: Child): string => {
     return 'string';
   }
 
+  if (element === null) {
+    return 'null';
+  }
+
   if (Array.isArray(element)) {
     throw new TypeError('Cannot type arrays');
   }

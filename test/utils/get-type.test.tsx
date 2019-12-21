@@ -15,3 +15,7 @@ test('it recognizes DOM elements', t => {
 test('it recognizes react elements', t => {
   t.is(getType(<Foo/>), 'Foo');
 });
+
+test('it recognizes null', t => {
+  t.is(getType(null), 'null');
+});
