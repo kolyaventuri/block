@@ -47,6 +47,23 @@ console.log(message);
 */
 ```
 
+There is a `<Container/>` component, which allows for conditional rendering by passing through the children as though it didn't exist.
+```jsx
+const elem = (
+  <Container>
+    <Text>Test</Text>
+  </Container>
+);
+
+const shouldDoThing = ...;
+
+const message = render(
+  <Message>
+    {shouldDoThing && elem}
+  </Message>
+);
+```
+
 ## Things to note
 - The outputted message only needs to have your `token` and desired `channel_id` added, and it will be ready to send to the slack API!
 - There is current _very little to no_ input validation. Non-recognized blocks will be ignored, but Slack will be the ultimate decider if your message is valid. Validation is on the roadmap.
