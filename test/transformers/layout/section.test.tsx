@@ -56,3 +56,34 @@ test('it transforms a more complex Section', t => {
     }
   });
 });
+
+test('it does not break if there is a null field', t => {
+  const fn = () => transformer(
+    <Section text={<Text>Foo</Text>}>
+      <Text>More text</Text>
+      {null}
+      <Text>Even more</Text>
+    </Section>
+  );
+
+  t.notThrows(fn);
+  const res = fn();
+
+  t.deepEqual(res, {
+    type: 'section',
+    text: {
+      type: 'mrkdwn',
+      text: 'Foo'
+    },
+    fields: [
+      {
+        type: 'mrkdwn',
+        text: 'More text'
+      },
+      {
+        type: 'mrkdwn',
+        text: 'Even more'
+      }
+    ]
+  });
+});

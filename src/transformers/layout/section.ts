@@ -42,8 +42,10 @@ export default (elem: Element): SectionType => {
     }
 
     for (const field of fields) {
-      const t = transform(field as TextComponent);
-      res.fields.push(t as Text);
+      if (field) {
+        const t = transform(field as TextComponent);
+        res.fields.push(t as Text);
+      }
     }
   }
 
