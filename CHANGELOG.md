@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.4.0
+- Allow for `<Section/>` blocks to have `null` components (useful for conditional renders)
+
 ### 0.3.1
 - Fix issue that caused an error to be thrown if a child is `null`
 
