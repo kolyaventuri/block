@@ -7,6 +7,9 @@ import renderFn from '../../src/renderer';
 import Message from '../../src/components/message';
 import Text from '../../src/components/block/text';
 import Container from '../../src/components/layout/container';
+import Section from '../../src/components/layout/section';
+import Context from '../../src/components/layout/context';
+import Image from '../../src/components/block/image';
 const parser = stub();
 const render = proxyquire('../../src/renderer', {
   '../parser': { default: parser }
@@ -189,6 +192,58 @@ test('ignores nested nulls', t => {
       {
         type: 'mrkdwn',
         text: 'Bar'
+      }
+    ]
+  });
+});
+
+test('can correctly render a complex message', t => {
+  const result = renderFn(
+    <Message color='#FF0000'>
+      <Section text={<Text>Section Header</Text>}>
+        <Text>FooBar</Text>
+        <Image url="someUrl" alt="someAlt"/>
+      </Section>
+      <Context>
+        <Text plainText>Some Context</Text>
+      </Context>
+    </Message>
+  ) as unknown;
+
+  t.deepEqual(result, {
+    text: '',
+    attachments: [
+      {
+        color: '#FF0000',
+        blocks: [
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: 'Section Header'
+            },
+            fields: [
+              {
+                type: 'mrkdwn',
+                text: 'FooBar'
+              },
+              {
+                type: 'image',
+                url: 'someUrl',
+                alt: 'someAlt'
+              }
+            ]
+          },
+          {
+            type: 'context',
+            elements: [
+              {
+                type: 'plain_text',
+                text: 'Some Context'
+              }
+            ]
+          }
+        ]
       }
     ]
   });
