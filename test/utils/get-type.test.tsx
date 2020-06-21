@@ -1,6 +1,7 @@
 import React from 'react';
 import test from 'ava';
 import getType from '../../src/utils/get-type';
+import { ARRAY } from '../../src/constants/special-types';
 
 class Foo extends React.Component {}
 
@@ -18,4 +19,8 @@ test('it recognizes react elements', t => {
 
 test('it recognizes null', t => {
   t.is(getType(null), 'null');
+});
+
+test('it types arrays as special', t => {
+  t.is(getType([]), ARRAY);
 });
