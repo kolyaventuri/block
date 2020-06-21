@@ -1,4 +1,5 @@
 import {Child} from '../constants/types';
+import {ARRAY} from '../constants/special-types';
 
 export default (element: Child): string => {
   if (typeof element === 'string') {
@@ -10,7 +11,7 @@ export default (element: Child): string => {
   }
 
   if (Array.isArray(element)) {
-    throw new TypeError('Cannot type arrays');
+    return ARRAY;
   }
 
   const {type} = element;

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm-run-all test:*",
     "test:tsc": "tsc -p ./src -p ./test --noEmit",
-    "test:lint": "xo",
+    "test:lint": "xo --fix",
     "test:unit": "ava",
     "build": "npm-run-all build:*",
     "build:package": "tsc -p .",

@@ -4,6 +4,7 @@ import proxyquire from 'proxyquire';
 import {stub} from 'sinon';
 
 import Message from '../../src/components/message';
+import Text from '../../src/components/block/text';
 import Container from '../../src/components/layout/container';
 const parser = stub();
 const render = proxyquire('../../src/renderer', {
@@ -135,4 +136,36 @@ test('can render with a container block', t => {
   });
 
   t.true(parser.calledWith(content));
-})
+});
+
+test('can render with an array of blocks', t => {
+  const renderFn = require('../../src/renderer').default;
+  const content = [
+    <Text>Foo</Text>,
+    <Text>Bar</Text>
+  ];
+
+  const result = renderFn(
+    <Message>
+      <Container>
+        {content}
+      </Container>
+    </Message>
+  );
+
+  console.dir(result, {depth: null})
+
+  t.deepEqual(result, {
+    text: '',
+    blocks: [
+      {
+        type: 'mrkdwn',
+        text: 'Foo'
+      },
+      {
+        type: 'mrkdwn',
+        text: 'Bar'
+      }
+    ]
+  });
+});

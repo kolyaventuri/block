@@ -1,4 +1,5 @@
 import {Child, Element} from '../constants/types';
+import {ARRAY} from '../constants/special-types';
 import getType from '../utils/get-type';
 
 import Text from './block/text';
@@ -27,6 +28,8 @@ type TransformersType = {
   [index: string]: (child: Child) => {};
 };
 
+type TransformResult = {[index: string]: any};
+
 const Transformers: TransformersType = {
   Container,
   Section,
@@ -54,12 +57,25 @@ const Transformers: TransformersType = {
 
 export default Transformers;
 
-export const transform = (elem: Element): {[index: string]: any} => {
-  const type = getType(elem);
+const doTransform = (elem: Element, type: string): TransformResult => {
+  const transformer = Transformers[type];
 
-  if (!Transformers[type]) {
+  if (!transformer) {
     throw new Error(`No transformer exists for type '${type}'`);
   }
 
-  return Transformers[type](elem);
+  return transformer(elem);
+};
+
+export const transform = (elem: Element | Element[]): TransformResult | TransformResult[] => {
+  const type = getType(elem);
+
+  if (type === ARRAY) {
+    return (elem as Element[]).map(item => {
+      const subType = getType(item);
+      return doTransform(item, subType);
+    });
+  }
+
+  return doTransform(elem as Element, type);
 };
