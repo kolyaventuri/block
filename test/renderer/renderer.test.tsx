@@ -3,6 +3,7 @@ import React from 'react';
 import proxyquire from 'proxyquire';
 import {stub} from 'sinon';
 
+import renderFn from '../../src/renderer';
 import Message from '../../src/components/message';
 import Text from '../../src/components/block/text';
 import Container from '../../src/components/layout/container';
@@ -139,7 +140,6 @@ test('can render with a container block', t => {
 });
 
 test('can render with an array of blocks', t => {
-  const renderFn = require('../../src/renderer').default;
   const content = [
     <Text>Foo</Text>,
     <Text>Bar</Text>
@@ -151,9 +151,33 @@ test('can render with an array of blocks', t => {
         {content}
       </Container>
     </Message>
-  );
+  ) as unknown;
 
-  console.dir(result, {depth: null})
+  t.deepEqual(result, {
+    text: '',
+    blocks: [
+      {
+        type: 'mrkdwn',
+        text: 'Foo'
+      },
+      {
+        type: 'mrkdwn',
+        text: 'Bar'
+      }
+    ]
+  });
+});
+
+test('ignores nested nulls', t => {
+  const result = renderFn(
+    <Message>
+      <Container>
+        <Text>Foo</Text>
+        {null}
+        <Text>Bar</Text>
+      </Container>
+    </Message>
+  ) as unknown;
 
   t.deepEqual(result, {
     text: '',

@@ -1,5 +1,5 @@
 import {Child, Element} from '../constants/types';
-import {ARRAY} from '../constants/special-types';
+import {ARRAY, NULL} from '../constants/special-types';
 import getType from '../utils/get-type';
 
 import Text from './block/text';
@@ -69,6 +69,10 @@ const doTransform = (elem: Element, type: string): TransformResult => {
 
 export const transform = (elem: Element | Element[]): TransformResult | TransformResult[] => {
   const type = getType(elem);
+
+  if (type === NULL) {
+    return;
+  }
 
   if (type === ARRAY) {
     return (elem as Element[]).map(item => {

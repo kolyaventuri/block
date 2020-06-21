@@ -1,5 +1,5 @@
 import {Child} from '../constants/types';
-import {ARRAY} from '../constants/special-types';
+import {ARRAY, NULL} from '../constants/special-types';
 
 export default (element: Child): string => {
   if (typeof element === 'string') {
@@ -7,7 +7,7 @@ export default (element: Child): string => {
   }
 
   if (element === null) {
-    return 'null';
+    return NULL;
   }
 
   if (Array.isArray(element)) {
