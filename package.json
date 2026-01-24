@@ -6,7 +6,24 @@
     "node": ">=24"
   },
   "packageManager": "pnpm@9.12.0",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./block": {
+      "types": "./lib/block.d.ts",
+      "default": "./lib/block.js"
+    }
+  },
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "test": "npm-run-all test:*",
     "test:tsc": "tsc -p ./src -p ./test --noEmit",

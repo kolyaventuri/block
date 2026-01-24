@@ -14,10 +14,6 @@ and does not require a full React runtime unless intentionally kept.
 - Align all blocks/elements to the latest Slack Block Kit API.
 
 ## Current State (Key Findings)
-- Packaging/export issues:
-  - `index.js` re-exports a `default` that doesn't exist.
-  - `blocks.js` expects a default export that isn't provided.
-  - README documents `slackblock/block`, but only `blocks.js` exists.
 - Name collisions break transformers (`Image` block vs `Image` layout).
 - Parser ignores `null` but not `false/undefined`, and only flattens one level.
 - Types are inaccurate (intersections instead of unions, React elements as outputs).
@@ -35,6 +31,7 @@ and does not require a full React runtime unless intentionally kept.
 - Declarations enabled with `declarationMap`, and build output standardized on `lib/`.
 - Lint stack upgraded (XO 1.x + ESLint 9 + @typescript-eslint 8 + TS 5.9).
 - XO config migrated to flat config in `xo.config.cjs`.
+- Packaging updated with TS entry points plus `exports`/`files` map for `slackblock` and `slackblock/block`.
 - Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
   - `test/types/symbol-observable.d.ts` to satisfy AVA's `Symbol.observable`.
   - Note: AVA still warns about update checks unless `~/.config` is writable.
@@ -57,12 +54,12 @@ and does not require a full React runtime unless intentionally kept.
 ## Phase 2: Packaging + Exports
 - Replace ad-hoc JS wrappers with TS entry points:
   - `src/index.ts` for default render export.
-  - `src/block.ts` for component exports.
-- Add `exports` map in `package.json`:
-  - `.` -> `dist/index.js` + types
-  - `./block` -> `dist/block.js` + types
-- Ensure `files` whitelist includes only published artifacts.
-- Fix README import examples to match exports.
+  - `src/block.ts` for component exports. (done)
+- Add `exports` map in `package.json`: (done)
+  - `.` -> `lib/index.js` + types
+  - `./block` -> `lib/block.js` + types
+- Ensure `files` whitelist includes only published artifacts. (done)
+- Fix README import examples to match exports. (verified)
 - Validate ESM/CJS strategy:
   - Option A: ship dual ESM/CJS via bundler (tsup/rollup).
   - Option B: ship ESM only and document CJS interop.
