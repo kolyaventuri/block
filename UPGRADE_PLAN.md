@@ -28,18 +28,28 @@ and does not require a full React runtime unless intentionally kept.
 - JSX remains as a templating layer (React optional).
 - Avoid regressions; keep API surface stable where possible, or document changes.
 
+## Status (Completed So Far)
+- Node >= 24 engine requirement and pnpm pin added in `package.json`.
+- npm lockfile removed; `pnpm-lock.yaml` added and installs verified.
+- TypeScript baseline updated to `es2019` and `moduleResolution: node`.
+- Lint stack upgraded (XO 1.x + ESLint 9 + @typescript-eslint 8 + TS 5.9).
+- XO config migrated to flat config in `xo.config.cjs`.
+- Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
+  - `test/types/symbol-observable.d.ts` to satisfy AVA's `Symbol.observable`.
+  - Note: AVA still warns about update checks unless `~/.config` is writable.
+
 ## Phase 0: Baseline & Safety Net
 - Add a `UPGRADE_NOTES.md` for tracked decisions, breaking changes, and rationale.
 - Ensure tests run on current branch before changes; document gaps.
 - Define a minimal "golden" JSON output spec for key components.
 
 ## Phase 1: Tooling + Runtime Baseline (Node >= 24)
-- Set `engines.node` to `>=24` in `package.json`.
-- Add `packageManager` with a pinned pnpm version.
-- Replace `package-lock.json` with `pnpm-lock.yaml`.
+- Set `engines.node` to `>=24` in `package.json`. (done)
+- Add `packageManager` with a pinned pnpm version. (done)
+- Replace `package-lock.json` with `pnpm-lock.yaml`. (done)
 - Update TS config:
-  - `target` to at least `es2019`.
-  - `moduleResolution` to `node16` or `bundler` (decide based on build tool).
+  - `target` to at least `es2019`. (done)
+  - `moduleResolution` to `node16` or `bundler` (decide based on build tool). (set to `node` for now)
   - Use `declaration` output and `declarationMap`.
 - Build output folder standardization: `dist/` or `lib/` (pick one).
 
@@ -57,9 +67,9 @@ and does not require a full React runtime unless intentionally kept.
   - Option B: ship ESM only and document CJS interop.
 
 ## Phase 3: Dependency Upgrades
-- Upgrade TypeScript to current 5.x.
+- Upgrade TypeScript to current 5.x. (done)
 - Replace XO + old ESLint with modern linting:
-  - Option A: ESLint 9 + @typescript-eslint 8+.
+  - Option A: ESLint 9 + @typescript-eslint 8+. (done)
   - Option B: Biome for lint+format.
 - Update test stack:
   - Keep Ava but upgrade to latest, or
