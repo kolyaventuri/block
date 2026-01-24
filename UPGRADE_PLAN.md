@@ -31,7 +31,8 @@ and does not require a full React runtime unless intentionally kept.
 ## Status (Completed So Far)
 - Node >= 24 engine requirement and pnpm pin added in `package.json`.
 - npm lockfile removed; `pnpm-lock.yaml` added and installs verified.
-- TypeScript baseline updated to `es2019` and `moduleResolution: node`.
+- TypeScript baseline updated to `es2019` with `moduleResolution: node`.
+- Declarations enabled with `declarationMap`, and build output standardized on `lib/`.
 - Lint stack upgraded (XO 1.x + ESLint 9 + @typescript-eslint 8 + TS 5.9).
 - XO config migrated to flat config in `xo.config.cjs`.
 - Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
@@ -50,8 +51,8 @@ and does not require a full React runtime unless intentionally kept.
 - Update TS config:
   - `target` to at least `es2019`. (done)
   - `moduleResolution` to `node16` or `bundler` (decide based on build tool). (set to `node` for now)
-  - Use `declaration` output and `declarationMap`.
-- Build output folder standardization: `dist/` or `lib/` (pick one).
+  - Use `declaration` output and `declarationMap`. (done)
+- Build output folder standardization: `dist/` or `lib/` (pick one). (picked `lib/`)
 
 ## Phase 2: Packaging + Exports
 - Replace ad-hoc JS wrappers with TS entry points:

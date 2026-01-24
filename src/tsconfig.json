@@ -4,6 +4,8 @@
     "removeComments": true,
     "outDir": "../lib" ,
     "rootDir": ".",
+    "declaration": true,
+    "declarationMap": true,
     "target": "es2019",
     "module": "commonjs",
     "moduleResolution": "node",
