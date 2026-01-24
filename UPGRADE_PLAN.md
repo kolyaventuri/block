@@ -32,6 +32,7 @@ and does not require a full React runtime unless intentionally kept.
 - Lint stack upgraded (XO 1.x + ESLint 9 + @typescript-eslint 8 + TS 5.9).
 - XO config migrated to flat config in `xo.config.cjs`.
 - Packaging updated with TS entry points plus `exports`/`files` map for `slackblock` and `slackblock/block`.
+- Dual CJS/ESM build configured via `tsup` with `.cjs`/`.mjs` outputs.
 - Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
   - `test/types/symbol-observable.d.ts` to satisfy AVA's `Symbol.observable`.
   - Note: AVA still warns about update checks unless `~/.config` is writable.
@@ -56,13 +57,12 @@ and does not require a full React runtime unless intentionally kept.
   - `src/index.ts` for default render export.
   - `src/block.ts` for component exports. (done)
 - Add `exports` map in `package.json`: (done)
-  - `.` -> `lib/index.js` + types
-  - `./block` -> `lib/block.js` + types
+  - `.` -> `lib/index.cjs`/`lib/index.mjs` + types
+  - `./block` -> `lib/block.cjs`/`lib/block.mjs` + types
 - Ensure `files` whitelist includes only published artifacts. (done)
 - Fix README import examples to match exports. (verified)
-- Validate ESM/CJS strategy:
-  - Option A: ship dual ESM/CJS via bundler (tsup/rollup).
-  - Option B: ship ESM only and document CJS interop.
+- Validate ESM/CJS strategy: (done)
+  - Dual build via `tsup`, emitting `.cjs` and `.mjs` into `lib/`.
 
 ## Phase 3: Dependency Upgrades
 - Upgrade TypeScript to current 5.x. (done)
