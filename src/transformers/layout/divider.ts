@@ -1,14 +1,13 @@
-import {Element} from '../../constants/types';
-
-import {Props as DividerProps} from '../../components/layout/divider';
+import {type Element} from '../../constants/types';
+import {type Props as DividerProperties} from '../../components/layout/divider';
 
 type DividerType = {
   type: 'divider';
   block_id?: string;
 };
 
-export default (child: Element): DividerType => {
-  const {blockId}: DividerProps = child.props;
+const transformDivider = (child: Element): DividerType => {
+  const {blockId}: DividerProperties = child.props;
 
   const res: DividerType = {type: 'divider'};
 
@@ -18,3 +17,5 @@ export default (child: Element): DividerType => {
 
   return res;
 };
+
+export default transformDivider;

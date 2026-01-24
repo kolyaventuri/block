@@ -1,5 +1,5 @@
-import {Element} from '../../constants/types';
-import {Props as ImageProps} from '../../components/block/image';
+import {type Element} from '../../constants/types';
+import {type Props as ImageProperties} from '../../components/block/image';
 
 export type ImageType = {
   type: 'image';
@@ -7,12 +7,14 @@ export type ImageType = {
   alt: string;
 };
 
-export default (child: Element): ImageType => {
-  const {url, alt}: ImageProps = child.props;
+const transformImage = (child: Element): ImageType => {
+  const {url, alt}: ImageProperties = child.props;
 
   return {
     type: 'image',
     url,
-    alt
+    alt,
   };
 };
+
+export default transformImage;

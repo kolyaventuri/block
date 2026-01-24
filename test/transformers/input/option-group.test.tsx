@@ -10,17 +10,15 @@ test('transforms an OptionGroup', t => {
   const option = <Option value="val">SomeOption</Option>;
   const transformedOption = optionTransformer(option);
 
-  const res = transformer(
-    <OptionGroup label="someLabel">
-      {option}
-    </OptionGroup>
-  );
+  const res = transformer(<OptionGroup label="someLabel">
+    {option}
+  </OptionGroup>);
 
   t.deepEqual(res, {
     label: {
       type: 'plain_text',
-      text: 'someLabel'
+      text: 'someLabel',
     },
-    options: [transformedOption]
+    options: [transformedOption],
   });
 });

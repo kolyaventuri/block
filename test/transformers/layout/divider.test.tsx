@@ -15,6 +15,6 @@ test('transforms a divider with id', t => {
 
   t.deepEqual(res, {
     type: 'divider',
-    block_id: 'blockId'
+    block_id: 'blockId',
   });
 });

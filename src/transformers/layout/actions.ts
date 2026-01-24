@@ -1,5 +1,5 @@
-import {Element, SerializedInteractiveBlockElement, InteractiveBlockElement} from '../../constants/types';
-import {Props as ActionProps} from '../../components/layout/actions';
+import {type Element, type SerializedInteractiveBlockElement, type InteractiveBlockElement} from '../../constants/types';
+import {type Props as ActionProperties} from '../../components/layout/actions';
 import {transform} from '..';
 
 type ActionType = {
@@ -8,8 +8,8 @@ type ActionType = {
   block_id?: string;
 };
 
-export default (child: Element): ActionType => {
-  const {children, blockId}: ActionProps = child.props;
+const transformActions = (child: Element): ActionType => {
+  const {children, blockId}: ActionProperties = child.props;
 
   let elements = children;
   if (!Array.isArray(elements)) {
@@ -18,7 +18,7 @@ export default (child: Element): ActionType => {
 
   const res: ActionType = {
     type: 'actions',
-    elements: elements.map(element => transform(element as Element) as SerializedInteractiveBlockElement)
+    elements: elements.map(element => transform(element as Element) as SerializedInteractiveBlockElement),
   };
 
   if (blockId) {
@@ -27,3 +27,5 @@ export default (child: Element): ActionType => {
 
   return res;
 };
+
+export default transformActions;

@@ -10,27 +10,25 @@ test('transforms a basic option', t => {
   t.deepEqual(res, {
     text: {
       type: 'plain_text',
-      text: 'someText'
+      text: 'someText',
     },
-    value: 'someValue'
+    value: 'someValue',
   });
 });
 
 test('transforms an option with a url', t => {
-  const res = transformer(
-    <Option
-      value="someValue"
-      url="someUrl"
-    >
-      someText
-    </Option>
-   );
-   t.deepEqual(res, {
+  const res = transformer(<Option
+    value="someValue"
+    url="someUrl"
+  >
+    someText
+  </Option>);
+  t.deepEqual(res, {
     text: {
       type: 'plain_text',
-      text: 'someText'
+      text: 'someText',
     },
     value: 'someValue',
-    url: 'someUrl'
+    url: 'someUrl',
   });
 });

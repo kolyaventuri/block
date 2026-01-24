@@ -4,7 +4,10 @@
     "removeComments": true,
     "outDir": "../lib" ,
     "rootDir": ".",
-    "target": "es5",
+    "target": "es2019",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "types": ["react"],
     "esModuleInterop": true,
     "jsx": "react" 
   }

@@ -1,89 +1,82 @@
 import React from 'react';
 import test from 'ava';
+
 import Section from '../../../src/components/layout/section';
 import Text from '../../../src/components/block/text';
 import transformer from '../../../src/transformers/layout/section';
 
 test('it transforms a basic Section component', t => {
-  const elem = (
+  const element = (
     <Section
-      text={ <Text>FooBar</Text> }
+      text={<Text>FooBar</Text>}
     />
   );
 
-  const res = transformer(elem);
+  const res = transformer(element);
 
   t.deepEqual(res, {
     type: 'section',
     text: {
       type: 'mrkdwn',
-      text: 'FooBar'
-    }
+      text: 'FooBar',
+    },
   });
 });
 
 test('it transforms a more complex Section', t => {
-  const fields = [
+  const res = transformer(<Section
+    text={<Text>FooBar</Text>}
+    blockId="abc123"
+    accessory={<Text>Accessory</Text>}
+  >
     <Text>OtherText</Text>
-  ];
-
-  const res = transformer(
-    <Section
-      text={<Text>FooBar</Text>}
-      blockId="abc123"
-      accessory={<Text>Accessory</Text>}
-    >
-      <Text>OtherText</Text>
-    </Section>
-  );
+  </Section>);
 
   t.deepEqual(res, {
     type: 'section',
     text: {
       type: 'mrkdwn',
-      text: 'FooBar'
+      text: 'FooBar',
     },
     block_id: 'abc123',
     fields: [
       {
         type: 'mrkdwn',
-        text: 'OtherText'
-      }
+        text: 'OtherText',
+      },
     ],
     accessory: {
       type: 'mrkdwn',
-      text: 'Accessory'
-    }
+      text: 'Accessory',
+    },
   });
 });
 
 test('it does not break if there is a null field', t => {
-  const fn = () => transformer(
-    <Section text={<Text>Foo</Text>}>
-      <Text>More text</Text>
-      {null}
-      <Text>Even more</Text>
-    </Section>
-  );
+  const function_ = () => transformer(<Section text={<Text>Foo</Text>}>
+    <Text>More text</Text>
+    {null}
+    <Text>Even more</Text>
+  </Section>);
 
-  t.notThrows(fn);
-  const res = fn();
+  t.notThrows(function_);
+  const res = function_();
 
   t.deepEqual(res, {
     type: 'section',
     text: {
       type: 'mrkdwn',
-      text: 'Foo'
+      text: 'Foo',
     },
     fields: [
       {
         type: 'mrkdwn',
-        text: 'More text'
+        text: 'More text',
       },
       {
         type: 'mrkdwn',
-        text: 'Even more'
-      }
-    ]
+        text: 'Even more',
+      },
+    ],
   });
 });

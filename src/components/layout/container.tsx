@@ -1,9 +1,10 @@
 import React from 'react';
-import {SingleOrArray} from '../../utils/type-helpers';
-import {Child} from '../../constants/types';
+
+import {type SingleOrArray} from '../../utils/type-helpers';
+import {type Child} from '../../constants/types';
 
 export type Props = {
-  children: SingleOrArray<Child>
+  children: SingleOrArray<Child>;
 };
 
 export default class Container extends React.Component<Props> {}

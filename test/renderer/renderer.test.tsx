@@ -5,10 +5,11 @@ import {stub} from 'sinon';
 
 import Message from '../../src/components/message';
 import Container from '../../src/components/layout/container';
+
 const parser = stub();
 const render = proxyquire('../../src/renderer', {
-  '../parser': { default: parser }
-}).default
+  '../parser': {default: parser},
+}).default;
 
 test('it passes a list of children to the parser', t => {
   const content = 'block-content';
@@ -18,37 +19,35 @@ test('it passes a list of children to the parser', t => {
 });
 
 test('it throws an error if the passed component is not a <Message> component', t => {
-  const fn = () => render(<div/>);
+  const function_ = () => render(<div/>);
 
-  t.throws(fn);
+  t.throws(function_);
 });
 
 test('it throws an error if no children are passed', t => {
-  // @ts-ignore - We want to explicitly check the lack of children 
-  const fn = () => render(<Message/>);
+  // @ts-expect-error - We want to explicitly check the lack of children
+  const function_ = () => render(<Message/>);
 
-  t.throws(fn);
+  t.throws(function_);
 });
 
 test('can render all props', t => {
   const content = 'content-of-block';
-  const res = render(
-    <Message
-      text="text"
-      iconEmoji=":icon_emoji:"
-      iconUrl="iconUrl"
-      markdown={false}
-      parse="none"
-      username="username"
-      replyTo="replyTo"
-      asUser
-      replyBroadcast
-      unfurlLinks
-      unfurlMedia
-    >
-      {content}
-    </Message>
-  );
+  const res = render(<Message
+    asUser
+    replyBroadcast
+    unfurlLinks
+    unfurlMedia
+    text="text"
+    iconEmoji=":icon_emoji:"
+    iconUrl="iconUrl"
+    markdown={false}
+    parse="none"
+    username="username"
+    replyTo="replyTo"
+  >
+    {content}
+  </Message>);
 
   t.deepEqual(res, {
     text: 'text',
@@ -61,7 +60,7 @@ test('can render all props', t => {
     as_user: true,
     reply_broadcast: true,
     unfurl_links: true,
-    unfurl_media: true
+    unfurl_media: true,
   });
 
   t.true(parser.calledWith(content));
@@ -75,15 +74,13 @@ test('if no text prop is passed, uses a blank string', t => {
 
 test('if a color is passed, transforms the block elements to be within an attachment', t => {
   const content = 'abc';
-  const returnContent = '<CONTENT>abc</CONTENT>'
+  const returnContent = '<CONTENT>abc</CONTENT>';
   parser.withArgs(content).returns({
-    blocks: [returnContent]
+    blocks: [returnContent],
   });
-  const res = render(
-    <Message color="#FF0000">
-      {content}
-    </Message>
-  );
+  const res = render(<Message color="#FF0000">
+    {content}
+  </Message>);
 
   t.deepEqual(res, {
     text: '',
@@ -91,34 +88,32 @@ test('if a color is passed, transforms the block elements to be within an attach
       {
         color: '#FF0000',
         blocks: [
-          returnContent
-        ]
-      }
-    ]
-  })
+          returnContent,
+        ],
+      },
+    ],
+  });
 });
 
 test('can render with a container block', t => {
   const content = 'content-of-block';
-  const res = render(
-    <Message
-      text="text"
-      iconEmoji=":icon_emoji:"
-      iconUrl="iconUrl"
-      markdown={false}
-      parse="none"
-      username="username"
-      replyTo="replyTo"
-      asUser
-      replyBroadcast
-      unfurlLinks
-      unfurlMedia
-    >
-      <Container>
-        {content}
-      </Container>
-    </Message>
-  );
+  const res = render(<Message
+    asUser
+    replyBroadcast
+    unfurlLinks
+    unfurlMedia
+    text="text"
+    iconEmoji=":icon_emoji:"
+    iconUrl="iconUrl"
+    markdown={false}
+    parse="none"
+    username="username"
+    replyTo="replyTo"
+  >
+    <Container>
+      {content}
+    </Container>
+  </Message>);
 
   t.deepEqual(res, {
     text: 'text',
@@ -131,8 +126,8 @@ test('can render with a container block', t => {
     as_user: true,
     reply_broadcast: true,
     unfurl_links: true,
-    unfurl_media: true
+    unfurl_media: true,
   });
 
   t.true(parser.calledWith(content));
-})
+});

@@ -1,6 +1,6 @@
-import {Child} from '../constants/types';
+import {type Child} from '../constants/types';
 
-export default (element: Child): string => {
+const getType = (element: Child): string => {
   if (typeof element === 'string') {
     return 'string';
   }
@@ -14,7 +14,9 @@ export default (element: Child): string => {
   }
 
   const {type} = element;
-  const fn = type as () => void;
+  const function_ = type as () => void;
 
-  return fn.name || type as string;
+  return function_.name || type as string;
 };
+
+export default getType;

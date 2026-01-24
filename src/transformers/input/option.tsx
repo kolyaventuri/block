@@ -1,8 +1,9 @@
 import React from 'react';
-import {Element} from '../../constants/types';
-import {TextType} from '../block/text';
+
+import {type Element} from '../../constants/types';
+import {type TextType} from '../block/text';
 import Text from '../../components/block/text';
-import {Props as OptionProps} from '../../components/input/option';
+import {type Props as OptionProperties} from '../../components/input/option';
 import {transform} from '..';
 
 export type OptionType = {
@@ -11,12 +12,12 @@ export type OptionType = {
   url?: string;
 };
 
-export default (child: Element): OptionType => {
-  const {children: text, value, url}: OptionProps = child.props;
+const transformOption = (child: Element): OptionType => {
+  const {children: text, value, url}: OptionProperties = child.props;
 
   const res: OptionType = {
     text: transform(<Text plainText>{text}</Text>) as TextType,
-    value
+    value,
   };
 
   if (url) {
@@ -25,3 +26,5 @@ export default (child: Element): OptionType => {
 
   return res;
 };
+
+export default transformOption;

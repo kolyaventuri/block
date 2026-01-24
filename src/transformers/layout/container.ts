@@ -1,11 +1,11 @@
-import {Props as ContainerProps} from '../../components/layout/container';
-import {Element, Child} from '../../constants/types';
+import {type Props as ContainerProperties} from '../../components/layout/container';
+import {type Element, type Child} from '../../constants/types';
 import {transform} from '..';
 
 type ContainerType = Child[];
 
-export default (child: Element): ContainerType => {
-  const {children}: ContainerProps = child.props;
+const transformContainer = (child: Element): ContainerType => {
+  const {children}: ContainerProperties = child.props;
 
   let elements = children;
   if (!Array.isArray(elements)) {
@@ -14,3 +14,5 @@ export default (child: Element): ContainerType => {
 
   return (elements as Element[]).map(element => transform(element)) as Child[];
 };
+
+export default transformContainer;

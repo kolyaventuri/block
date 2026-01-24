@@ -1,5 +1,6 @@
 import React from 'react';
-import Confirmation from '../block/confirmation';
+
+import type Confirmation from '../block/confirmation';
 
 export type Props = {
   actionId: string;

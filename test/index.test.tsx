@@ -5,7 +5,7 @@ import render from '../src';
 import Message from '../src/components/message';
 
 test('can accept React component without erroring', t => {
-  const fn = () => render(<Message>child</Message>);
+  const function_ = () => render(<Message>child</Message>);
 
-  t.notThrows(fn);
+  t.notThrows(function_);
 });

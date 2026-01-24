@@ -1,13 +1,14 @@
 import React from 'react';
-import Text from '../block/text';
-import {BlockElement} from '../../constants/types';
 
-type TextElem = React.ReactElement<Text>;
+import type Text from '../block/text';
+import {type BlockElement} from '../../constants/types';
+
+type TextElement = React.ReactElement<Text>;
 
 export type Props = {
   text: React.ReactElement<Text>;
   blockId?: string;
-  children?: TextElem | TextElem[];
+  children?: TextElement | TextElement[];
   accessory?: BlockElement;
 };
 

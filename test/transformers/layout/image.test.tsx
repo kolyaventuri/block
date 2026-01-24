@@ -6,29 +6,25 @@ import Image from '../../../src/components/layout/image';
 import Text from '../../../src/components/block/text';
 
 test('transforms a basic image layout', t => {
-  const res = transformer(
-    <Image
-      url="someUrl"
-      alt="someAlt"
-    />
-  );
+  const res = transformer(<Image
+    url="someUrl"
+    alt="someAlt"
+  />);
 
   t.deepEqual(res, {
     type: 'image',
     image_url: 'someUrl',
-    alt_text: 'someAlt'
+    alt_text: 'someAlt',
   });
 });
 
 test('transforms a more advanced image layout', t => {
-  const res = transformer(
-    <Image
-      url="someUrl"
-      alt="someAlt"
-      title="someTitle"
-      blockId="blockId"
-    />
-  );
+  const res = transformer(<Image
+    url="someUrl"
+    alt="someAlt"
+    title="someTitle"
+    blockId="blockId"
+  />);
 
   t.deepEqual(res, {
     type: 'image',
@@ -36,8 +32,8 @@ test('transforms a more advanced image layout', t => {
     alt_text: 'someAlt',
     title: {
       type: 'plain_text',
-      text: 'someTitle'
+      text: 'someTitle',
     },
-    block_id: 'blockId'
+    block_id: 'blockId',
   });
 });

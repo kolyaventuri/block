@@ -1,4 +1,4 @@
-import {Element} from '../../constants/types';
+import {type Element} from '../../constants/types';
 
 export type TextType = {
   type: 'plain_text' | 'mrkdwn';
@@ -7,19 +7,19 @@ export type TextType = {
   verbatim?: boolean;
 };
 
-export default (elem: Element): TextType => {
+const transformText = (element: Element): TextType => {
   const {
     props: {
       plainText,
       children,
       emoji,
-      verbatim
-    }
-  } = elem;
+      verbatim,
+    },
+  } = element;
 
   const res: TextType = {
     type: plainText ? 'plain_text' : 'mrkdwn',
-    text: children
+    text: children,
   };
 
   if (emoji) {
@@ -32,3 +32,5 @@ export default (elem: Element): TextType => {
 
   return res;
 };
+
+export default transformText;

@@ -1,5 +1,6 @@
 import React from 'react';
-import {InputBlockElement} from '../../constants/types';
+
+import {type InputBlockElement} from '../../constants/types';
 
 export type Props = {
   label: string;

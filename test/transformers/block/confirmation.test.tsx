@@ -6,32 +6,30 @@ import Confirmation from '../../../src/components/block/confirmation';
 import Text from '../../../src/components/block/text';
 
 test('transforms properly', t => {
-  const res = transformer(
-    <Confirmation
-      title='SomeTitle'
-      confirm='SomeConfirm'
-      deny='SomeDeny'
-    >
-      <Text>FooBar</Text>
-    </Confirmation>
-  );
+  const res = transformer(<Confirmation
+    title="SomeTitle"
+    confirm="SomeConfirm"
+    deny="SomeDeny"
+  >
+    <Text>FooBar</Text>
+  </Confirmation>);
 
   t.deepEqual(res, {
     title: {
       type: 'plain_text',
-      text: 'SomeTitle'
+      text: 'SomeTitle',
     },
     text: {
       type: 'mrkdwn',
-      text: 'FooBar'
+      text: 'FooBar',
     },
     confirm: {
       type: 'plain_text',
-      text: 'SomeConfirm'
+      text: 'SomeConfirm',
     },
     deny: {
       type: 'plain_text',
-      text: 'SomeDeny'
-    }
+      text: 'SomeDeny',
+    },
   });
 });

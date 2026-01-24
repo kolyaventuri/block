@@ -1,12 +1,13 @@
 import React from 'react';
-import { Element } from "../../constants/types";
 
-import {ButtonProps} from '../../components/block/button';
-import { TextType } from "./text";
-import { ConfirmationType } from "./confirmation";
-import { transform } from "..";
-import Text from "../../components/block/text";
+import {type Element} from '../../constants/types';
+import {type ButtonProps} from '../../components/block/button';
+import {transform} from '..';
+import Text from '../../components/block/text';
 import Confirmation from '../../components/block/confirmation';
+
+import {type ConfirmationType} from './confirmation';
+import {type TextType} from './text';
 
 export type ButtonType = {
   type: 'button';
@@ -18,13 +19,13 @@ export type ButtonType = {
   confirm?: ConfirmationType;
 };
 
-export default (child: Element): ButtonType => {
+const transformButton = (child: Element): ButtonType => {
   const {actionId, children, url, value, style, confirm}: ButtonProps = child.props;
 
   const res: ButtonType = {
     type: 'button',
     text: transform(<Text plainText>{children}</Text>) as TextType,
-    action_id: actionId
+    action_id: actionId,
   };
 
   if (url) {
@@ -45,3 +46,5 @@ export default (child: Element): ButtonType => {
 
   return res;
 };
+
+export default transformButton;

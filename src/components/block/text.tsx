@@ -5,6 +5,6 @@ export type Props = {
   plainText?: boolean;
   emoji?: boolean;
   verbatim?: boolean;
-}
+};
 
 export default class Text extends React.Component<Props> {}

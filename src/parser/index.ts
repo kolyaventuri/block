@@ -1,8 +1,8 @@
-import {Child, Block, SlackMessage} from '../constants/types';
+import {type Child, type Block, type SlackMessage} from '../constants/types';
 import transformers from '../transformers';
 import getType from '../utils/get-type';
 
-export default (children: Child): SlackMessage => {
+const parseChildren = (children: Child): SlackMessage => {
   if (typeof children === 'string') {
     return {text: children};
   }
@@ -30,3 +30,5 @@ export default (children: Child): SlackMessage => {
 
   return result;
 };
+
+export default parseChildren;

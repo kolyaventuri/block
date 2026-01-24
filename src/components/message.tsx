@@ -1,7 +1,8 @@
 import React from 'react';
-import {Element} from '../constants/types'; 
 
-type Props = {
+import {type Element} from '../constants/types';
+
+type Properties = {
   children: string | Element | Element[];
   text?: string;
   asUser?: boolean;
@@ -17,4 +18,4 @@ type Props = {
   color?: string;
 };
 
-export default class Message extends React.Component<Props> {}
+export default class Message extends React.Component<Properties> {}

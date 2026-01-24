@@ -1,5 +1,5 @@
-import {Element} from '../../constants/types';
-import {Props as FileProps} from '../../components/layout/file';
+import {type Element} from '../../constants/types';
+import {type Props as FileProperties} from '../../components/layout/file';
 
 type FileType = {
   type: 'file';
@@ -8,12 +8,12 @@ type FileType = {
   block_id?: string;
 };
 
-export default (child: Element): FileType => {
-  const {externalId, blockId}: FileProps = child.props;
+const transformFile = (child: Element): FileType => {
+  const {externalId, blockId}: FileProperties = child.props;
   const res: FileType = {
     type: 'file',
     source: 'remote',
-    external_id: externalId
+    external_id: externalId,
   };
 
   if (blockId) {
@@ -22,3 +22,5 @@ export default (child: Element): FileType => {
 
   return res;
 };
+
+export default transformFile;

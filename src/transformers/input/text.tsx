@@ -1,30 +1,31 @@
 import React from 'react';
+
 import Text from '../../components/block/text';
-import {Props as TextInputProps} from '../../components/input/text';
-import {TextType as TextProps} from '../block/text';
-import {Element} from '../../constants/types';
-import { transform } from '..';
+import {type Props as TextInputProperties} from '../../components/input/text';
+import {type TextType as TextProperties} from '../block/text';
+import {type Element} from '../../constants/types';
+import {transform} from '..';
 
 export type TextType = {
   type: 'plain_text_input';
   action_id: string;
-  placeholder?: TextProps;
+  placeholder?: TextProperties;
   initial_value?: string;
   multiline?: boolean;
   min_length?: number;
   max_length?: number;
 };
 
-export default (child: Element): TextType => {
-  const {actionId, placeholder, initial, multiline, minLength, maxLength}: TextInputProps = child.props;
+const transformTextInput = (child: Element): TextType => {
+  const {actionId, placeholder, initial, multiline, minLength, maxLength}: TextInputProperties = child.props;
 
   const res: TextType = {
     type: 'plain_text_input',
-    action_id: actionId
+    action_id: actionId,
   };
 
   if (placeholder) {
-    res.placeholder = transform(<Text plainText>{placeholder}</Text>) as TextProps;
+    res.placeholder = transform(<Text plainText>{placeholder}</Text>) as TextProperties;
   }
 
   if (initial) {
@@ -45,3 +46,5 @@ export default (child: Element): TextType => {
 
   return res;
 };
+
+export default transformTextInput;

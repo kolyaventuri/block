@@ -4,20 +4,18 @@ import {stub} from 'sinon';
 import proxyquire from 'proxyquire';
 
 const fooTransformer = stub();
-const divTransformer = stub().callsFake(elem => {
-  return {
-    type: 'div',
-    text: elem.props.children 
-  }
-});
+const divTransformer = stub().callsFake(element => ({
+  type: 'div',
+  text: element.props.children,
+}));
 
 const parser = proxyquire('../../src/parser', {
   '../transformers': {
     default: {
       Foo: fooTransformer,
-      div: divTransformer
-    }
-  }
+      div: divTransformer,
+    },
+  },
 }).default;
 
 test('it returns a basic message if the child is just a string', t => {
@@ -28,20 +26,23 @@ test('it returns a basic message if the child is just a string', t => {
   t.deepEqual(result, expected);
 });
 
-const Foo = () => <p>Test</p>;
+function Foo() {
+  return <p>Test</p>;
+}
+
 test('it passes the item to the right transformer', t => {
-  const elem = (
+  const element = (
     <div>
       <p>Hi</p>
     </div>
   );
 
-  const elem2 = <Foo/>;
+  const element2 = <Foo/>;
 
-  parser([elem, elem2]);
+  parser([element, element2]);
 
-  t.true(divTransformer.calledWith(elem));
-  t.true(fooTransformer.calledWith(elem2));
+  t.true(divTransformer.calledWith(element));
+  t.true(fooTransformer.calledWith(element2));
 });
 
 test('it returns the result of the transformers', t => {
@@ -49,8 +50,8 @@ test('it returns the result of the transformers', t => {
 
   t.deepEqual(res, {
     blocks: [
-      {type: 'div', text: 'Foo'}
-    ]
+      {type: 'div', text: 'Foo'},
+    ],
   });
 });
 
@@ -61,7 +62,7 @@ test('it does not transform unkown types', t => {
 });
 
 test('it does not explode on null', t => {
-  const fn = () => parser(null);
+  const function_ = () => parser(null);
 
-  t.notThrows(fn);
+  t.notThrows(function_);
 });

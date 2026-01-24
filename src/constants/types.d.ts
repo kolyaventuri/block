@@ -1,34 +1,30 @@
-import {Component, ReactElement} from 'react';
+import {type Component, type ReactElement} from 'react';
 
-import Text from '../components/block/text';
-import Button from '../components/block/button';
-import Image from '../components/block/image';
-import Confirmation from '../components/block/confirmation';
-
-import Section from '../components/layout/section';
-import Actions from '../components/layout/actions';
-import Context from '../components/layout/context';
-
-import TextInput from '../components/input/text';
-import DatePicker from '../components/input/date-picker';
-import Select from '../components/input/select';
-import Option from '../components/input/option';
-import OptionGroup from '../components/input/option-group';
-import Overflow from '../components/input/overflow';
-import RadioGroup from '../components/input/radio-group';
-
-import {TextType as TextInputType} from '../transformers/input/text';
-import {DatePickerType} from '../transformers/input/date-picker';
-import {SelectType} from '../transformers/input/select';
-import {OptionType} from '../transformers/input/option';
-import {OptionGroupType} from '../transformers/input/option-group';
-import {OverflowType} from '../transformers/input/overflow';
-import {RadioGroupType} from '../transformers/input/radio-group';
-
-import {TextType} from '../transformers/block/text';
-import {ImageType} from '../transformers/block/image';
-import {ButtonType} from '../transformers/block/button';
-import {ConfirmationType} from '../transformers/block/confirmation';
+import type Text from '../components/block/text';
+import type Button from '../components/block/button';
+import type Image from '../components/block/image';
+import type Confirmation from '../components/block/confirmation';
+import type Section from '../components/layout/section';
+import type Actions from '../components/layout/actions';
+import type Context from '../components/layout/context';
+import type TextInput from '../components/input/text';
+import type DatePicker from '../components/input/date-picker';
+import type Select from '../components/input/select';
+import type Option from '../components/input/option';
+import type OptionGroup from '../components/input/option-group';
+import type Overflow from '../components/input/overflow';
+import type RadioGroup from '../components/input/radio-group';
+import {type TextType as TextInputType} from '../transformers/input/text';
+import {type DatePickerType} from '../transformers/input/date-picker';
+import {type SelectType} from '../transformers/input/select';
+import {type OptionType} from '../transformers/input/option';
+import {type OptionGroupType} from '../transformers/input/option-group';
+import {type OverflowType} from '../transformers/input/overflow';
+import {type RadioGroupType} from '../transformers/input/radio-group';
+import {type TextType} from '../transformers/block/text';
+import {type ImageType} from '../transformers/block/image';
+import {type ButtonType} from '../transformers/block/button';
+import {type ConfirmationType} from '../transformers/block/confirmation';
 
 export type Block = ReactElement<Section> | ReactElement<Actions> | ReactElement<Context>;
 export type Attachment = {

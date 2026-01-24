@@ -1,9 +1,10 @@
 import React from 'react';
-import Option from './option';
+
+import type Option from './option';
 
 export type Props = {
   label: string;
-  children: React.ReactElement<Option> | React.ReactElement<Option>[];
+  children: React.ReactElement<Option> | Array<React.ReactElement<Option>>;
 };
 
 export default class OptionGroup extends React.Component<Props> {}

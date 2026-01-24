@@ -1,15 +1,17 @@
 import React from 'react';
-import {Element} from '../../constants/types';
-import {TextType} from '../block/text';
-import {OptionType} from './option';
-import {OptionGroupType} from './option-group';
-import {ConfirmationType} from '../block/confirmation';
-import {Props as SelectProps, selectTypes} from '../../components/input/select';
-import Option from '../../components/input/option';
+
+import {type Element} from '../../constants/types';
+import {type TextType} from '../block/text';
+import {type ConfirmationType} from '../block/confirmation';
+import {type Props as SelectProperties, selectTypes} from '../../components/input/select';
+import type Option from '../../components/input/option';
 import Text from '../../components/block/text';
 import {transform} from '..';
 import getType from '../../utils/get-type';
-import OptionGroup from '../../components/input/option-group';
+import type OptionGroup from '../../components/input/option-group';
+
+import {type OptionGroupType} from './option-group';
+import {type OptionType} from './option';
 
 type ValidSelectType =
   'static_select' |
@@ -22,6 +24,8 @@ type ValidSelectType =
   'multi_conversations_select' |
   'channels_select' |
   'multi_channels_select';
+
+type SelectionType = NonNullable<SelectProperties['type']>;
 
 export type SelectType = {
   type: ValidSelectType;
@@ -45,11 +49,88 @@ const types = {
   [selectTypes.EXTERNAL]: 'external_select',
   [selectTypes.USER]: 'users_select',
   [selectTypes.CONVERSATION]: 'conversations_select',
-  [selectTypes.CHANNEL]: 'channels_select'
+  [selectTypes.CHANNEL]: 'channels_select',
 };
 const MULTI_PREFIX = 'multi_';
 
-export default (child: Element): SelectType => {
+const normalizeElements = (elements?: SelectProperties['children']): React.ReactElement[] => {
+  if (!elements) {
+    return [];
+  }
+
+  return Array.isArray(elements) ? elements : [elements];
+};
+
+const assignStaticOptions = (elements: React.ReactElement[], result: SelectType): void => {
+  const elementType = getType(elements[0] as Element);
+  if (elements.some(element => getType(element as Element) !== elementType)) {
+    if (elementType === OPTION && elements.some(element => getType(element as Element) !== OPTION_GROUP)) {
+      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+    } else if (elementType === OPTION_GROUP && elements.some(element => getType(element as Element) !== OPTION)) {
+      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+    }
+
+    throw new TypeError('Only allowed types are Option OR OptionGroup');
+  }
+
+  if (elementType === OPTION) {
+    const options = elements as Array<React.ReactElement<Option>>;
+    result.options = options.map(element => transform(element as Element)) as OptionType[];
+  } else if (elementType === OPTION_GROUP) {
+    const optionGroups = elements as Array<React.ReactElement<OptionGroup>>;
+    result.option_groups = optionGroups.map(element => transform(element as Element)) as OptionGroupType[];
+  }
+};
+
+const applyInitialSelections = (
+  type: SelectionType,
+  result: SelectType,
+  initialValues: {
+    initialOptions?: Array<React.ReactElement<Option>>;
+    initialUsers?: string[];
+    initialConversations?: string[];
+    initialChannels?: string[];
+  },
+): void => {
+  const {initialOptions, initialUsers, initialConversations, initialChannels} = initialValues;
+
+  switch (type) {
+    case selectTypes.USER: {
+      if (initialUsers) {
+        result.initial_users = initialUsers;
+      }
+
+      break;
+    }
+
+    case selectTypes.CONVERSATION: {
+      if (initialConversations) {
+        result.initial_conversations = initialConversations;
+      }
+
+      break;
+    }
+
+    case selectTypes.CHANNEL: {
+      if (initialChannels) {
+        result.initial_channels = initialChannels;
+      }
+
+      break;
+    }
+
+    case selectTypes.STATIC:
+    case selectTypes.EXTERNAL: {
+      if (initialOptions) {
+        result.initial_options = initialOptions.map(element => transform(element as Element)) as OptionType[];
+      }
+
+      break;
+    }
+  }
+};
+
+const transformSelect = (child: Element): SelectType => {
   const {
     placeholder,
     actionId,
@@ -58,79 +139,43 @@ export default (child: Element): SelectType => {
     initialOptions,
     confirm,
     maxSelectedItems,
-    type: typeProp,
+    type: typeProperty,
     initialUsers,
     initialConversations,
-    initialChannels
-  }: SelectProps = child.props;
+    initialChannels,
+  }: SelectProperties = child.props;
 
-  const type = typeProp || selectTypes.STATIC;
+  const type: SelectionType = typeProperty ?? selectTypes.STATIC;
   const typeString = `${multi ? MULTI_PREFIX : ''}${types[type]}` as ValidSelectType;
 
-  const res: SelectType = {
+  const result: SelectType = {
     type: typeString,
     placeholder: transform(<Text plainText>{placeholder}</Text>) as TextType,
-    action_id: actionId
+    action_id: actionId,
   };
 
-  let elements = children;
-  if (!Array.isArray(elements)) {
-    elements = [elements] as React.ReactElement[];
-  }
+  const elements = normalizeElements(children);
 
   if (type === selectTypes.STATIC) {
-    const type = getType(elements[0] as Element);
-    if (elements.some((element: React.ReactElement) => getType(element as Element) !== type)) {
-      if (type === OPTION && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION_GROUP)) {
-        throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
-      } else if (type === OPTION_GROUP && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION)) {
-        throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
-      }
-      throw new TypeError('Only allowed types are Option OR OptionGroup');
-    }
-
-    if (type === OPTION) {
-      elements = elements as React.ReactElement<Option>[];
-
-      res.options = elements.map(element => transform(element as Element)) as OptionType[];
-    } else if (type === OPTION_GROUP) {
-      elements = elements as React.ReactElement<OptionGroup>[];
-
-      res.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
-    }
+    assignStaticOptions(elements, result);
   }
 
   if (confirm) {
-    res.confirm = transform(confirm as Element) as ConfirmationType;
+    result.confirm = transform(confirm as Element) as ConfirmationType;
   }
 
-  if (type !== selectTypes.USER && initialOptions) {
-  }
-
-  switch (type) {
-    case selectTypes.USER:
-      if (initialUsers) {
-        res.initial_users = initialUsers;
-      }
-      break;
-    case selectTypes.CONVERSATION:
-      if (initialConversations) {
-        res.initial_conversations = initialConversations;
-      }
-      break;
-    case selectTypes.CHANNEL:
-      if (initialChannels) {
-        res.initial_channels = initialChannels;
-      }
-    default:
-      if (initialOptions) {
-        res.initial_options = initialOptions.map(element => transform(element as Element)) as OptionType[];
-      }
-  }
+  applyInitialSelections(type, result, {
+    initialOptions,
+    initialUsers,
+    initialConversations,
+    initialChannels,
+  });
 
   if (maxSelectedItems) {
-    res.max_selected_items = maxSelectedItems;
+    result.max_selected_items = maxSelectedItems;
   }
 
-  return res;
+  return result;
 };
+
+export default transformSelect;

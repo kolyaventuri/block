@@ -10,7 +10,7 @@ test('transforms a basic file', t => {
   t.deepEqual(res, {
     type: 'file',
     source: 'remote',
-    external_id: 'externalId'
+    external_id: 'externalId',
   });
 });
 
@@ -21,6 +21,6 @@ test('transforms a file with block id', t => {
     type: 'file',
     source: 'remote',
     external_id: 'ext',
-    block_id: 'block'
+    block_id: 'block',
   });
 });

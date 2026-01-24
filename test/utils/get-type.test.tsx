@@ -1,5 +1,6 @@
 import React from 'react';
 import test from 'ava';
+
 import getType from '../../src/utils/get-type';
 
 class Foo extends React.Component {}
