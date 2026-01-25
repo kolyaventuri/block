@@ -50,19 +50,3 @@ test('transforms an Overflow block with a confirmation', () => {
     confirm: transformedConfig,
   });
 });
-
-test('transforms an Overflow block with focus_on_load', () => {
-  const option = <Option value="V">O</Option>;
-  const options = [optionTransformer(option)];
-
-  const res = transformer(<Overflow actionId="aid" focusOnLoad>
-    {option}
-  </Overflow>);
-
-  expect(res).toEqual({
-    type: 'overflow',
-    action_id: 'aid',
-    options,
-    focus_on_load: true,
-  });
-});

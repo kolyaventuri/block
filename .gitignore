@@ -64,3 +64,5 @@ lib/
 dist/
 .history/
 .pnpm-store/
+
+examples/

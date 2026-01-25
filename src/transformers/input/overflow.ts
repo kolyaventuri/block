@@ -11,11 +11,10 @@ export type OverflowType = {
   action_id: string;
   options: OptionType[];
   confirm?: ConfirmationType;
-  focus_on_load?: boolean;
 };
 
 const transformOverflow = (child: Element): OverflowType => {
-  const {actionId, children, confirm, focusOnLoad}: OverflowProperties = child.props;
+  const {actionId, children, confirm}: OverflowProperties = child.props;
 
   warnIfTooLong('Overflow action_id', actionId, 255);
 
@@ -32,10 +31,6 @@ const transformOverflow = (child: Element): OverflowType => {
 
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
-  }
-
-  if (focusOnLoad !== undefined) {
-    res.focus_on_load = focusOnLoad;
   }
 
   return res;
