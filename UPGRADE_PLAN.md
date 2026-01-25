@@ -27,7 +27,7 @@ and does not require a full React runtime unless intentionally kept.
 ## Status (Completed So Far)
 - Node >= 24 engine requirement and pnpm pin added in `package.json`.
 - npm lockfile removed; `pnpm-lock.yaml` added and installs verified.
-- TypeScript baseline updated to `es2019` with `moduleResolution: node`.
+- TypeScript baseline updated to `es2019` with `moduleResolution: node16`.
 - Declarations enabled with `declarationMap`, and build output standardized on `dist/`.
 - Lint stack upgraded (XO 1.x + ESLint 9 + @typescript-eslint 8 + TS 5.9).
 - XO config migrated to flat config in `xo.config.cjs`.
@@ -37,9 +37,7 @@ and does not require a full React runtime unless intentionally kept.
 - React and `@types/react` upgraded to current 19.x.
 - React moved to `peerDependencies` (kept in `devDependencies` for tests).
 - Git hooks migrated to Husky + lint-staged; `npm-run-all` and `pre-commit` removed.
-- Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
-  - `test/types/symbol-observable.d.ts` to satisfy AVA's `Symbol.observable`.
-  - Note: AVA still warns about update checks unless `~/.config` is writable.
+- Tests passing on Node 24 (`pnpm test`) with Vitest.
 
 ## Phase 0: Baseline & Safety Net
 - Add a `UPGRADE_NOTES.md` for tracked decisions, breaking changes, and rationale.
@@ -85,7 +83,7 @@ and does not require a full React runtime unless intentionally kept.
   - If keeping React:
     - Upgrade `react` and `@types/react` to current. (done)
     - Move React to `peerDependencies` to preserve consumer compatibility. (done)
-    - Ensure JSX runtime config remains correct.
+  - Ensure JSX runtime config remains correct. (done)
   - If removing React:
     - Add a small custom `jsx-runtime` (createElement) that builds element objects.
     - Document usage and add tests to ensure compatibility with JSX transforms.
