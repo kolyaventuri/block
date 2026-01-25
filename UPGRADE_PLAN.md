@@ -125,10 +125,10 @@ and does not require a full React runtime unless intentionally kept.
 - Remaining optional gaps: none for Phase 6; further validation tightening can be added as needed.
 
 ## Phase 7: CI + Release Hygiene
-- Add CI matrix for Node 24.
-- Add `pnpm install --frozen-lockfile` to CI.
-- Ensure `build`, `lint`, and `test` pipelines are green.
-- Add release notes template and changelog entry format.
+- Add CI matrix for Node 24. (done via GitHub Actions)
+- Add `pnpm install --frozen-lockfile` to CI. (done)
+- Ensure `build`, `lint`, and `test` pipelines are green. (done)
+- Add release notes template and changelog entry format. (done)
 
 ## Testing Strategy
 - Unit tests for all transformers, especially for:
