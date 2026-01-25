@@ -21,7 +21,9 @@ import {type FileType} from '../transformers/layout/file';
 import {type HeaderType} from '../transformers/layout/header';
 import {type ImageType as ImageLayoutType} from '../transformers/layout/image';
 import {type InputType} from '../transformers/layout/input';
+import {type RichTextType} from '../transformers/layout/rich-text';
 import {type SectionType} from '../transformers/layout/section';
+import {type VideoType} from '../transformers/layout/video';
 
 type ImageBlockType = BlockImageType | ImageLayoutType;
 
@@ -55,7 +57,9 @@ export type SerializedBlock =
   | FileType
   | HeaderType
   | ImageBlockType
-  | InputType;
+  | InputType
+  | RichTextType
+  | VideoType;
 
 export type SerializedElement =
   | SerializedBlock

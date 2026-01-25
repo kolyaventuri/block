@@ -32,3 +32,24 @@ test('transforms an option with a url', () => {
     url: 'someUrl',
   });
 });
+
+test('transforms an option with a description', () => {
+  const res = transformer(<Option
+    value="someValue"
+    description="someDescription"
+  >
+    someText
+  </Option>);
+
+  expect(res).toEqual({
+    text: {
+      type: 'plain_text',
+      text: 'someText',
+    },
+    value: 'someValue',
+    description: {
+      type: 'plain_text',
+      text: 'someDescription',
+    },
+  });
+});

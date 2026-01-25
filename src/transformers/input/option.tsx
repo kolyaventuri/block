@@ -9,16 +9,21 @@ import {transform} from '..';
 export type OptionType = {
   text: TextType;
   value: string;
+  description?: TextType;
   url?: string;
 };
 
 const transformOption = (child: Element): OptionType => {
-  const {children: text, value, url}: OptionProperties = child.props;
+  const {children: text, value, url, description}: OptionProperties = child.props;
 
   const res: OptionType = {
     text: transform(<Text plainText>{text}</Text>) as TextType,
     value,
   };
+
+  if (description) {
+    res.description = transform(<Text plainText>{description}</Text>) as TextType;
+  }
 
   if (url) {
     res.url = url;

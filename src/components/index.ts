@@ -23,5 +23,7 @@ export {default as File} from './layout/file';
 export {default as Header} from './layout/header';
 export {default as ImageLayout} from './layout/image';
 export {default as Input} from './layout/input';
+export {default as RichText} from './layout/rich-text';
 export {default as Section} from './layout/section';
 export {default as Container} from './layout/container';
+export {default as Video} from './layout/video';

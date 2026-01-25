@@ -16,6 +16,12 @@ export const selectTypes = {
 
 type SelectType = typeof selectTypes[keyof typeof selectTypes];
 
+type ConversationFilter = {
+  include?: Array<'im' | 'mpim' | 'private' | 'public'>;
+  excludeExternalSharedChannels?: boolean;
+  excludeBotUsers?: boolean;
+};
+
 export type Props = {
   placeholder: string;
   actionId: string;
@@ -25,9 +31,13 @@ export type Props = {
   initialOptions?: Array<React.ReactElement<Option>>;
   confirm?: React.ReactElement<Confirmation>;
   maxSelectedItems?: number;
+  minQueryLength?: number;
   initialUsers?: string[];
   initialConversations?: string[];
   initialChannels?: string[];
+  defaultToCurrentConversation?: boolean;
+  responseUrlEnabled?: boolean;
+  filter?: ConversationFilter;
 };
 
 export default class Select extends React.Component<Props> {

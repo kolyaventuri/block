@@ -37,12 +37,20 @@ export type SelectType = {
   initial_options?: OptionType[];
   confirm?: ConfirmationType;
   max_selected_items?: number;
+  min_query_length?: number;
   initial_user?: string;
   initial_users?: string[];
   initial_conversation?: string;
   initial_conversations?: string[];
   initial_channel?: string;
   initial_channels?: string[];
+  default_to_current_conversation?: boolean;
+  response_url_enabled?: boolean;
+  filter?: {
+    include?: Array<'im' | 'mpim' | 'private' | 'public'>;
+    exclude_external_shared_channels?: boolean;
+    exclude_bot_users?: boolean;
+  };
 };
 
 const OPTION = 'Option';
@@ -166,6 +174,10 @@ const transformSelect = (child: Element): SelectType => {
     initialUsers,
     initialConversations,
     initialChannels,
+    minQueryLength,
+    defaultToCurrentConversation,
+    responseUrlEnabled,
+    filter,
   }: SelectProperties = child.props;
 
   const type: SelectionType = typeProperty ?? selectTypes.STATIC;
@@ -196,6 +208,40 @@ const transformSelect = (child: Element): SelectType => {
 
   if (maxSelectedItems) {
     result.max_selected_items = maxSelectedItems;
+  }
+
+  if (type === selectTypes.EXTERNAL && minQueryLength !== undefined) {
+    result.min_query_length = minQueryLength;
+  }
+
+  if (type === selectTypes.CONVERSATION) {
+    if (defaultToCurrentConversation !== undefined) {
+      result.default_to_current_conversation = defaultToCurrentConversation;
+    }
+
+    if (responseUrlEnabled !== undefined) {
+      result.response_url_enabled = responseUrlEnabled;
+    }
+
+    if (filter) {
+      const filterValue: SelectType['filter'] = {};
+
+      if (filter.include && filter.include.length > 0) {
+        filterValue.include = filter.include;
+      }
+
+      if (filter.excludeExternalSharedChannels !== undefined) {
+        filterValue.exclude_external_shared_channels = filter.excludeExternalSharedChannels;
+      }
+
+      if (filter.excludeBotUsers !== undefined) {
+        filterValue.exclude_bot_users = filter.excludeBotUsers;
+      }
+
+      if (Object.keys(filterValue).length > 0) {
+        result.filter = filterValue;
+      }
+    }
   }
 
   return result;

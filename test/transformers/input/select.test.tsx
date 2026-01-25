@@ -225,6 +225,56 @@ test('allows initialChannels prop if type is channel', () => {
   });
 });
 
+test('applies min_query_length for external selects', () => {
+  const res = transformer(<Select
+    type="external"
+    placeholder="p"
+    actionId="aid"
+    minQueryLength={3}
+  />);
+
+  expect(res).toEqual({
+    type: 'external_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'p',
+    },
+    action_id: 'aid',
+    min_query_length: 3,
+  });
+});
+
+test('applies conversation flags and filter', () => {
+  const res = transformer(<Select
+    type="conversation"
+    placeholder="p"
+    actionId="aid"
+    defaultToCurrentConversation
+    responseUrlEnabled={false}
+    filter={{
+      include: ['im', 'mpim'],
+      excludeExternalSharedChannels: true,
+      excludeBotUsers: false,
+    }}
+  />);
+
+  expect(res).toEqual({
+    type: 'conversations_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'p',
+    },
+    action_id: 'aid',
+    default_to_current_conversation: true,
+    response_url_enabled: false,
+    filter: {
+      include: ['im', 'mpim'],
+      exclude_external_shared_channels: true,
+      exclude_bot_users: false,
+    },
+  });
+});
+
 test('uses initial_options for multi static select', () => {
   const option = <Option value="v">O</Option>;
   const option2 = <Option value="w">W</Option>;

@@ -14,6 +14,8 @@ import File from './layout/file';
 import Header from './layout/header';
 import ImageLayout from './layout/image';
 import Input from './layout/input';
+import RichText from './layout/rich-text';
+import Video from './layout/video';
 import TextInput from './input/text';
 import DateTimePicker from './input/date-time-picker';
 import DatePicker from './input/date-picker';
@@ -37,6 +39,8 @@ const Transformers: TransformersType = {
   Header,
   ImageLayout,
   Input,
+  RichText,
+  Video,
 
   Text,
   Confirmation,
