@@ -1,4 +1,5 @@
 import {type Element} from '../../constants/types';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type TextType = {
   type: 'plain_text' | 'mrkdwn';
@@ -21,6 +22,10 @@ const transformText = (element: Element): TextType => {
     type: plainText ? 'plain_text' : 'mrkdwn',
     text: children,
   };
+
+  if (typeof children === 'string') {
+    warnIfTooLong('Text', children, 3000);
+  }
 
   if (emoji) {
     res.emoji = true;

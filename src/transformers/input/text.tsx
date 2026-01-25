@@ -5,6 +5,7 @@ import {type Props as TextInputProperties} from '../../components/input/text';
 import {type TextType as TextProperties} from '../block/text';
 import {type Element} from '../../constants/types';
 import {transform} from '..';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type TextType = {
   type: 'plain_text_input';
@@ -31,6 +32,11 @@ const transformTextInput = (child: Element): TextType => {
     focusOnLoad,
     dispatchActionConfig,
   }: TextInputProperties = child.props;
+
+  warnIfTooLong('TextInput action_id', actionId, 255);
+  if (placeholder) {
+    warnIfTooLong('TextInput placeholder', placeholder, 150);
+  }
 
   const res: TextType = {
     type: 'plain_text_input',

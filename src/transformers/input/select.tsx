@@ -9,6 +9,7 @@ import Text from '../../components/block/text';
 import {transform} from '..';
 import getType from '../../utils/get-type';
 import type OptionGroup from '../../components/input/option-group';
+import {warnIfTooLong} from '../../utils/validation';
 
 import {type OptionGroupType} from './option-group';
 import {type OptionType} from './option';
@@ -184,6 +185,9 @@ const transformSelect = (child: Element): SelectType => {
 
   const type: SelectionType = typeProperty ?? selectTypes.STATIC;
   const typeString = `${multi ? MULTI_PREFIX : ''}${types[type]}` as ValidSelectType;
+
+  warnIfTooLong('Select action_id', actionId, 255);
+  warnIfTooLong('Select placeholder', placeholder, 150);
 
   const result: SelectType = {
     type: typeString,

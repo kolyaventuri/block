@@ -2,6 +2,7 @@ import {type Element} from '../../constants/types';
 import {type Props as OverflowProperties} from '../../components/input/overflow';
 import {type ConfirmationType} from '../block/confirmation';
 import {transform} from '..';
+import {warnIfTooLong} from '../../utils/validation';
 
 import {type OptionType} from './option';
 
@@ -15,6 +16,8 @@ export type OverflowType = {
 
 const transformOverflow = (child: Element): OverflowType => {
   const {actionId, children, confirm, focusOnLoad}: OverflowProperties = child.props;
+
+  warnIfTooLong('Overflow action_id', actionId, 255);
 
   let elements = children;
   if (!Array.isArray(elements)) {

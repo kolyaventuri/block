@@ -2,6 +2,7 @@ import {type Element} from '../../constants/types';
 import {type Props as RadioGroupProperties} from '../../components/input/radio-group';
 import {type ConfirmationType} from '../block/confirmation';
 import {transform} from '..';
+import {warnIfTooLong} from '../../utils/validation';
 
 import {type OptionType} from './option';
 
@@ -16,6 +17,8 @@ export type RadioGroupType = {
 
 const transformRadioGroup = (child: Element): RadioGroupType => {
   const {actionId, children, initialOption, confirm, focusOnLoad}: RadioGroupProperties = child.props;
+
+  warnIfTooLong('RadioGroup action_id', actionId, 255);
 
   let elements = children;
   if (!Array.isArray(elements)) {

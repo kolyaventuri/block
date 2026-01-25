@@ -5,6 +5,7 @@ import {type Props as VideoProperties} from '../../components/layout/video';
 import {type TextType} from '../block/text';
 import {transform} from '..';
 import Text from '../../components/block/text';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type VideoType = {
   type: 'video';
@@ -33,6 +34,8 @@ const transformVideo = (child: Element): VideoType => {
     providerIconUrl,
     blockId,
   }: VideoProperties = child.props;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: VideoType = {
     type: 'video',

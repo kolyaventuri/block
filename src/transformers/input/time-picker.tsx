@@ -6,6 +6,7 @@ import {type ConfirmationType} from '../block/confirmation';
 import {type Props as TimePickerProperties} from '../../components/input/time-picker';
 import {transform} from '..';
 import Text from '../../components/block/text';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type TimePickerType = {
   type: 'timepicker';
@@ -30,6 +31,11 @@ const isValidTimeString = (value: string): boolean => {
 
 const transformTimePicker = (child: Element): TimePickerType => {
   const {actionId, placeholder, initialTime, confirm, focusOnLoad}: TimePickerProperties = child.props;
+
+  warnIfTooLong('TimePicker action_id', actionId, 255);
+  if (placeholder) {
+    warnIfTooLong('TimePicker placeholder', placeholder, 150);
+  }
 
   const res: TimePickerType = {
     type: 'timepicker',

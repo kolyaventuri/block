@@ -1,6 +1,7 @@
 import {type Element, type SerializedBlockElement} from '../../constants/types';
 import {type TextType as Text} from '../block/text';
 import {transform} from '..';
+import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
 
 export type SectionType = {
   type: 'section';
@@ -19,6 +20,8 @@ const transformSection = (element: Element): SectionType => {
       accessory,
     },
   } = element;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: SectionType = {
     type: 'section',
@@ -46,6 +49,8 @@ const transformSection = (element: Element): SectionType => {
         res.fields.push(t as Text);
       }
     }
+
+    warnIfTooMany('Section fields', res.fields, 10);
   }
 
   return res;

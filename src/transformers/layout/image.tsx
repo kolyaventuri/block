@@ -5,6 +5,7 @@ import {type TextType} from '../block/text';
 import {type Props as ImageProperties} from '../../components/layout/image';
 import {transform} from '..';
 import Text from '../../components/block/text';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type ImageType = {
   type: 'image';
@@ -16,6 +17,8 @@ export type ImageType = {
 
 const transformImageLayout = (child: Element): ImageType => {
   const {url, alt, title, blockId}: ImageProperties = child.props;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: ImageType = {
     type: 'image',

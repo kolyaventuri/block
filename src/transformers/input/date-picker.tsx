@@ -6,6 +6,7 @@ import {type TextType} from '../block/text';
 import {type ConfirmationType} from '../block/confirmation';
 import {transform} from '..';
 import Text from '../../components/block/text';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type DatePickerType = {
   type: 'datepicker';
@@ -38,6 +39,11 @@ const isValidDateString = (value: string): boolean => {
 
 const transformDatePicker = (child: Element): DatePickerType => {
   const {actionId, placeholder, initialDate, confirm, focusOnLoad}: DatePickerProperties = child.props;
+
+  warnIfTooLong('DatePicker action_id', actionId, 255);
+  if (placeholder) {
+    warnIfTooLong('DatePicker placeholder', placeholder, 150);
+  }
 
   const res: DatePickerType = {
     type: 'datepicker',

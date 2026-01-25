@@ -5,6 +5,7 @@ import {type TextType} from '../block/text';
 import {type Props as InputProperties} from '../../components/layout/input';
 import {transform} from '..';
 import Text from '../../components/block/text';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type InputType = {
   type: 'input';
@@ -17,6 +18,8 @@ export type InputType = {
 
 const transformInput = (child: Element): InputType => {
   const {label, element, hint, optional, blockId}: InputProperties = child.props;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: InputType = {
     type: 'input',

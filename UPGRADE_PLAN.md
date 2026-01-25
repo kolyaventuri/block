@@ -120,9 +120,9 @@ and does not require a full React runtime unless intentionally kept.
 - Add select enhancements (min_query_length, conversation filters) and option descriptions. (done)
 - Add `focus_on_load` and `accessibility_label` support where applicable. (done)
 - Add rich_text helpers and `dispatch_action_config` for text inputs. (done)
-- Add validation helpers (optional) with warnings for deprecated fields.
+- Add validation helpers (optional) with warnings for deprecated fields. (done, basic coverage)
 - Update docs/examples with current Block Kit feature set.
-- Remaining optional gaps: expanded validation coverage for Block Kit fields.
+- Remaining optional gaps: none for Phase 6; further validation tightening can be added as needed.
 
 ## Phase 7: CI + Release Hygiene
 - Add CI matrix for Node 24.

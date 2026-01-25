@@ -1,6 +1,7 @@
 import {type SlackMessage, type Element} from '../constants/types';
 import parser from '../parser';
 import getType from '../utils/get-type';
+import {warnIfTooMany} from '../utils/validation';
 
 const render = (element: Element): SlackMessage => {
   const {props: properties = {}} = element || {};
@@ -67,6 +68,10 @@ const render = (element: Element): SlackMessage => {
     ];
 
     delete json.blocks;
+  }
+
+  if (json.blocks) {
+    warnIfTooMany('Message blocks', json.blocks, 50);
   }
 
   return json;

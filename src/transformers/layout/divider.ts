@@ -1,5 +1,6 @@
 import {type Element} from '../../constants/types';
 import {type Props as DividerProperties} from '../../components/layout/divider';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type DividerType = {
   type: 'divider';
@@ -8,6 +9,8 @@ export type DividerType = {
 
 const transformDivider = (child: Element): DividerType => {
   const {blockId}: DividerProperties = child.props;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: DividerType = {type: 'divider'};
 

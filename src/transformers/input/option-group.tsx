@@ -5,6 +5,7 @@ import {type Props as OptionGroupProperties} from '../../components/input/option
 import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {transform} from '..';
+import {warnIfTooLong} from '../../utils/validation';
 
 import {type OptionType} from './option';
 
@@ -15,6 +16,8 @@ export type OptionGroupType = {
 
 const transformOptionGroup = (child: Element): OptionGroupType => {
   const {label, children}: OptionGroupProperties = child.props;
+
+  warnIfTooLong('OptionGroup label', label, 75);
 
   let options = children;
   if (!Array.isArray(options)) {
