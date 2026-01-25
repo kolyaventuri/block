@@ -46,3 +46,20 @@ test('it transforms focus_on_load', () => {
     focus_on_load: true,
   });
 });
+
+test('it transforms dispatch_action_config', () => {
+  const res = transformer(<Text
+    actionId="actionId"
+    dispatchActionConfig={{
+      triggerActionsOn: ['on_enter_pressed', 'on_character_entered'],
+    }}
+  />);
+
+  expect(res).toEqual({
+    type: 'plain_text_input',
+    action_id: 'actionId',
+    dispatch_action_config: {
+      trigger_actions_on: ['on_enter_pressed', 'on_character_entered'],
+    },
+  });
+});

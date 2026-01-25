@@ -27,3 +27,16 @@ export {default as RichText} from './layout/rich-text';
 export {default as Section} from './layout/section';
 export {default as Container} from './layout/container';
 export {default as Video} from './layout/video';
+
+export {default as RichTextSection} from './rich-text/section';
+export {default as RichTextList} from './rich-text/list';
+export {default as RichTextQuote} from './rich-text/quote';
+export {default as RichTextPreformatted} from './rich-text/preformatted';
+export {default as RichTextText} from './rich-text/text';
+export {default as RichTextLink} from './rich-text/link';
+export {default as RichTextUser} from './rich-text/user';
+export {default as RichTextChannel} from './rich-text/channel';
+export {default as RichTextEmoji} from './rich-text/emoji';
+export {default as RichTextDate} from './rich-text/date';
+export {default as RichTextBroadcast} from './rich-text/broadcast';
+export {default as RichTextUserGroup} from './rich-text/user-group';

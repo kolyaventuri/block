@@ -15,10 +15,22 @@ export type TextType = {
   min_length?: number;
   max_length?: number;
   focus_on_load?: boolean;
+  dispatch_action_config?: {
+    trigger_actions_on: Array<'on_enter_pressed' | 'on_character_entered'>;
+  };
 };
 
 const transformTextInput = (child: Element): TextType => {
-  const {actionId, placeholder, initial, multiline, minLength, maxLength, focusOnLoad}: TextInputProperties = child.props;
+  const {
+    actionId,
+    placeholder,
+    initial,
+    multiline,
+    minLength,
+    maxLength,
+    focusOnLoad,
+    dispatchActionConfig,
+  }: TextInputProperties = child.props;
 
   const res: TextType = {
     type: 'plain_text_input',
@@ -47,6 +59,12 @@ const transformTextInput = (child: Element): TextType => {
 
   if (focusOnLoad !== undefined) {
     res.focus_on_load = focusOnLoad;
+  }
+
+  if (dispatchActionConfig && dispatchActionConfig.triggerActionsOn.length > 0) {
+    res.dispatch_action_config = {
+      trigger_actions_on: dispatchActionConfig.triggerActionsOn,
+    };
   }
 
   return res;

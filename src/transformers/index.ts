@@ -26,6 +26,18 @@ import OptionGroup from './input/option-group';
 import Overflow from './input/overflow';
 import RadioGroup from './input/radio-group';
 import TimePicker from './input/time-picker';
+import RichTextSection from './rich-text/section';
+import RichTextList from './rich-text/list';
+import RichTextQuote from './rich-text/quote';
+import RichTextPreformatted from './rich-text/preformatted';
+import RichTextText from './rich-text/text';
+import RichTextLink from './rich-text/link';
+import RichTextUser from './rich-text/user';
+import RichTextChannel from './rich-text/channel';
+import RichTextEmoji from './rich-text/emoji';
+import RichTextDate from './rich-text/date';
+import RichTextBroadcast from './rich-text/broadcast';
+import RichTextUserGroup from './rich-text/user-group';
 
 type TransformersType = Record<string, (child: Child) => unknown>;
 
@@ -58,6 +70,19 @@ const Transformers: TransformersType = {
 
   Option,
   OptionGroup,
+
+  RichTextSection,
+  RichTextList,
+  RichTextQuote,
+  RichTextPreformatted,
+  RichTextText,
+  RichTextLink,
+  RichTextUser,
+  RichTextChannel,
+  RichTextEmoji,
+  RichTextDate,
+  RichTextBroadcast,
+  RichTextUserGroup,
 };
 
 export default Transformers;

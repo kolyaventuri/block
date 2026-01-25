@@ -84,10 +84,12 @@ Blocks: `Message` (top-level), `Section`, `Actions`, `Context`, `Divider`, `File
 
 Elements: `Text`, `Image` (element), `Button`, `Confirmation`, `Select`, `Option`, `OptionGroup`, `Overflow`, `RadioGroup`, `Checkboxes`, `DatePicker`, `TimePicker`, `DateTimePicker`, `TextInput`.
 
-Field support highlights: `select` filters/min query length, `option` description, `focusOnLoad` for inputs, and `accessibilityLabel` on buttons.
+Rich text helpers: `RichTextSection`, `RichTextList`, `RichTextQuote`, `RichTextPreformatted`, `RichTextText`, `RichTextLink`, `RichTextUser`, `RichTextChannel`, `RichTextEmoji`, `RichTextDate`, `RichTextBroadcast`, `RichTextUserGroup`.
+
+Field support highlights: `select` filters/min query length, `option` description, `focusOnLoad` for inputs, `dispatchActionConfig` for text inputs, and `accessibilityLabel` on buttons.
 
 
 ## TODO
 - Add real documentation
 - Add validation
-- Add helpers for advanced rich_text and dispatch_action_config
+- Add richer rich_text validation

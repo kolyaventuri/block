@@ -1,18 +1,19 @@
 import {type Element} from '../../constants/types';
-import {type Props as RichTextProperties, type RichTextElement} from '../../components/layout/rich-text';
+import {type Props as RichTextProperties} from '../../components/layout/rich-text';
+import {toBlockElements} from '../rich-text/utils';
 
 export type RichTextType = {
   type: 'rich_text';
-  elements: RichTextElement[];
+  elements: Array<Record<string, unknown>>;
   block_id?: string;
 };
 
 const transformRichText = (child: Element): RichTextType => {
-  const {elements, blockId}: RichTextProperties = child.props;
+  const {elements, children, blockId}: RichTextProperties = child.props;
 
   const res: RichTextType = {
     type: 'rich_text',
-    elements,
+    elements: elements ?? toBlockElements(children),
   };
 
   if (blockId) {

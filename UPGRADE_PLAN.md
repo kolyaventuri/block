@@ -17,7 +17,7 @@ and does not require a full React runtime unless intentionally kept.
 - Transformer routing now uses explicit `slackType` identifiers to avoid name collisions. (fixed)
 - Parser now ignores `false`/`null`/`undefined` and fully flattens arrays. (fixed)
 - Types now reflect serialized Slack JSON outputs instead of React elements. (fixed)
-- Block Kit coverage expanded with new blocks/elements, but advanced features (rich_text DSL helpers, dispatch_action_config) are still pending.
+- Block Kit coverage expanded with new blocks/elements, with rich_text helpers and dispatch_action_config now included.
 
 ## Constraints
 - Node >= 24 (LTS) as the supported runtime.
@@ -47,6 +47,7 @@ and does not require a full React runtime unless intentionally kept.
 - Added blocks/elements: `Header`, `RichText`, `Video`, `Checkboxes`, `TimePicker`, `DateTimePicker`.
 - Added select enhancements (`min_query_length`, conversation filter/flags) and option descriptions.
 - Added `focus_on_load` across inputs and `accessibility_label` for buttons.
+- Added `dispatch_action_config` for text inputs and rich_text helper components.
 
 ## Phase 0: Baseline & Safety Net
 - Add a `UPGRADE_NOTES.md` for tracked decisions, breaking changes, and rationale.
@@ -118,9 +119,10 @@ and does not require a full React runtime unless intentionally kept.
   timepicker, datetimepicker, button styles, file details). (done)
 - Add select enhancements (min_query_length, conversation filters) and option descriptions. (done)
 - Add `focus_on_load` and `accessibility_label` support where applicable. (done)
+- Add rich_text helpers and `dispatch_action_config` for text inputs. (done)
 - Add validation helpers (optional) with warnings for deprecated fields.
 - Update docs/examples with current Block Kit feature set.
-- Remaining optional gaps: `dispatch_action_config`, richer rich_text helpers, and expanded validation coverage.
+- Remaining optional gaps: expanded validation coverage for Block Kit fields.
 
 ## Phase 7: CI + Release Hygiene
 - Add CI matrix for Node 24.
