@@ -7,4 +7,6 @@ export type Props = {
   children: React.ReactElement<Option> | Array<React.ReactElement<Option>>;
 };
 
-export default class OptionGroup extends React.Component<Props> {}
+export default class OptionGroup extends React.Component<Props> {
+  static slackType = 'OptionGroup';
+}

@@ -7,4 +7,6 @@ export type Props = {
   verbatim?: boolean;
 };
 
-export default class Text extends React.Component<Props> {}
+export default class Text extends React.Component<Props> {
+  static slackType = 'Text';
+}

@@ -7,4 +7,6 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Image extends React.Component<Props> {}
+export default class Image extends React.Component<Props> {
+  static slackType = 'ImageLayout';
+}

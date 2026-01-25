@@ -10,4 +10,6 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Context extends React.Component<Props> {}
+export default class Context extends React.Component<Props> {
+  static slackType = 'Context';
+}

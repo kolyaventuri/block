@@ -9,4 +9,6 @@ export type Props = {
   confirm?: React.ReactElement<Confirmation>;
 };
 
-export default class DatePicker extends React.Component<Props> {}
+export default class DatePicker extends React.Component<Props> {
+  static slackType = 'DatePicker';
+}

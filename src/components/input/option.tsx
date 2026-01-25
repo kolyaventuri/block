@@ -6,4 +6,6 @@ export type Props = {
   url?: string;
 };
 
-export default class Option extends React.Component<Props> {}
+export default class Option extends React.Component<Props> {
+  static slackType = 'Option';
+}

@@ -12,7 +12,7 @@ test('transforms an image block', () => {
 
   expect(res).toEqual({
     type: 'image',
-    url: 'someUrl',
-    alt: 'someAlt',
+    image_url: 'someUrl',
+    alt_text: 'someAlt',
   });
 });

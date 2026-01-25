@@ -12,5 +12,7 @@ export type Props = {
   accessory?: BlockElement;
 };
 
-export default class Section extends React.Component<Props> {}
+export default class Section extends React.Component<Props> {
+  static slackType = 'Section';
+}
 

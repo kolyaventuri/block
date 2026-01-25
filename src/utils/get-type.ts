@@ -5,7 +5,7 @@ const getType = (element: Child): string => {
     return 'string';
   }
 
-  if (element === null) {
+  if (element === null || element === undefined || typeof element === 'boolean') {
     return 'null';
   }
 
@@ -14,9 +14,18 @@ const getType = (element: Child): string => {
   }
 
   const {type} = element;
-  const function_ = type as () => void;
 
-  return function_.name || type as string;
+  if (typeof type === 'string') {
+    return type;
+  }
+
+  const {slackType, displayName, name} = type as {
+    slackType?: string;
+    displayName?: string;
+    name?: string;
+  };
+
+  return slackType || displayName || name || (type as string);
 };
 
 export default getType;

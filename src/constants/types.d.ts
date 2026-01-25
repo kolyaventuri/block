@@ -63,4 +63,11 @@ export type WithType = {
 };
 export type BElement = ReactElement<any, any> & WithType;
 export type Element = BElement;
-export type Child = string | Element | Element[];
+export type Child =
+  | string
+  | Element
+  | Child[]
+  | boolean
+  | undefined
+  // eslint-disable-next-line @typescript-eslint/no-restricted-types -- React children can be null.
+  | null;

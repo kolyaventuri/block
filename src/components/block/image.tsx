@@ -5,4 +5,6 @@ export type Props = {
   alt: string;
 };
 
-export default class Image extends React.Component<Props> {}
+export default class Image extends React.Component<Props> {
+  static slackType = 'Image';
+}

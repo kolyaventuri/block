@@ -4,4 +4,6 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Divider extends React.Component<Props> {}
+export default class Divider extends React.Component<Props> {
+  static slackType = 'Divider';
+}

@@ -7,4 +7,6 @@ export type Props = {
   children: SingleOrArray<Child>;
 };
 
-export default class Container extends React.Component<Props> {}
+export default class Container extends React.Component<Props> {
+  static slackType = 'Container';
+}

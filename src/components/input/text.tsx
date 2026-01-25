@@ -9,4 +9,6 @@ export type Props = {
   maxLength?: number;
 };
 
-export default class TextInput extends React.Component<Props> {}
+export default class TextInput extends React.Component<Props> {
+  static slackType = 'TextInput';
+}

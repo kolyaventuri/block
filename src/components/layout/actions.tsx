@@ -7,4 +7,6 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Actions extends React.Component<Props> {}
+export default class Actions extends React.Component<Props> {
+  static slackType = 'Actions';
+}

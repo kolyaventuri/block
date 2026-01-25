@@ -16,4 +16,6 @@ export type ButtonProps = TopProperties & {
 
 type Properties = ButtonProps;
 
-export default class Button extends React.Component<Properties> {}
+export default class Button extends React.Component<Properties> {
+  static slackType = 'Button';
+}

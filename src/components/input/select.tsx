@@ -30,4 +30,6 @@ export type Props = {
   initialChannels?: string[];
 };
 
-export default class Select extends React.Component<Props> {}
+export default class Select extends React.Component<Props> {
+  static slackType = 'Select';
+}

@@ -74,3 +74,31 @@ test('it does not explode on null', () => {
 
   expect(function_).not.toThrow();
 });
+
+test('it ignores falsey children', () => {
+  const element = <div>Hi</div>;
+
+  const res = parser([false, undefined, null, element]);
+
+  expect(res).toEqual({
+    blocks: [
+      {type: 'div', text: 'Hi'},
+    ],
+  });
+});
+
+test('it flattens nested child arrays', () => {
+  const element = <div>One</div>;
+  const element2 = <div>Two</div>;
+  const element3 = <div>Three</div>;
+
+  const res = parser([element, [element2, [element3]]]);
+
+  expect(res).toEqual({
+    blocks: [
+      {type: 'div', text: 'One'},
+      {type: 'div', text: 'Two'},
+      {type: 'div', text: 'Three'},
+    ],
+  });
+});

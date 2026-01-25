@@ -15,4 +15,6 @@ export type ConfirmationProps = TopProperties & {
 
 type Properties = ConfirmationProps;
 
-export default class Confirmation extends React.Component<Properties> {}
+export default class Confirmation extends React.Component<Properties> {
+  static slackType = 'Confirmation';
+}

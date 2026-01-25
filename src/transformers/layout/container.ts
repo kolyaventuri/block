@@ -4,13 +4,31 @@ import {transform} from '..';
 
 type ContainerType = Child[];
 
+const normalizeChildren = (children: Child): Child[] => {
+  const result: Child[] = [];
+  const stack = Array.isArray(children) ? [...children] : [children];
+
+  while (stack.length > 0) {
+    const child = stack.shift();
+
+    if (child === null || child === undefined || typeof child === 'boolean') {
+      continue;
+    }
+
+    if (Array.isArray(child)) {
+      stack.unshift(...child);
+      continue;
+    }
+
+    result.push(child);
+  }
+
+  return result;
+};
+
 const transformContainer = (child: Element): ContainerType => {
   const {children}: ContainerProperties = child.props;
-
-  let elements = children;
-  if (!Array.isArray(elements)) {
-    elements = [elements] as Child[];
-  }
+  const elements = normalizeChildren(children);
 
   return (elements as Element[]).map(element => transform(element)) as Child[];
 };

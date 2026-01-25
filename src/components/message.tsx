@@ -18,4 +18,6 @@ type Properties = {
   color?: string;
 };
 
-export default class Message extends React.Component<Properties> {}
+export default class Message extends React.Component<Properties> {
+  static slackType = 'Message';
+}
