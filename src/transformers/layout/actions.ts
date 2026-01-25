@@ -2,7 +2,7 @@ import {type Element, type SerializedInteractiveBlockElement, type InteractiveBl
 import {type Props as ActionProperties} from '../../components/layout/actions';
 import {transform} from '..';
 
-type ActionType = {
+export type ActionType = {
   type: 'actions';
   elements: SerializedInteractiveBlockElement[];
   block_id?: string;

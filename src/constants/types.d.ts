@@ -7,35 +7,65 @@ import {type OptionType} from '../transformers/input/option';
 import {type OptionGroupType} from '../transformers/input/option-group';
 import {type OverflowType} from '../transformers/input/overflow';
 import {type RadioGroupType} from '../transformers/input/radio-group';
-import {type TextType} from '../transformers/block/text';
-import {type ImageType} from '../transformers/block/image';
+import {type TextType as BlockTextType} from '../transformers/block/text';
+import {type ImageType as BlockImageType} from '../transformers/block/image';
 import {type ButtonType} from '../transformers/block/button';
 import {type ConfirmationType} from '../transformers/block/confirmation';
+import {type ActionType as ActionsType} from '../transformers/layout/actions';
+import {type ContextType} from '../transformers/layout/context';
+import {type DividerType} from '../transformers/layout/divider';
+import {type FileType} from '../transformers/layout/file';
+import {type ImageType as ImageLayoutType} from '../transformers/layout/image';
+import {type InputType} from '../transformers/layout/input';
+import {type SectionType} from '../transformers/layout/section';
 
-export type Block = ReactElement<any, any>;
+type ImageBlockType = BlockImageType | ImageLayoutType;
+
+export type SerializedOption = OptionType | OptionGroupType;
+
+export type SerializedInputBlockElement =
+  | TextInputType
+  | DatePickerType
+  | SelectType
+  | OverflowType
+  | RadioGroupType;
+
+export type SerializedInteractiveBlockElement =
+  | ButtonType
+  | SerializedInputBlockElement;
+
+export type SerializedBlockElement =
+  | BlockTextType
+  | ImageBlockType
+  | ConfirmationType
+  | SerializedInteractiveBlockElement;
+
+export type SerializedBlock =
+  | SectionType
+  | ActionsType
+  | ContextType
+  | DividerType
+  | FileType
+  | ImageBlockType
+  | InputType;
+
+export type SerializedElement =
+  | SerializedBlock
+  | SerializedBlockElement
+  | SerializedInputBlockElement
+  | SerializedOption;
+
+export type Block = SerializedBlock;
 export type Attachment = {
   color: string;
   blocks: Block[];
 };
 
 export type InteractiveBlockElement = ReactElement<any, any>;
-export type SerializedInteractiveBlockElement = ButtonType;
-
 export type StandardBlockElement = ReactElement<any, any>;
 
 export type InputBlockElement = ReactElement<any, any>;
-
-export type SerializedInputBlockElement =
-  TextInputType |
-  DatePickerType |
-  OptionType |
-  OptionGroupType |
-  SelectType |
-  OverflowType |
-  RadioGroupType;
-
-export type BlockElement = InteractiveBlockElement & StandardBlockElement & InputBlockElement;
-export type SerializedBlockElement = TextType | ImageType | ConfirmationType;
+export type BlockElement = InteractiveBlockElement | StandardBlockElement | InputBlockElement;
 
 export type SlackMessage = {
   text?: string;

@@ -6,7 +6,7 @@ import {type Props as ImageProperties} from '../../components/layout/image';
 import {transform} from '..';
 import Text from '../../components/block/text';
 
-type ImageType = {
+export type ImageType = {
   type: 'image';
   image_url: string;
   alt_text: string;

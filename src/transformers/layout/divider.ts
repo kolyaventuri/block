@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as DividerProperties} from '../../components/layout/divider';
 
-type DividerType = {
+export type DividerType = {
   type: 'divider';
   block_id?: string;
 };

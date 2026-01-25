@@ -7,7 +7,7 @@ import {transform} from '..';
 type ImageOrText = ImageType | TextType;
 type ImageOrTextElementSet = ImageOrTextElement | ImageOrTextElement[];
 
-type ContextType = {
+export type ContextType = {
   type: 'context';
   elements: ImageOrText | ImageOrText[];
   block_id?: string;

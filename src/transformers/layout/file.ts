@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as FileProperties} from '../../components/layout/file';
 
-type FileType = {
+export type FileType = {
   type: 'file';
   source: 'remote';
   external_id: string;

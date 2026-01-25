@@ -2,7 +2,7 @@ import {type Element, type SerializedBlockElement} from '../../constants/types';
 import {type TextType as Text} from '../block/text';
 import {transform} from '..';
 
-type SectionType = {
+export type SectionType = {
   type: 'section';
   text: Text;
   block_id?: string;

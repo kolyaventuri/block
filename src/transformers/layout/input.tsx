@@ -6,7 +6,7 @@ import {type Props as InputProperties} from '../../components/layout/input';
 import {transform} from '..';
 import Text from '../../components/block/text';
 
-type InputType = {
+export type InputType = {
   type: 'input';
   label: TextType;
   element: SerializedInputBlockElement;
