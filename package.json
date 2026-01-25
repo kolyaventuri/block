@@ -30,13 +30,14 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "test": "npm-run-all test:*",
+    "prepare": "husky install",
+    "test": "pnpm run test:tsc && pnpm run test:lint && pnpm run test:unit",
     "test:tsc": "tsc -p ./src -p ./test --noEmit",
     "test:lint": "xo",
     "test:unit": "vitest run",
     "prebuild": "rimraf dist",
     "build": "tsup",
-    "prepublish": "npm-run-all test:* build"
+    "prepublish": "pnpm run test && pnpm run build"
   },
   "repository": {
     "type": "git",
@@ -65,18 +66,19 @@
     "eslint-config-xo-typescript": "^9.0.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "npm-run-all": "^4.1.5",
-    "pre-commit": "^1.2.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "rimraf": "^6.1.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18",
     "xo": "^1.2.3"
   },
-  "pre-commit": [
-    "test:tsc",
-    "test:lint"
-  ],
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "xo"
+    ]
+  },
   "dependencies": {
     "react": "^19.2.3"
   }
