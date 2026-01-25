@@ -3,6 +3,9 @@ import {type ReactElement} from 'react';
 import {type TextType as TextInputType} from '../transformers/input/text';
 import {type DatePickerType} from '../transformers/input/date-picker';
 import {type SelectType} from '../transformers/input/select';
+import {type CheckboxesType} from '../transformers/input/checkboxes';
+import {type TimePickerType} from '../transformers/input/time-picker';
+import {type DateTimePickerType} from '../transformers/input/date-time-picker';
 import {type OptionType} from '../transformers/input/option';
 import {type OptionGroupType} from '../transformers/input/option-group';
 import {type OverflowType} from '../transformers/input/overflow';
@@ -15,6 +18,7 @@ import {type ActionType as ActionsType} from '../transformers/layout/actions';
 import {type ContextType} from '../transformers/layout/context';
 import {type DividerType} from '../transformers/layout/divider';
 import {type FileType} from '../transformers/layout/file';
+import {type HeaderType} from '../transformers/layout/header';
 import {type ImageType as ImageLayoutType} from '../transformers/layout/image';
 import {type InputType} from '../transformers/layout/input';
 import {type SectionType} from '../transformers/layout/section';
@@ -26,6 +30,9 @@ export type SerializedOption = OptionType | OptionGroupType;
 export type SerializedInputBlockElement =
   | TextInputType
   | DatePickerType
+  | DateTimePickerType
+  | TimePickerType
+  | CheckboxesType
   | SelectType
   | OverflowType
   | RadioGroupType;
@@ -46,6 +53,7 @@ export type SerializedBlock =
   | ContextType
   | DividerType
   | FileType
+  | HeaderType
   | ImageBlockType
   | InputType;
 

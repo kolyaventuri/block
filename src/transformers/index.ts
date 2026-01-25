@@ -11,15 +11,19 @@ import Actions from './layout/actions';
 import Context from './layout/context';
 import Divider from './layout/divider';
 import File from './layout/file';
+import Header from './layout/header';
 import ImageLayout from './layout/image';
 import Input from './layout/input';
 import TextInput from './input/text';
+import DateTimePicker from './input/date-time-picker';
 import DatePicker from './input/date-picker';
+import Checkboxes from './input/checkboxes';
 import Select from './input/select';
 import Option from './input/option';
 import OptionGroup from './input/option-group';
 import Overflow from './input/overflow';
 import RadioGroup from './input/radio-group';
+import TimePicker from './input/time-picker';
 
 type TransformersType = Record<string, (child: Child) => unknown>;
 
@@ -30,6 +34,7 @@ const Transformers: TransformersType = {
   Context,
   Divider,
   File,
+  Header,
   ImageLayout,
   Input,
 
@@ -39,10 +44,13 @@ const Transformers: TransformersType = {
   Image,
 
   TextInput,
+  DateTimePicker,
   DatePicker,
+  Checkboxes,
   Select,
   Overflow,
   RadioGroup,
+  TimePicker,
 
   Option,
   OptionGroup,
