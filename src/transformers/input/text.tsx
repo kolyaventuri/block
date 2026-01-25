@@ -14,10 +14,11 @@ export type TextType = {
   multiline?: boolean;
   min_length?: number;
   max_length?: number;
+  focus_on_load?: boolean;
 };
 
 const transformTextInput = (child: Element): TextType => {
-  const {actionId, placeholder, initial, multiline, minLength, maxLength}: TextInputProperties = child.props;
+  const {actionId, placeholder, initial, multiline, minLength, maxLength, focusOnLoad}: TextInputProperties = child.props;
 
   const res: TextType = {
     type: 'plain_text_input',
@@ -42,6 +43,10 @@ const transformTextInput = (child: Element): TextType => {
 
   if (maxLength) {
     res.max_length = maxLength;
+  }
+
+  if (focusOnLoad !== undefined) {
+    res.focus_on_load = focusOnLoad;
   }
 
   return res;

@@ -13,6 +13,7 @@ export type DatePickerType = {
   placeholder?: TextType;
   initial_date?: string;
   confirm?: ConfirmationType;
+  focus_on_load?: boolean;
 };
 
 const isValidDateString = (value: string): boolean => {
@@ -36,7 +37,7 @@ const isValidDateString = (value: string): boolean => {
 };
 
 const transformDatePicker = (child: Element): DatePickerType => {
-  const {actionId, placeholder, initialDate, confirm}: DatePickerProperties = child.props;
+  const {actionId, placeholder, initialDate, confirm, focusOnLoad}: DatePickerProperties = child.props;
 
   const res: DatePickerType = {
     type: 'datepicker',
@@ -57,6 +58,10 @@ const transformDatePicker = (child: Element): DatePickerType => {
 
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
+  }
+
+  if (focusOnLoad !== undefined) {
+    res.focus_on_load = focusOnLoad;
   }
 
   return res;

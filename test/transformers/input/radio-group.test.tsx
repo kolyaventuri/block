@@ -72,3 +72,19 @@ test('can have a confirmation', () => {
     confirm: transformedConfig,
   });
 });
+
+test('can set focus_on_load', () => {
+  const option = <Option value="V">O</Option>;
+  const options = [optionTransformer(option)];
+
+  const res = transformer(<RadioGroup actionId="aid" focusOnLoad>
+    {option}
+  </RadioGroup>);
+
+  expect(res).toEqual({
+    type: 'radio_buttons',
+    action_id: 'aid',
+    options,
+    focus_on_load: true,
+  });
+});

@@ -36,3 +36,13 @@ test('it transforms an advanced text input', () => {
     multiline: true,
   });
 });
+
+test('it transforms focus_on_load', () => {
+  const res = transformer(<Text actionId="actionId" focusOnLoad/>);
+
+  expect(res).toEqual({
+    type: 'plain_text_input',
+    action_id: 'actionId',
+    focus_on_load: true,
+  });
+});

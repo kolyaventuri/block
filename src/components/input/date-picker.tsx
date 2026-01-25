@@ -7,6 +7,7 @@ export type Props = {
   placeholder?: string;
   initialDate?: string;
   confirm?: React.ReactElement<Confirmation>;
+  focusOnLoad?: boolean;
 };
 
 export default class DatePicker extends React.Component<Props> {

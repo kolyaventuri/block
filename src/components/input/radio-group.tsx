@@ -10,6 +10,7 @@ export type Props = {
   children: SingleOrArray<React.ReactElement<Option>>;
   initialOption?: React.ReactElement<Option>;
   confirm?: React.ReactElement<Confirmation>;
+  focusOnLoad?: boolean;
 };
 
 export default class RadioGroup extends React.Component<Props> {

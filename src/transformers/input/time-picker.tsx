@@ -13,6 +13,7 @@ export type TimePickerType = {
   placeholder?: TextType;
   initial_time?: string;
   confirm?: ConfirmationType;
+  focus_on_load?: boolean;
 };
 
 const isValidTimeString = (value: string): boolean => {
@@ -28,7 +29,7 @@ const isValidTimeString = (value: string): boolean => {
 };
 
 const transformTimePicker = (child: Element): TimePickerType => {
-  const {actionId, placeholder, initialTime, confirm}: TimePickerProperties = child.props;
+  const {actionId, placeholder, initialTime, confirm, focusOnLoad}: TimePickerProperties = child.props;
 
   const res: TimePickerType = {
     type: 'timepicker',
@@ -49,6 +50,10 @@ const transformTimePicker = (child: Element): TimePickerType => {
 
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
+  }
+
+  if (focusOnLoad !== undefined) {
+    res.focus_on_load = focusOnLoad;
   }
 
   return res;

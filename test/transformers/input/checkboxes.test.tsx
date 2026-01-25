@@ -57,3 +57,18 @@ test('transforms checkboxes with initial options and confirmation', () => {
     confirm: confirmationTransformer(confirm),
   });
 });
+
+test('transforms checkboxes focus_on_load', () => {
+  const option = <Option value="v">O</Option>;
+
+  const res = transformer(<Checkboxes actionId="aid" focusOnLoad>
+    {option}
+  </Checkboxes>);
+
+  expect(res).toEqual({
+    type: 'checkboxes',
+    action_id: 'aid',
+    options: [option].map(option => optionTransformer(option)),
+    focus_on_load: true,
+  });
+});

@@ -49,6 +49,19 @@ test('transforms an advanced DatePicker', () => {
   });
 });
 
+test('transforms DatePicker focus_on_load', () => {
+  const res = transformer(<DatePicker
+    actionId="actionId"
+    focusOnLoad
+  />);
+
+  expect(res).toEqual({
+    type: 'datepicker',
+    action_id: 'actionId',
+    focus_on_load: true,
+  });
+});
+
 test('rejects invalid dates', () => {
   const function_ = () => transformer(<DatePicker
     actionId="aid"

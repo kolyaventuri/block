@@ -8,10 +8,11 @@ export type DateTimePickerType = {
   action_id: string;
   initial_date_time?: number;
   confirm?: ConfirmationType;
+  focus_on_load?: boolean;
 };
 
 const transformDateTimePicker = (child: Element): DateTimePickerType => {
-  const {actionId, initialDateTime, confirm}: DateTimePickerProperties = child.props;
+  const {actionId, initialDateTime, confirm, focusOnLoad}: DateTimePickerProperties = child.props;
 
   const res: DateTimePickerType = {
     type: 'datetimepicker',
@@ -28,6 +29,10 @@ const transformDateTimePicker = (child: Element): DateTimePickerType => {
 
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
+  }
+
+  if (focusOnLoad !== undefined) {
+    res.focus_on_load = focusOnLoad;
   }
 
   return res;

@@ -244,6 +244,24 @@ test('applies min_query_length for external selects', () => {
   });
 });
 
+test('applies focus_on_load for selects', () => {
+  const res = transformer(<Select
+    placeholder="p"
+    actionId="aid"
+    focusOnLoad
+  />);
+
+  expect(res).toEqual({
+    type: 'static_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'p',
+    },
+    action_id: 'aid',
+    focus_on_load: true,
+  });
+});
+
 test('applies conversation flags and filter', () => {
   const res = transformer(<Select
     type="conversation"

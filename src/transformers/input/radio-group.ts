@@ -11,10 +11,11 @@ export type RadioGroupType = {
   options: OptionType[];
   initial_option?: OptionType;
   confirm?: ConfirmationType;
+  focus_on_load?: boolean;
 };
 
 const transformRadioGroup = (child: Element): RadioGroupType => {
-  const {actionId, children, initialOption, confirm}: RadioGroupProperties = child.props;
+  const {actionId, children, initialOption, confirm, focusOnLoad}: RadioGroupProperties = child.props;
 
   let elements = children;
   if (!Array.isArray(elements)) {
@@ -33,6 +34,10 @@ const transformRadioGroup = (child: Element): RadioGroupType => {
 
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
+  }
+
+  if (focusOnLoad !== undefined) {
+    res.focus_on_load = focusOnLoad;
   }
 
   return res;

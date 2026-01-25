@@ -11,10 +11,11 @@ export type CheckboxesType = {
   options: OptionType[];
   initial_options?: OptionType[];
   confirm?: ConfirmationType;
+  focus_on_load?: boolean;
 };
 
 const transformCheckboxes = (child: Element): CheckboxesType => {
-  const {actionId, children, initialOptions, confirm}: CheckboxesProperties = child.props;
+  const {actionId, children, initialOptions, confirm, focusOnLoad}: CheckboxesProperties = child.props;
 
   let elements = children;
   if (!Array.isArray(elements)) {
@@ -33,6 +34,10 @@ const transformCheckboxes = (child: Element): CheckboxesType => {
 
   if (confirm) {
     res.confirm = transform(confirm as Element) as ConfirmationType;
+  }
+
+  if (focusOnLoad !== undefined) {
+    res.focus_on_load = focusOnLoad;
   }
 
   return res;

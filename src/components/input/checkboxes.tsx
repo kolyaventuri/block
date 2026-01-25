@@ -10,6 +10,7 @@ export type Props = {
   children: SingleOrArray<React.ReactElement<Option>>;
   initialOptions?: Array<React.ReactElement<Option>>;
   confirm?: React.ReactElement<Confirmation>;
+  focusOnLoad?: boolean;
 };
 
 export default class Checkboxes extends React.Component<Props> {

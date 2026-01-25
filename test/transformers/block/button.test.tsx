@@ -57,3 +57,22 @@ test('can transform a more advanced button', () => {
     confirm: transformedConfirm,
   });
 });
+
+test('can set an accessibility label', () => {
+  const res = transformer(<Button
+    actionId="actionId"
+    accessibilityLabel="Accessible"
+  >
+    FooBar
+  </Button>);
+
+  expect(res).toEqual({
+    type: 'button',
+    text: {
+      type: 'plain_text',
+      text: 'FooBar',
+    },
+    action_id: 'actionId',
+    accessibility_label: 'Accessible',
+  });
+});

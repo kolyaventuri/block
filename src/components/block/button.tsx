@@ -8,6 +8,7 @@ type TopProperties = {
   url?: string;
   value?: string;
   style?: 'primary' | 'danger';
+  accessibilityLabel?: string;
 };
 
 export type ButtonProps = TopProperties & {

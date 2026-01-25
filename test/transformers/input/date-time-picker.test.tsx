@@ -46,3 +46,13 @@ test('rejects non-integer timestamps', () => {
 
   expect(function_).toThrow();
 });
+
+test('transforms focus_on_load for datetime picker', () => {
+  const res = transformer(<DateTimePicker actionId="aid" focusOnLoad/>);
+
+  expect(res).toEqual({
+    type: 'datetimepicker',
+    action_id: 'aid',
+    focus_on_load: true,
+  });
+});

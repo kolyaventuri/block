@@ -7,6 +7,7 @@ export type Props = {
   multiline?: boolean;
   minLength?: number;
   maxLength?: number;
+  focusOnLoad?: boolean;
 };
 
 export default class TextInput extends React.Component<Props> {

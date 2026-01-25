@@ -32,6 +32,7 @@ export type Props = {
   confirm?: React.ReactElement<Confirmation>;
   maxSelectedItems?: number;
   minQueryLength?: number;
+  focusOnLoad?: boolean;
   initialUsers?: string[];
   initialConversations?: string[];
   initialChannels?: string[];

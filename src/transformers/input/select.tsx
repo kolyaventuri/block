@@ -38,6 +38,7 @@ export type SelectType = {
   confirm?: ConfirmationType;
   max_selected_items?: number;
   min_query_length?: number;
+  focus_on_load?: boolean;
   initial_user?: string;
   initial_users?: string[];
   initial_conversation?: string;
@@ -175,6 +176,7 @@ const transformSelect = (child: Element): SelectType => {
     initialConversations,
     initialChannels,
     minQueryLength,
+    focusOnLoad,
     defaultToCurrentConversation,
     responseUrlEnabled,
     filter,
@@ -208,6 +210,10 @@ const transformSelect = (child: Element): SelectType => {
 
   if (maxSelectedItems) {
     result.max_selected_items = maxSelectedItems;
+  }
+
+  if (focusOnLoad !== undefined) {
+    result.focus_on_load = focusOnLoad;
   }
 
   if (type === selectTypes.EXTERNAL && minQueryLength !== undefined) {

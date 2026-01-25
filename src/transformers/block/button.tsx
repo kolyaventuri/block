@@ -17,10 +17,11 @@ export type ButtonType = {
   value?: string;
   style?: 'primary' | 'danger';
   confirm?: ConfirmationType;
+  accessibility_label?: string;
 };
 
 const transformButton = (child: Element): ButtonType => {
-  const {actionId, children, url, value, style, confirm}: ButtonProps = child.props;
+  const {actionId, children, url, value, style, confirm, accessibilityLabel}: ButtonProps = child.props;
 
   const res: ButtonType = {
     type: 'button',
@@ -42,6 +43,10 @@ const transformButton = (child: Element): ButtonType => {
 
   if (confirm) {
     res.confirm = transform(confirm) as ConfirmationType;
+  }
+
+  if (accessibilityLabel) {
+    res.accessibility_label = accessibilityLabel;
   }
 
   return res;

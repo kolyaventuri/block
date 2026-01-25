@@ -51,3 +51,13 @@ test('rejects invalid times', () => {
 
   expect(function_).toThrow();
 });
+
+test('transforms focus_on_load for time picker', () => {
+  const res = transformer(<TimePicker actionId="aid" focusOnLoad/>);
+
+  expect(res).toEqual({
+    type: 'timepicker',
+    action_id: 'aid',
+    focus_on_load: true,
+  });
+});

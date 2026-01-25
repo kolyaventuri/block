@@ -7,6 +7,7 @@ export type Props = {
   placeholder?: string;
   initialTime?: string;
   confirm?: React.ReactElement<Confirmation>;
+  focusOnLoad?: boolean;
 };
 
 export default class TimePicker extends React.Component<Props> {
