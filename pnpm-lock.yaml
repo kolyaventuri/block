@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      react:
-        specifier: ^19.2.3
-        version: 19.2.3
     devDependencies:
       '@types/node':
         specifier: 25.0.10
@@ -48,6 +44,9 @@ importers:
       lint-staged:
         specifier: ^16.2.7
         version: 16.2.7
+      react:
+        specifier: ^19.2.3
+        version: 19.2.3
       rimraf:
         specifier: ^6.1.2
         version: 6.1.2

@@ -35,6 +35,7 @@ and does not require a full React runtime unless intentionally kept.
 - Dual CJS/ESM build configured via `tsup` with `.cjs`/`.mjs` outputs in `dist/`.
 - Test stack migrated to Vitest; Enzyme and AVA removed.
 - React and `@types/react` upgraded to current 19.x.
+- React moved to `peerDependencies` (kept in `devDependencies` for tests).
 - Git hooks migrated to Husky + lint-staged; `npm-run-all` and `pre-commit` removed.
 - Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
   - `test/types/symbol-observable.d.ts` to satisfy AVA's `Symbol.observable`.
@@ -82,7 +83,8 @@ and does not require a full React runtime unless intentionally kept.
 ## Phase 4: JSX Runtime Decision
 - Decide whether to keep React as a peer dependency or replace it:
   - If keeping React:
-    - Upgrade `react` and `@types/react` to current.
+    - Upgrade `react` and `@types/react` to current. (done)
+    - Move React to `peerDependencies` to preserve consumer compatibility. (done)
     - Ensure JSX runtime config remains correct.
   - If removing React:
     - Add a small custom `jsx-runtime` (createElement) that builds element objects.
