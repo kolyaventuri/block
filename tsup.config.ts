@@ -5,7 +5,7 @@ export default defineConfig({
     index: 'src/index.ts',
     block: 'src/block.ts',
   },
-  outDir: 'lib',
+  outDir: 'dist',
   format: ['cjs', 'esm'],
   dts: true,
   splitting: false,

@@ -1,5 +1,5 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/input/radio-group';
 import optionTransformer from '../../../src/transformers/input/option';
@@ -9,7 +9,7 @@ import Option from '../../../src/components/input/option';
 import Confirmation from '../../../src/components/block/confirmation';
 import Text from '../../../src/components/block/text';
 
-test('transforms a basic RadioGroup block', t => {
+test('transforms a basic RadioGroup block', () => {
   const option = <Option value="V">O</Option>;
   const option2 = <Option value="O">V</Option>;
   const options = [option, option2].map(option => optionTransformer(option));
@@ -19,14 +19,14 @@ test('transforms a basic RadioGroup block', t => {
     {option2}
   </RadioGroup>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'radio_buttons',
     action_id: 'aid',
     options,
   });
 });
 
-test('can have an initial option', t => {
+test('can have an initial option', () => {
   const option = <Option value="V">O</Option>;
   const option2 = <Option value="O">V</Option>;
   const options = [option, option2].map(option => optionTransformer(option));
@@ -36,7 +36,7 @@ test('can have an initial option', t => {
     {option2}
   </RadioGroup>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'radio_buttons',
     action_id: 'aid',
     options,
@@ -44,7 +44,7 @@ test('can have an initial option', t => {
   });
 });
 
-test('can have a confirmation', t => {
+test('can have a confirmation', () => {
   const option = <Option value="V">O</Option>;
   const option2 = <Option value="O">V</Option>;
   const options = [option, option2].map(option => optionTransformer(option));
@@ -65,7 +65,7 @@ test('can have a confirmation', t => {
     {option2}
   </RadioGroup>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'radio_buttons',
     action_id: 'aid',
     options,

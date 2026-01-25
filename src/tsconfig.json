@@ -2,13 +2,13 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "removeComments": true,
-    "outDir": "../lib" ,
+    "outDir": "../dist" ,
     "rootDir": ".",
     "declaration": true,
     "declarationMap": true,
     "target": "es2019",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "Node16",
+    "moduleResolution": "node16",
     "types": ["react"],
     "esModuleInterop": true,
     "jsx": "react" 

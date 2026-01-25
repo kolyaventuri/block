@@ -1,13 +1,13 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/input/option';
 import Option from '../../../src/components/input/option';
 
-test('transforms a basic option', t => {
+test('transforms a basic option', () => {
   const res = transformer(<Option value="someValue">someText</Option>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     text: {
       type: 'plain_text',
       text: 'someText',
@@ -16,14 +16,14 @@ test('transforms a basic option', t => {
   });
 });
 
-test('transforms an option with a url', t => {
+test('transforms an option with a url', () => {
   const res = transformer(<Option
     value="someValue"
     url="someUrl"
   >
     someText
   </Option>);
-  t.deepEqual(res, {
+  expect(res).toEqual({
     text: {
       type: 'plain_text',
       text: 'someText',

@@ -1,12 +1,12 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/layout/input';
 import textTransformer from '../../../src/transformers/input/text';
 import Input from '../../../src/components/layout/input';
 import TextInput from '../../../src/components/input/text';
 
-test('transforms a basic input layout block', t => {
+test('transforms a basic input layout block', () => {
   const plainText = <TextInput actionId="action"/>;
   const transformedText = textTransformer(plainText);
 
@@ -15,7 +15,7 @@ test('transforms a basic input layout block', t => {
     element={plainText}
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'input',
     label: {
       type: 'plain_text',
@@ -25,7 +25,7 @@ test('transforms a basic input layout block', t => {
   });
 });
 
-test('transforms an advanced input layout block', t => {
+test('transforms an advanced input layout block', () => {
   const plainText = <TextInput actionId="action"/>;
   const transformedText = textTransformer(plainText);
 
@@ -37,7 +37,7 @@ test('transforms an advanced input layout block', t => {
     hint="someHint"
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'input',
     label: {
       type: 'plain_text',

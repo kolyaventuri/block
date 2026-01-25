@@ -1,5 +1,5 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/layout/context';
 import textTransformer from '../../../src/transformers/block/text';
@@ -8,7 +8,7 @@ import Context from '../../../src/components/layout/context';
 import Text from '../../../src/components/block/text';
 import Image from '../../../src/components/block/image';
 
-test('transforms a basic context block', t => {
+test('transforms a basic context block', () => {
   const text = <Text>FooBar</Text>;
   const image = <Image url="someUrl" alt="someAlt"/>;
 
@@ -20,7 +20,7 @@ test('transforms a basic context block', t => {
     {image}
   </Context>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'context',
     elements: [
       transformedText,
@@ -29,10 +29,10 @@ test('transforms a basic context block', t => {
   });
 });
 
-test('transforms a more complex context block', t => {
+test('transforms a more complex context block', () => {
   const res = transformer(<Context blockId="blockId">
     <Text>FooBar</Text>
   </Context>);
 
-  t.is(res.block_id, 'blockId');
+  expect(res.block_id).toBe('blockId');
 });

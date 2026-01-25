@@ -1,11 +1,11 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import Section from '../../../src/components/layout/section';
 import Text from '../../../src/components/block/text';
 import transformer from '../../../src/transformers/layout/section';
 
-test('it transforms a basic Section component', t => {
+test('it transforms a basic Section component', () => {
   const element = (
     <Section
       text={<Text>FooBar</Text>}
@@ -14,7 +14,7 @@ test('it transforms a basic Section component', t => {
 
   const res = transformer(element);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'section',
     text: {
       type: 'mrkdwn',
@@ -23,7 +23,7 @@ test('it transforms a basic Section component', t => {
   });
 });
 
-test('it transforms a more complex Section', t => {
+test('it transforms a more complex Section', () => {
   const res = transformer(<Section
     text={<Text>FooBar</Text>}
     blockId="abc123"
@@ -32,7 +32,7 @@ test('it transforms a more complex Section', t => {
     <Text>OtherText</Text>
   </Section>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'section',
     text: {
       type: 'mrkdwn',
@@ -52,17 +52,17 @@ test('it transforms a more complex Section', t => {
   });
 });
 
-test('it does not break if there is a null field', t => {
+test('it does not break if there is a null field', () => {
   const function_ = () => transformer(<Section text={<Text>Foo</Text>}>
     <Text>More text</Text>
     {null}
     <Text>Even more</Text>
   </Section>);
 
-  t.notThrows(function_);
+  expect(function_).not.toThrow();
   const res = function_();
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'section',
     text: {
       type: 'mrkdwn',

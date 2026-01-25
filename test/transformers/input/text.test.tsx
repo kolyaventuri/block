@@ -1,19 +1,19 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/input/text';
 import Text from '../../../src/components/input/text';
 
-test('it transforms a basic text input', t => {
+test('it transforms a basic text input', () => {
   const res = transformer(<Text actionId="actionId"/>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'plain_text_input',
     action_id: 'actionId',
   });
 });
 
-test('it transforms an advanced text input', t => {
+test('it transforms an advanced text input', () => {
   const res = transformer(<Text
     multiline
     actionId="actionId"
@@ -23,7 +23,7 @@ test('it transforms an advanced text input', t => {
     maxLength={20}
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'plain_text_input',
     action_id: 'actionId',
     placeholder: {

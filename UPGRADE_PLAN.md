@@ -28,11 +28,12 @@ and does not require a full React runtime unless intentionally kept.
 - Node >= 24 engine requirement and pnpm pin added in `package.json`.
 - npm lockfile removed; `pnpm-lock.yaml` added and installs verified.
 - TypeScript baseline updated to `es2019` with `moduleResolution: node`.
-- Declarations enabled with `declarationMap`, and build output standardized on `lib/`.
+- Declarations enabled with `declarationMap`, and build output standardized on `dist/`.
 - Lint stack upgraded (XO 1.x + ESLint 9 + @typescript-eslint 8 + TS 5.9).
 - XO config migrated to flat config in `xo.config.cjs`.
 - Packaging updated with TS entry points plus `exports`/`files` map for `slackblock` and `slackblock/block`.
-- Dual CJS/ESM build configured via `tsup` with `.cjs`/`.mjs` outputs.
+- Dual CJS/ESM build configured via `tsup` with `.cjs`/`.mjs` outputs in `dist/`.
+- Test stack migrated to Vitest; Enzyme and AVA removed.
 - Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
   - `test/types/symbol-observable.d.ts` to satisfy AVA's `Symbol.observable`.
   - Note: AVA still warns about update checks unless `~/.config` is writable.
@@ -48,21 +49,21 @@ and does not require a full React runtime unless intentionally kept.
 - Replace `package-lock.json` with `pnpm-lock.yaml`. (done)
 - Update TS config:
   - `target` to at least `es2019`. (done)
-  - `moduleResolution` to `node16` or `bundler` (decide based on build tool). (set to `node` for now)
+  - `moduleResolution` to `node16` or `bundler` (decide based on build tool). (set to `node16`)
   - Use `declaration` output and `declarationMap`. (done)
-- Build output folder standardization: `dist/` or `lib/` (pick one). (picked `lib/`)
+- Build output folder standardization: `dist/` or `lib/` (pick one). (picked `dist/`)
 
 ## Phase 2: Packaging + Exports
 - Replace ad-hoc JS wrappers with TS entry points:
   - `src/index.ts` for default render export.
   - `src/block.ts` for component exports. (done)
 - Add `exports` map in `package.json`: (done)
-  - `.` -> `lib/index.cjs`/`lib/index.mjs` + types
-  - `./block` -> `lib/block.cjs`/`lib/block.mjs` + types
+  - `.` -> `dist/index.cjs`/`dist/index.mjs` + types
+  - `./block` -> `dist/block.cjs`/`dist/block.mjs` + types
 - Ensure `files` whitelist includes only published artifacts. (done)
 - Fix README import examples to match exports. (verified)
 - Validate ESM/CJS strategy: (done)
-  - Dual build via `tsup`, emitting `.cjs` and `.mjs` into `lib/`.
+  - Dual build via `tsup`, emitting `.cjs` and `.mjs` into `dist/`.
 
 ## Phase 3: Dependency Upgrades
 - Upgrade TypeScript to current 5.x. (done)
@@ -70,9 +71,8 @@ and does not require a full React runtime unless intentionally kept.
   - Option A: ESLint 9 + @typescript-eslint 8+. (done)
   - Option B: Biome for lint+format.
 - Update test stack:
-  - Keep Ava but upgrade to latest, or
-  - Migrate to Vitest for modern TS/JSX support.
-- Remove unused deps (Enzyme) and legacy adapter.
+  - Migrate to Vitest for modern TS/JSX support. (done)
+- Remove unused deps (Enzyme) and legacy adapter. (done)
 - Update ts-node usage if still required; prefer native TS transpile in tests.
 
 ## Phase 4: JSX Runtime Decision

@@ -1,36 +1,44 @@
 import React from 'react';
-import test from 'ava';
-import {stub} from 'sinon';
-import proxyquire from 'proxyquire';
+import {
+  beforeEach,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 
-const fooTransformer = stub();
-const divTransformer = stub().callsFake(element => ({
+import parser from '../../src/parser';
+
+const fooTransformer = vi.hoisted(() => vi.fn());
+const divTransformer = vi.hoisted(() => vi.fn(element => ({
   type: 'div',
   text: element.props.children,
+})));
+
+vi.mock('../../src/transformers', () => ({
+  default: {
+    Foo: fooTransformer,
+    div: divTransformer,
+  },
 }));
 
-const parser = proxyquire('../../src/parser', {
-  '../transformers': {
-    default: {
-      Foo: fooTransformer,
-      div: divTransformer,
-    },
-  },
-}).default;
+beforeEach(() => {
+  fooTransformer.mockClear();
+  divTransformer.mockClear();
+});
 
-test('it returns a basic message if the child is just a string', t => {
+test('it returns a basic message if the child is just a string', () => {
   const text = 'Hello, world!';
   const result = parser(text);
   const expected = {text};
 
-  t.deepEqual(result, expected);
+  expect(result).toEqual(expected);
 });
 
 function Foo() {
   return <p>Test</p>;
 }
 
-test('it passes the item to the right transformer', t => {
+test('it passes the item to the right transformer', () => {
   const element = (
     <div>
       <p>Hi</p>
@@ -41,28 +49,28 @@ test('it passes the item to the right transformer', t => {
 
   parser([element, element2]);
 
-  t.true(divTransformer.calledWith(element));
-  t.true(fooTransformer.calledWith(element2));
+  expect(divTransformer).toHaveBeenCalledWith(element);
+  expect(fooTransformer).toHaveBeenCalledWith(element2);
 });
 
-test('it returns the result of the transformers', t => {
+test('it returns the result of the transformers', () => {
   const res = parser(<div>Foo</div>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     blocks: [
       {type: 'div', text: 'Foo'},
     ],
   });
 });
 
-test('it does not transform unkown types', t => {
+test('it does not transform unkown types', () => {
   const res = parser(<p>Hi</p>);
 
-  t.deepEqual(res, {});
+  expect(res).toEqual({});
 });
 
-test('it does not explode on null', t => {
+test('it does not explode on null', () => {
   const function_ = () => parser(null);
 
-  t.notThrows(function_);
+  expect(function_).not.toThrow();
 });

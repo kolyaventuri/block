@@ -61,5 +61,6 @@ typings/
 .next
 
 lib/
+dist/
 .history/
 .pnpm-store/

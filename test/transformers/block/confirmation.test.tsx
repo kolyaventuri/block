@@ -1,11 +1,11 @@
-import test from 'ava';
+import {test, expect} from 'vitest';
 import React from 'react';
 
 import transformer from '../../../src/transformers/block/confirmation';
 import Confirmation from '../../../src/components/block/confirmation';
 import Text from '../../../src/components/block/text';
 
-test('transforms properly', t => {
+test('transforms properly', () => {
   const res = transformer(<Confirmation
     title="SomeTitle"
     confirm="SomeConfirm"
@@ -14,7 +14,7 @@ test('transforms properly', t => {
     <Text>FooBar</Text>
   </Confirmation>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     title: {
       type: 'plain_text',
       text: 'SomeTitle',

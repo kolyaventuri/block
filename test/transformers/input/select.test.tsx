@@ -1,5 +1,5 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/input/select';
 import Select from '../../../src/components/input/select';
@@ -11,7 +11,7 @@ import confirmationTransformer from '../../../src/transformers/block/confirmatio
 import Confirmation from '../../../src/components/block/confirmation';
 import Text from '../../../src/components/block/text';
 
-test('transforms a select with options', t => {
+test('transforms a select with options', () => {
   const option = <Option value="v">O</Option>;
   const options = [optionTransformer(option)];
 
@@ -19,7 +19,7 @@ test('transforms a select with options', t => {
     {option}
   </Select>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'static_select',
     placeholder: {
       type: 'plain_text',
@@ -30,7 +30,7 @@ test('transforms a select with options', t => {
   });
 });
 
-test('transforms multi-select with options', t => {
+test('transforms multi-select with options', () => {
   const option = <Option value="v">O</Option>;
   const options = [optionTransformer(option)];
 
@@ -38,7 +38,7 @@ test('transforms multi-select with options', t => {
     {option}
   </Select>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'multi_static_select',
     placeholder: {
       type: 'plain_text',
@@ -49,7 +49,7 @@ test('transforms multi-select with options', t => {
   });
 });
 
-test('transforms a select with OptionGroups', t => {
+test('transforms a select with OptionGroups', () => {
   const option = <Option value="v">O</Option>;
   const option2 = <Option value="O">V</Option>;
 
@@ -60,7 +60,7 @@ test('transforms a select with OptionGroups', t => {
     {optionGroup}
   </Select>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'static_select',
     placeholder: {
       type: 'plain_text',
@@ -71,7 +71,7 @@ test('transforms a select with OptionGroups', t => {
   });
 });
 
-test('disallows options AND optionGroups in the same select block', t => {
+test('disallows options AND optionGroups in the same select block', () => {
   const function_ = () => transformer(<Select placeholder="p" actionId="a">
     <Option value="v">O</Option>
     <OptionGroup label="l">
@@ -79,10 +79,10 @@ test('disallows options AND optionGroups in the same select block', t => {
     </OptionGroup>
   </Select>);
 
-  t.throws(function_);
+  expect(function_).toThrow();
 });
 
-test('it transforms additional options on the Select block', t => {
+test('it transforms additional options on the Select block', () => {
   const option = <Option value="v">O</Option>;
   const option2 = <Option value="c">C</Option>;
   const options = [option, option2].map(option => optionTransformer(option));
@@ -112,7 +112,7 @@ test('it transforms additional options on the Select block', t => {
     {option2}
   </Select>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'static_select',
     placeholder: {
       type: 'plain_text',
@@ -126,17 +126,17 @@ test('it transforms additional options on the Select block', t => {
   });
 });
 
-test('can transform a selcet with external options', t => {
+test('can transform a selcet with external options', () => {
   const function_ = () => transformer(<Select
     type="external"
     placeholder="placeholder"
     actionId="aid"
   />);
 
-  t.notThrows(function_);
+  expect(function_).not.toThrow();
   const res = function_();
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'external_select',
     placeholder: {
       type: 'plain_text',
@@ -146,7 +146,7 @@ test('can transform a selcet with external options', t => {
   });
 });
 
-test('does not transform child options when not static type', t => {
+test('does not transform child options when not static type', () => {
   const res = transformer(<Select
     type="external"
     placeholder="p"
@@ -155,7 +155,7 @@ test('does not transform child options when not static type', t => {
     <Option value="V">O</Option>
   </Select>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'external_select',
     placeholder: {
       type: 'plain_text',
@@ -165,7 +165,7 @@ test('does not transform child options when not static type', t => {
   });
 });
 
-test('allows initialUsers prop if type is a user select', t => {
+test('allows initialUsers prop if type is a user select', () => {
   const users = ['A', 'B', 'C'];
   const res = transformer(<Select
     type="user"
@@ -174,7 +174,7 @@ test('allows initialUsers prop if type is a user select', t => {
     initialUsers={users}
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'users_select',
     placeholder: {
       type: 'plain_text',
@@ -185,7 +185,7 @@ test('allows initialUsers prop if type is a user select', t => {
   });
 });
 
-test('allows initialConversations prop if type is conversation', t => {
+test('allows initialConversations prop if type is conversation', () => {
   const conversations = ['A', 'B', 'C'];
   const res = transformer(<Select
     type="conversation"
@@ -194,7 +194,7 @@ test('allows initialConversations prop if type is conversation', t => {
     initialConversations={conversations}
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'conversations_select',
     placeholder: {
       type: 'plain_text',
@@ -205,7 +205,7 @@ test('allows initialConversations prop if type is conversation', t => {
   });
 });
 
-test('allows initialChannels prop if type is channel', t => {
+test('allows initialChannels prop if type is channel', () => {
   const channels = ['A', 'B', 'C'];
   const res = transformer(<Select
     type="channel"
@@ -214,7 +214,7 @@ test('allows initialChannels prop if type is channel', t => {
     initialChannels={channels}
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'channels_select',
     placeholder: {
       type: 'plain_text',

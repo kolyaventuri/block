@@ -1,5 +1,5 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/input/date-picker';
 import DatePicker from '../../../src/components/input/date-picker';
@@ -7,18 +7,18 @@ import confirmTransformer from '../../../src/transformers/block/confirmation';
 import Confirmation from '../../../src/components/block/confirmation';
 import Text from '../../../src/components/block/text';
 
-test('transforms a simple DatePicker', t => {
+test('transforms a simple DatePicker', () => {
   const res = transformer(<DatePicker
     actionId="actionId"
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'datepicker',
     action_id: 'actionId',
   });
 });
 
-test('transforms an advanced DatePicker', t => {
+test('transforms an advanced DatePicker', () => {
   const confirm = (
     <Confirmation
       title="someTitle"
@@ -37,7 +37,7 @@ test('transforms an advanced DatePicker', t => {
     confirm={confirm}
   />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'datepicker',
     action_id: 'actionId',
     placeholder: {
@@ -49,11 +49,11 @@ test('transforms an advanced DatePicker', t => {
   });
 });
 
-test('rejects invalid dates', t => {
+test('rejects invalid dates', () => {
   const function_ = () => transformer(<DatePicker
     actionId="aid"
     initialDate="invalid-date"
   />);
 
-  t.throws(function_);
+  expect(function_).toThrow();
 });

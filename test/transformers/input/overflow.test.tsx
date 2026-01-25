@@ -1,5 +1,5 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/input/overflow';
 import optionTransformer from '../../../src/transformers/input/option';
@@ -9,7 +9,7 @@ import Option from '../../../src/components/input/option';
 import Confirmation from '../../../src/components/block/confirmation';
 import Text from '../../../src/components/block/text';
 
-test('transforms a basic Overflow block', t => {
+test('transforms a basic Overflow block', () => {
   const option = <Option value="V">O</Option>;
   const options = [optionTransformer(option)];
 
@@ -17,14 +17,14 @@ test('transforms a basic Overflow block', t => {
     {option}
   </Overflow>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'overflow',
     action_id: 'aid',
     options,
   });
 });
 
-test('transforms an Overflow block with a confirmation', t => {
+test('transforms an Overflow block with a confirmation', () => {
   const option = <Option value="V">O</Option>;
   const options = [optionTransformer(option)];
 
@@ -43,7 +43,7 @@ test('transforms an Overflow block with a confirmation', t => {
     {option}
   </Overflow>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'overflow',
     action_id: 'aid',
     options,
