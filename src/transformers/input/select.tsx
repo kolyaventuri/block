@@ -33,11 +33,15 @@ export type SelectType = {
   action_id: string;
   options?: OptionType[];
   option_groups?: OptionGroupType[];
+  initial_option?: OptionType;
   initial_options?: OptionType[];
   confirm?: ConfirmationType;
   max_selected_items?: number;
+  initial_user?: string;
   initial_users?: string[];
+  initial_conversation?: string;
   initial_conversations?: string[];
+  initial_channel?: string;
   initial_channels?: string[];
 };
 
@@ -84,6 +88,7 @@ const assignStaticOptions = (elements: React.ReactElement[], result: SelectType)
 
 const applyInitialSelections = (
   type: SelectionType,
+  isMulti: boolean,
   result: SelectType,
   initialValues: {
     initialOptions?: Array<React.ReactElement<Option>>;
@@ -96,24 +101,36 @@ const applyInitialSelections = (
 
   switch (type) {
     case selectTypes.USER: {
-      if (initialUsers) {
-        result.initial_users = initialUsers;
+      if (initialUsers && initialUsers.length > 0) {
+        if (isMulti) {
+          result.initial_users = initialUsers;
+        } else {
+          result.initial_user = initialUsers[0];
+        }
       }
 
       break;
     }
 
     case selectTypes.CONVERSATION: {
-      if (initialConversations) {
-        result.initial_conversations = initialConversations;
+      if (initialConversations && initialConversations.length > 0) {
+        if (isMulti) {
+          result.initial_conversations = initialConversations;
+        } else {
+          result.initial_conversation = initialConversations[0];
+        }
       }
 
       break;
     }
 
     case selectTypes.CHANNEL: {
-      if (initialChannels) {
-        result.initial_channels = initialChannels;
+      if (initialChannels && initialChannels.length > 0) {
+        if (isMulti) {
+          result.initial_channels = initialChannels;
+        } else {
+          result.initial_channel = initialChannels[0];
+        }
       }
 
       break;
@@ -121,8 +138,14 @@ const applyInitialSelections = (
 
     case selectTypes.STATIC:
     case selectTypes.EXTERNAL: {
-      if (initialOptions) {
-        result.initial_options = initialOptions.map(element => transform(element as Element)) as OptionType[];
+      if (initialOptions && initialOptions.length > 0) {
+        const transformedOptions = initialOptions.map(element => transform(element as Element)) as OptionType[];
+
+        if (isMulti) {
+          result.initial_options = transformedOptions;
+        } else {
+          result.initial_option = transformedOptions[0];
+        }
       }
 
       break;
@@ -164,7 +187,7 @@ const transformSelect = (child: Element): SelectType => {
     result.confirm = transform(confirm as Element) as ConfirmationType;
   }
 
-  applyInitialSelections(type, result, {
+  applyInitialSelections(type, Boolean(multi), result, {
     initialOptions,
     initialUsers,
     initialConversations,

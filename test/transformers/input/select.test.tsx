@@ -121,7 +121,7 @@ test('it transforms additional options on the Select block', () => {
     action_id: 'aid',
     options,
     confirm: transformedConfirm,
-    initial_options: transformedInitialOptions,
+    initial_option: transformedInitialOptions[0],
     max_selected_items: 2,
   });
 });
@@ -181,7 +181,7 @@ test('allows initialUsers prop if type is a user select', () => {
       text: 'p',
     },
     action_id: 'aid',
-    initial_users: users,
+    initial_user: users[0],
   });
 });
 
@@ -201,7 +201,7 @@ test('allows initialConversations prop if type is conversation', () => {
       text: 'p',
     },
     action_id: 'aid',
-    initial_conversations: conversations,
+    initial_conversation: conversations[0],
   });
 });
 
@@ -221,6 +221,55 @@ test('allows initialChannels prop if type is channel', () => {
       text: 'p',
     },
     action_id: 'aid',
-    initial_channels: channels,
+    initial_channel: channels[0],
+  });
+});
+
+test('uses initial_options for multi static select', () => {
+  const option = <Option value="v">O</Option>;
+  const option2 = <Option value="w">W</Option>;
+  const initialOptions = [option, option2];
+  const transformedInitialOptions = initialOptions.map(option => optionTransformer(option));
+
+  const res = transformer(<Select
+    multi
+    placeholder="placeholder"
+    actionId="aid"
+    initialOptions={initialOptions}
+  >
+    {option}
+    {option2}
+  </Select>);
+
+  expect(res).toEqual({
+    type: 'multi_static_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'placeholder',
+    },
+    action_id: 'aid',
+    options: transformedInitialOptions,
+    initial_options: transformedInitialOptions,
+  });
+});
+
+test('uses initial_users for multi user select', () => {
+  const users = ['A', 'B', 'C'];
+  const res = transformer(<Select
+    multi
+    type="user"
+    placeholder="p"
+    actionId="aid"
+    initialUsers={users}
+  />);
+
+  expect(res).toEqual({
+    type: 'multi_users_select',
+    placeholder: {
+      type: 'plain_text',
+      text: 'p',
+    },
+    action_id: 'aid',
+    initial_users: users,
   });
 });
