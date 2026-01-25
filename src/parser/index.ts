@@ -1,4 +1,4 @@
-import {type Child, type Block, type SlackMessage} from '../constants/types';
+import {type Child, type Block, type SlackMessageDraft} from '../constants/types';
 import transformers from '../transformers';
 import getType from '../utils/get-type';
 
@@ -40,7 +40,7 @@ const appendTransformed = (value: unknown, blocks: Block[]): void => {
   blocks.push(value as Block);
 };
 
-const parseChildren = (children: Child): SlackMessage => {
+const parseChildren = (children: Child): SlackMessageDraft => {
   if (typeof children === 'string') {
     return {text: children};
   }
@@ -60,7 +60,7 @@ const parseChildren = (children: Child): SlackMessage => {
   }
 
   if (transformedBlocks.length === 0) {
-    return {};
+    return {blocks: []};
   }
 
   return {blocks: transformedBlocks};

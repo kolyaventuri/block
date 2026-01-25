@@ -1,4 +1,4 @@
-import {type SlackMessage, type Element} from '../constants/types';
+import {type SlackMessage, type SlackMessageDraft, type Element} from '../constants/types';
 import parser from '../parser';
 import getType from '../utils/get-type';
 import {warnIfTooMany} from '../utils/validation';
@@ -15,7 +15,7 @@ const render = (element: Element): SlackMessage => {
     throw new Error('Cannot render a Message with no children.');
   }
 
-  const json = {...parser(properties.children)};
+  const json: SlackMessageDraft = {...parser(properties.children)};
 
   if (properties.replyTo) {
     json.thread_ts = properties.replyTo;
@@ -62,6 +62,7 @@ const render = (element: Element): SlackMessage => {
   if (properties.color && json.blocks) {
     json.attachments = [
       {
+        fallback: json.text,
         color: properties.color as string,
         blocks: json.blocks,
       },
@@ -74,7 +75,7 @@ const render = (element: Element): SlackMessage => {
     warnIfTooMany('Message blocks', json.blocks, 50);
   }
 
-  return json;
+  return json as SlackMessage;
 };
 
 export default render;

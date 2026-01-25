@@ -9,7 +9,7 @@
     "target": "es2019",
     "module": "Node16",
     "moduleResolution": "node16",
-    "types": ["react"],
+    "types": ["node", "react"],
     "esModuleInterop": true,
     "jsx": "react" 
   }

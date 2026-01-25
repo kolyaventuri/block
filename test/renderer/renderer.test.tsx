@@ -9,6 +9,7 @@ import React from 'react';
 import Message from '../../src/components/message';
 import Container from '../../src/components/layout/container';
 import render from '../../src/renderer';
+import {type SlackMessageDraft} from '../../src/constants/types';
 
 const parser = vi.hoisted(() => vi.fn());
 
@@ -76,7 +77,7 @@ test('can render all props', () => {
 });
 
 test('if no text prop is passed, uses a blank string', () => {
-  const res = render(<Message>Hello</Message>);
+  const res = render(<Message>Hello</Message>) as SlackMessageDraft;
 
   expect(res.text).toBe('');
 });
@@ -93,6 +94,7 @@ test('if a color is passed, transforms the block elements to be within an attach
     text: '',
     attachments: [
       {
+        fallback: '',
         color: '#FF0000',
         blocks: [
           returnContent,

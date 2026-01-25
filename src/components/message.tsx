@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {type Element} from '../constants/types';
+import {type Child} from '../constants/types';
 
 type Properties = {
-  children: string | Element | Element[];
+  children: Child;
   text?: string;
   asUser?: boolean;
   iconEmoji?: string;

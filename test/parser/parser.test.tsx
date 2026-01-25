@@ -66,7 +66,7 @@ test('it returns the result of the transformers', () => {
 test('it does not transform unkown types', () => {
   const res = parser(<p>Hi</p>);
 
-  expect(res).toEqual({});
+  expect(res).toEqual({blocks: []});
 });
 
 test('it does not explode on null', () => {

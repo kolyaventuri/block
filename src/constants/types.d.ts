@@ -1,4 +1,21 @@
 import {type ReactElement} from 'react';
+import {type ChatPostMessageArguments} from '@slack/web-api';
+import {
+  type BroadcastedThreadReply,
+  type ChatPostMessageMetadata,
+  type ChannelAndAttachments,
+  type ChannelAndBlocks,
+  type ChannelAndMarkdownText,
+  type ChannelAndText,
+  type IconEmoji,
+  type IconURL,
+  type LinkNames,
+  type Parse,
+  type Unfurls,
+  type Username,
+  type WithinThreadReply,
+} from '@slack/web-api/dist/types/request/chat';
+import {type Block as SlackBlock, type KnownBlock, type MessageAttachment} from '@slack/types';
 
 import {type TextType as TextInputType} from '../transformers/input/text';
 import {type DatePickerType} from '../transformers/input/date-picker';
@@ -67,11 +84,8 @@ export type SerializedElement =
   | SerializedInputBlockElement
   | SerializedOption;
 
-export type Block = SerializedBlock;
-export type Attachment = {
-  color: string;
-  blocks: Block[];
-};
+export type Block = KnownBlock | SlackBlock;
+export type Attachment = MessageAttachment;
 
 export type InteractiveBlockElement = ReactElement<any, any>;
 export type StandardBlockElement = ReactElement<any, any>;
@@ -79,21 +93,39 @@ export type StandardBlockElement = ReactElement<any, any>;
 export type InputBlockElement = ReactElement<any, any>;
 export type BlockElement = InteractiveBlockElement | StandardBlockElement | InputBlockElement;
 
-export type SlackMessage = {
+type SlackMessageContents =
+  | Omit<ChannelAndText, 'channel'>
+  | Omit<ChannelAndBlocks, 'channel'>
+  | Omit<ChannelAndAttachments, 'channel'>
+  | Omit<ChannelAndMarkdownText, 'channel'>;
+
+type SlackAuthorship =
+  | ((IconEmoji | IconURL) & Username)
+  | {
+    as_user: true;
+    icon_emoji?: never;
+    icon_url?: never;
+    username?: never;
+  };
+
+type SlackThreadReply = WithinThreadReply | BroadcastedThreadReply;
+
+type SlackMessageBase = SlackMessageContents
+  & SlackThreadReply
+  & SlackAuthorship
+  & Parse
+  & LinkNames
+  & Unfurls
+  & ChatPostMessageMetadata
+  & {mrkdwn?: boolean};
+
+export type SlackMessage = SlackMessageBase & Omit<ChatPostMessageArguments, 'channel' | 'token'>;
+
+export type SlackMessageDraft = SlackMessage & {
   text?: string;
-  as_user?: boolean;
   blocks?: Block[];
   attachments?: Attachment[];
-  icon_emoji?: string;
-  icon_url?: string;
-  link_names?: boolean;
-  mrkdwn?: boolean;
-  parse?: 'full' | 'none';
-  reply_broadcast?: boolean;
-  thread_ts?: string;
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
-  username?: string;
+  markdown_text?: string;
 };
 
 type AnyFunction = (...parameters: any[]) => any;
