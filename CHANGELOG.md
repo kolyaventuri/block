@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.0.0
+- Modernize tooling (Node 24, pnpm, tsup, Vitest, XO, Husky + lint-staged)
+- Stabilize parser/transformer routing and align output types to serialized JSON
+- Expand Block Kit coverage (header, rich_text, video, checkboxes, time/datetime pickers)
+- Add rich_text helpers and improved select/input features
+- Add validation warnings for Slack limits
+
 ### 0.4.0
 - Allow for `<Section/>` blocks to have `null` components (useful for conditional renders)
 
