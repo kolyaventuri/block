@@ -1,19 +1,5 @@
-import {type Component, type ReactElement} from 'react';
+import {type ReactElement} from 'react';
 
-import type Text from '../components/block/text';
-import type Button from '../components/block/button';
-import type Image from '../components/block/image';
-import type Confirmation from '../components/block/confirmation';
-import type Section from '../components/layout/section';
-import type Actions from '../components/layout/actions';
-import type Context from '../components/layout/context';
-import type TextInput from '../components/input/text';
-import type DatePicker from '../components/input/date-picker';
-import type Select from '../components/input/select';
-import type Option from '../components/input/option';
-import type OptionGroup from '../components/input/option-group';
-import type Overflow from '../components/input/overflow';
-import type RadioGroup from '../components/input/radio-group';
 import {type TextType as TextInputType} from '../transformers/input/text';
 import {type DatePickerType} from '../transformers/input/date-picker';
 import {type SelectType} from '../transformers/input/select';
@@ -26,28 +12,18 @@ import {type ImageType} from '../transformers/block/image';
 import {type ButtonType} from '../transformers/block/button';
 import {type ConfirmationType} from '../transformers/block/confirmation';
 
-export type Block = ReactElement<Section> | ReactElement<Actions> | ReactElement<Context>;
+export type Block = ReactElement<any, any>;
 export type Attachment = {
   color: string;
   blocks: Block[];
 };
 
-export type InteractiveBlockElement = ReactElement<Button>;
+export type InteractiveBlockElement = ReactElement<any, any>;
 export type SerializedInteractiveBlockElement = ButtonType;
 
-export type StandardBlockElement =
-  ReactElement<Text> |
-  ReactElement<Image> |
-  ReactElement<Confirmation>;
+export type StandardBlockElement = ReactElement<any, any>;
 
-export type InputBlockElement =
-  ReactElement<TextInput> |
-  ReactElement<DatePicker> |
-  ReactElement<Option> |
-  ReactElement<OptionGroup> |
-  ReactElement<Select> |
-  ReactElement<Overflow> |
-  ReactElement<RadioGroup>;
+export type InputBlockElement = ReactElement<any, any>;
 
 export type SerializedInputBlockElement =
   TextInputType |
@@ -78,12 +54,13 @@ export type SlackMessage = {
   username?: string;
 };
 
-type AnyFunction = () => any;
+type AnyFunction = (...parameters: any[]) => any;
+
+type AnyConstructor = new (...parameters: any[]) => any;
 
 export type WithType = {
-  type?: string | AnyFunction;
+  type?: string | AnyFunction | AnyConstructor;
 };
-export type BComponent = Component & WithType;
-export type BElement = ReactElement & WithType;
-export type Element = BComponent | BElement;
+export type BElement = ReactElement<any, any> & WithType;
+export type Element = BElement;
 export type Child = string | Element | Element[];

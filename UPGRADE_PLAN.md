@@ -34,6 +34,7 @@ and does not require a full React runtime unless intentionally kept.
 - Packaging updated with TS entry points plus `exports`/`files` map for `slackblock` and `slackblock/block`.
 - Dual CJS/ESM build configured via `tsup` with `.cjs`/`.mjs` outputs in `dist/`.
 - Test stack migrated to Vitest; Enzyme and AVA removed.
+- React and `@types/react` upgraded to current 19.x.
 - Tests passing on Node 24 (`pnpm test`), with a scoped AVA typing shim:
   - `test/types/symbol-observable.d.ts` to satisfy AVA's `Symbol.observable`.
   - Note: AVA still warns about update checks unless `~/.config` is writable.
@@ -73,6 +74,7 @@ and does not require a full React runtime unless intentionally kept.
 - Update test stack:
   - Migrate to Vitest for modern TS/JSX support. (done)
 - Remove unused deps (Enzyme) and legacy adapter. (done)
+- Upgrade React and `@types/react` to current 19.x. (done)
 - Update ts-node usage if still required; prefer native TS transpile in tests.
 
 ## Phase 4: JSX Runtime Decision

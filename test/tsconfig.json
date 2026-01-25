@@ -6,7 +6,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "types": ["react"],
-    "lib": ["es2019", "dom"],
+    "lib": ["es2019", "dom", "esnext.disposable"],
     "jsx": "react",
     "esModuleInterop": true
   }

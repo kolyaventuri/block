@@ -11,11 +11,9 @@ type TopProperties = {
 };
 
 export type ButtonProps = TopProperties & {
-  confirm?: Confirmation;
-};
-
-type Properties = TopProperties & {
   confirm?: React.ReactElement<Confirmation>;
 };
+
+type Properties = ButtonProps;
 
 export default class Button extends React.Component<Properties> {}

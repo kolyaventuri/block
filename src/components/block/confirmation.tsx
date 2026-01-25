@@ -10,11 +10,9 @@ type TopProperties = {
 
 /* This is a dumb workaround to merging props */
 export type ConfirmationProps = TopProperties & {
-  children: Text;
-};
-
-type Properties = TopProperties & {
   children: React.ReactElement<Text>;
 };
+
+type Properties = ConfirmationProps;
 
 export default class Confirmation extends React.Component<Properties> {}

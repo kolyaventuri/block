@@ -1,6 +1,5 @@
 import {type Element, type SerializedBlockElement} from '../../constants/types';
 import {type TextType as Text} from '../block/text';
-import type TextComponent from '../../components/block/text';
 import {transform} from '..';
 
 type SectionType = {
@@ -43,7 +42,7 @@ const transformSection = (element: Element): SectionType => {
 
     for (const field of fields) {
       if (field) {
-        const t = transform(field as TextComponent);
+        const t = transform(field as Element);
         res.fields.push(t as Text);
       }
     }
