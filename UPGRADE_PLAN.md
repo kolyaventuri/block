@@ -14,10 +14,10 @@ and does not require a full React runtime unless intentionally kept.
 - Align all blocks/elements to the latest Slack Block Kit API.
 
 ## Current State (Key Findings)
-- Name collisions break transformers (`Image` block vs `Image` layout).
-- Parser ignores `null` but not `false/undefined`, and only flattens one level.
-- Types are inaccurate (intersections instead of unions, React elements as outputs).
-- Block Kit drift (e.g. image props, select `initial_*` behavior, missing blocks).
+- Transformer routing now uses explicit `slackType` identifiers to avoid name collisions. (fixed)
+- Parser now ignores `false`/`null`/`undefined` and fully flattens arrays. (fixed)
+- Types now reflect serialized Slack JSON outputs instead of React elements. (fixed)
+- Block Kit coverage expanded with new blocks/elements, but advanced features (rich_text DSL helpers, dispatch_action_config) are still pending.
 
 ## Constraints
 - Node >= 24 (LTS) as the supported runtime.
@@ -38,6 +38,15 @@ and does not require a full React runtime unless intentionally kept.
 - React moved to `peerDependencies` (kept in `devDependencies` for tests).
 - Git hooks migrated to Husky + lint-staged; `npm-run-all` and `pre-commit` removed.
 - Tests passing on Node 24 (`pnpm test`) with Vitest.
+- Transformer routing stabilized with component `slackType` identifiers.
+- Parser/container now ignore falsey children and fully flatten nested arrays.
+- Image block vs layout fields aligned to Slack spec.
+- Select `initial_*` behavior aligned (single vs multi).
+- Date and time validation tightened for pickers.
+- Public types updated to reflect serialized output objects.
+- Added blocks/elements: `Header`, `RichText`, `Video`, `Checkboxes`, `TimePicker`, `DateTimePicker`.
+- Added select enhancements (`min_query_length`, conversation filter/flags) and option descriptions.
+- Added `focus_on_load` across inputs and `accessibility_label` for buttons.
 
 ## Phase 0: Baseline & Safety Net
 - Add a `UPGRADE_NOTES.md` for tracked decisions, breaking changes, and rationale.
@@ -101,13 +110,17 @@ and does not require a full React runtime unless intentionally kept.
   - Select `initial_*` fields for single vs multi.
   - Validate date format errors consistently.
 - Update types to describe serialized JSON instead of React elements.
+- Phase 5 complete. (done)
 
 ## Phase 6: Slack Block Kit Alignment
 - Audit all supported blocks/elements against the current Slack spec.
 - Add missing block types and elements (e.g. header, rich_text, checkboxes,
-  timepicker, datetimepicker, button styles, file details).
+  timepicker, datetimepicker, button styles, file details). (done)
+- Add select enhancements (min_query_length, conversation filters) and option descriptions. (done)
+- Add `focus_on_load` and `accessibility_label` support where applicable. (done)
 - Add validation helpers (optional) with warnings for deprecated fields.
 - Update docs/examples with current Block Kit feature set.
+- Remaining optional gaps: `dispatch_action_config`, richer rich_text helpers, and expanded validation coverage.
 
 ## Phase 7: CI + Release Hygiene
 - Add CI matrix for Node 24.

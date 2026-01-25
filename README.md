@@ -32,7 +32,7 @@ console.log(message);
       {
         "type": "section",
         "text": {
-          "text": "plain_text",
+          "type": "plain_text",
           "text": "Hello"
         },
         "fields": [
@@ -67,7 +67,7 @@ const message = render(
 ## Things to note
 - The outputted message only needs to have your `token` and desired `channel_id` added, and it will be ready to send to the slack API!
 - React is a peer dependency and used only as a JSX runtime (no DOM renderer required).
-- There is current _very little to no_ input validation. Non-recognized blocks will be ignored, but Slack will be the ultimate decider if your message is valid. Validation is on the roadmap.
+- There is limited input validation (for example, date/time formats and select constraints). Non-recognized blocks will be ignored, but Slack will be the ultimate decider if your message is valid. Validation is on the roadmap.
 - There is currently almost no documentation. This will be resolved, but in general...
   - If a Slack message wants a property in format `foo_bar`, you will add it as a `fooBar` property in your message(ex: `<Element fooBar='blah'/>`)
   - If a component such as a `<Section/>` wants fields which seem like children, they probably are for the sake of rendering. This is especially important with `select` menus, as your `<Option/>` tags will be passed as children
@@ -79,8 +79,15 @@ const message = render(
        </Select>
      ``` 
 
+## Supported blocks and elements
+Blocks: `Message` (top-level), `Section`, `Actions`, `Context`, `Divider`, `File`, `Image` (block), `Header`, `Input`, `RichText`, `Video`.
+
+Elements: `Text`, `Image` (element), `Button`, `Confirmation`, `Select`, `Option`, `OptionGroup`, `Overflow`, `RadioGroup`, `Checkboxes`, `DatePicker`, `TimePicker`, `DateTimePicker`, `TextInput`.
+
+Field support highlights: `select` filters/min query length, `option` description, `focusOnLoad` for inputs, and `accessibilityLabel` on buttons.
+
 
 ## TODO
 - Add real documentation
-- Expose types
 - Add validation
+- Add helpers for advanced rich_text and dispatch_action_config
