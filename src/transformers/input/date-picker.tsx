@@ -15,6 +15,26 @@ export type DatePickerType = {
   confirm?: ConfirmationType;
 };
 
+const isValidDateString = (value: string): boolean => {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) {
+    return false;
+  }
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+
+  if (month < 1 || month > 12) {
+    return false;
+  }
+
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year
+    && date.getUTCMonth() === month - 1
+    && date.getUTCDate() === day;
+};
+
 const transformDatePicker = (child: Element): DatePickerType => {
   const {actionId, placeholder, initialDate, confirm}: DatePickerProperties = child.props;
 
@@ -28,10 +48,8 @@ const transformDatePicker = (child: Element): DatePickerType => {
   }
 
   if (initialDate) {
-    const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/g;
-    const date = new Date(initialDate);
-    if (Number.isNaN(date.getTime()) || !dateRegex.test(initialDate)) {
-      throw new Error('Date must be valid and in format YYY-MM-DD.');
+    if (!isValidDateString(initialDate)) {
+      throw new Error('Date must be valid and in format YYYY-MM-DD.');
     }
 
     res.initial_date = initialDate;

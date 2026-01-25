@@ -57,3 +57,12 @@ test('rejects invalid dates', () => {
 
   expect(function_).toThrow();
 });
+
+test('rejects invalid calendar dates', () => {
+  const function_ = () => transformer(<DatePicker
+    actionId="aid"
+    initialDate="2024-02-31"
+  />);
+
+  expect(function_).toThrow();
+});
