@@ -1,9 +1,9 @@
-import {Element, SerializedBlockElement} from '../../constants/types';
-import {TextType as Text} from '../block/text';
-import TextComponent from '../../components/block/text';
+import {type Element, type SerializedBlockElement} from '../../constants/types';
+import {type TextType as Text} from '../block/text';
 import {transform} from '..';
+import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
 
-type SectionType = {
+export type SectionType = {
   type: 'section';
   text: Text;
   block_id?: string;
@@ -11,19 +11,21 @@ type SectionType = {
   accessory?: SerializedBlockElement;
 };
 
-export default (elem: Element): SectionType => {
+const transformSection = (element: Element): SectionType => {
   const {
     props: {
       text,
       blockId,
       children,
-      accessory
-    }
-  } = elem;
+      accessory,
+    },
+  } = element;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: SectionType = {
     type: 'section',
-    text: transform(text as Element) as Text
+    text: transform(text as Element) as Text,
   };
 
   if (blockId) {
@@ -43,11 +45,15 @@ export default (elem: Element): SectionType => {
 
     for (const field of fields) {
       if (field) {
-        const t = transform(field as TextComponent);
+        const t = transform(field as Element);
         res.fields.push(t as Text);
       }
     }
+
+    warnIfTooMany('Section fields', res.fields, 10);
   }
 
   return res;
 };
+
+export default transformSection;

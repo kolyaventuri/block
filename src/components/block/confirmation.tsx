@@ -1,19 +1,20 @@
 import React from 'react';
-import Text from './text';
 
-type TopProps = {
+import type Text from './text';
+
+type TopProperties = {
   title: string;
   confirm: string;
   deny: string;
 };
 
 /* This is a dumb workaround to merging props */
-export type ConfirmationProps = TopProps & {
-  children: Text;
-};
-
-type Props = TopProps & {
+export type ConfirmationProps = TopProperties & {
   children: React.ReactElement<Text>;
 };
 
-export default class Confirmation extends React.Component<Props> {}
+type Properties = ConfirmationProps;
+
+export default class Confirmation extends React.Component<Properties> {
+  static slackType = 'Confirmation';
+}

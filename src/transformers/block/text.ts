@@ -1,4 +1,5 @@
-import {Element} from '../../constants/types';
+import {type Element} from '../../constants/types';
+import {warnIfTooLong} from '../../utils/validation';
 
 export type TextType = {
   type: 'plain_text' | 'mrkdwn';
@@ -7,20 +8,24 @@ export type TextType = {
   verbatim?: boolean;
 };
 
-export default (elem: Element): TextType => {
+const transformText = (element: Element): TextType => {
   const {
     props: {
       plainText,
       children,
       emoji,
-      verbatim
-    }
-  } = elem;
+      verbatim,
+    },
+  } = element;
 
   const res: TextType = {
     type: plainText ? 'plain_text' : 'mrkdwn',
-    text: children
+    text: children,
   };
+
+  if (typeof children === 'string') {
+    warnIfTooLong('Text', children, 3000);
+  }
 
   if (emoji) {
     res.emoji = true;
@@ -32,3 +37,5 @@ export default (elem: Element): TextType => {
 
   return res;
 };
+
+export default transformText;

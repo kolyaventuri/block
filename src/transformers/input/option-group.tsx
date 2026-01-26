@@ -1,18 +1,23 @@
 import React from 'react';
+
 import Text from '../../components/block/text';
-import {Props as OptionGroupProps} from '../../components/input/option-group';
-import {Element} from '../../constants/types';
-import {TextType} from '../block/text';
-import {OptionType} from './option';
+import {type Props as OptionGroupProperties} from '../../components/input/option-group';
+import {type Element} from '../../constants/types';
+import {type TextType} from '../block/text';
 import {transform} from '..';
+import {warnIfTooLong} from '../../utils/validation';
+
+import {type OptionType} from './option';
 
 export type OptionGroupType = {
   label: TextType;
   options: OptionType[];
 };
 
-export default (child: Element): OptionGroupType => {
-  const {label, children}: OptionGroupProps = child.props;
+const transformOptionGroup = (child: Element): OptionGroupType => {
+  const {label, children}: OptionGroupProperties = child.props;
+
+  warnIfTooLong('OptionGroup label', label, 75);
 
   let options = children;
   if (!Array.isArray(options)) {
@@ -21,6 +26,8 @@ export default (child: Element): OptionGroupType => {
 
   return {
     label: transform(<Text plainText>{label}</Text>) as TextType,
-    options: options.map(option => transform(option as Element)) as OptionType[]
+    options: options.map(option => transform(option as Element)) as OptionType[],
   };
 };
+
+export default transformOptionGroup;

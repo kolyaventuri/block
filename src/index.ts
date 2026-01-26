@@ -1,3 +1,2 @@
-import render from './renderer';
 
-export default render;
+export {default} from './renderer';

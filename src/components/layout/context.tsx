@@ -1,6 +1,7 @@
 import React from 'react';
-import Text from '../block/text';
-import Image from '../block/image';
+
+import type Text from '../block/text';
+import type Image from '../block/image';
 
 export type ImageOrText = React.ReactElement<Text> | React.ReactElement<Image>;
 
@@ -9,4 +10,6 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Context extends React.Component<Props> {}
+export default class Context extends React.Component<Props> {
+  static slackType = 'Context';
+}

@@ -1,8 +1,9 @@
 import React from 'react';
-import {Element} from '../constants/types'; 
 
-type Props = {
-  children: string | Element | Element[];
+import {type Child} from '../constants/types';
+
+type Properties = {
+  children: Child;
   text?: string;
   asUser?: boolean;
   iconEmoji?: string;
@@ -17,4 +18,6 @@ type Props = {
   color?: string;
 };
 
-export default class Message extends React.Component<Props> {}
+export default class Message extends React.Component<Properties> {
+  static slackType = 'Message';
+}

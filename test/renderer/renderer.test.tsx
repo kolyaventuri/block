@@ -1,56 +1,65 @@
-import test from 'ava';
+import {
+  beforeEach,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 import React from 'react';
-import proxyquire from 'proxyquire';
-import {stub} from 'sinon';
 
 import Message from '../../src/components/message';
 import Container from '../../src/components/layout/container';
-const parser = stub();
-const render = proxyquire('../../src/renderer', {
-  '../parser': { default: parser }
-}).default
+import render from '../../src/renderer';
+import {type SlackMessageDraft} from '../../src/constants/types';
 
-test('it passes a list of children to the parser', t => {
+const parser = vi.hoisted(() => vi.fn());
+
+vi.mock('../../src/parser', () => ({
+  default: parser,
+}));
+
+beforeEach(() => {
+  parser.mockReset();
+});
+
+test('it passes a list of children to the parser', () => {
   const content = 'block-content';
   render(<Message>{content}</Message>);
 
-  t.true(parser.calledWith(content));
+  expect(parser).toHaveBeenCalledWith(content);
 });
 
-test('it throws an error if the passed component is not a <Message> component', t => {
-  const fn = () => render(<div/>);
+test('it throws an error if the passed component is not a <Message> component', () => {
+  const function_ = () => render(<div/>);
 
-  t.throws(fn);
+  expect(function_).toThrow();
 });
 
-test('it throws an error if no children are passed', t => {
-  // @ts-ignore - We want to explicitly check the lack of children 
-  const fn = () => render(<Message/>);
+test('it throws an error if no children are passed', () => {
+  // @ts-expect-error - We want to explicitly check the lack of children
+  const function_ = () => render(<Message/>);
 
-  t.throws(fn);
+  expect(function_).toThrow();
 });
 
-test('can render all props', t => {
+test('can render all props', () => {
   const content = 'content-of-block';
-  const res = render(
-    <Message
-      text="text"
-      iconEmoji=":icon_emoji:"
-      iconUrl="iconUrl"
-      markdown={false}
-      parse="none"
-      username="username"
-      replyTo="replyTo"
-      asUser
-      replyBroadcast
-      unfurlLinks
-      unfurlMedia
-    >
-      {content}
-    </Message>
-  );
+  const res = render(<Message
+    asUser
+    replyBroadcast
+    unfurlLinks
+    unfurlMedia
+    text="text"
+    iconEmoji=":icon_emoji:"
+    iconUrl="iconUrl"
+    markdown={false}
+    parse="none"
+    username="username"
+    replyTo="replyTo"
+  >
+    {content}
+  </Message>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     text: 'text',
     icon_emoji: ':icon_emoji:',
     icon_url: 'iconUrl',
@@ -61,66 +70,61 @@ test('can render all props', t => {
     as_user: true,
     reply_broadcast: true,
     unfurl_links: true,
-    unfurl_media: true
+    unfurl_media: true,
   });
 
-  t.true(parser.calledWith(content));
+  expect(parser).toHaveBeenCalledWith(content);
 });
 
-test('if no text prop is passed, uses a blank string', t => {
-  const res = render(<Message>Hello</Message>);
+test('if no text prop is passed, uses a blank string', () => {
+  const res = render(<Message>Hello</Message>) as SlackMessageDraft;
 
-  t.is(res.text, '');
+  expect(res.text).toBe('');
 });
 
-test('if a color is passed, transforms the block elements to be within an attachment', t => {
+test('if a color is passed, transforms the block elements to be within an attachment', () => {
   const content = 'abc';
-  const returnContent = '<CONTENT>abc</CONTENT>'
-  parser.withArgs(content).returns({
-    blocks: [returnContent]
-  });
-  const res = render(
-    <Message color="#FF0000">
-      {content}
-    </Message>
-  );
+  const returnContent = '<CONTENT>abc</CONTENT>';
+  parser.mockImplementation(value => value === content ? {blocks: [returnContent]} : undefined);
+  const res = render(<Message color="#FF0000">
+    {content}
+  </Message>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     text: '',
     attachments: [
       {
+        fallback: '',
         color: '#FF0000',
         blocks: [
-          returnContent
-        ]
-      }
-    ]
-  })
+          returnContent,
+        ],
+      },
+    ],
+  });
 });
 
-test('can render with a container block', t => {
+test('can render with a container block', () => {
   const content = 'content-of-block';
-  const res = render(
-    <Message
-      text="text"
-      iconEmoji=":icon_emoji:"
-      iconUrl="iconUrl"
-      markdown={false}
-      parse="none"
-      username="username"
-      replyTo="replyTo"
-      asUser
-      replyBroadcast
-      unfurlLinks
-      unfurlMedia
-    >
-      <Container>
-        {content}
-      </Container>
-    </Message>
-  );
+  const res = render(<Message
+    asUser
+    replyBroadcast
+    unfurlLinks
+    unfurlMedia
+    text="text"
+    iconEmoji=":icon_emoji:"
+    iconUrl="iconUrl"
+    markdown={false}
+    parse="none"
+    username="username"
+    replyTo="replyTo"
+  >
+    <Container>
+      {content}
+    </Container>
+  </Message>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     text: 'text',
     icon_emoji: ':icon_emoji:',
     icon_url: 'iconUrl',
@@ -131,8 +135,9 @@ test('can render with a container block', t => {
     as_user: true,
     reply_broadcast: true,
     unfurl_links: true,
-    unfurl_media: true
+    unfurl_media: true,
   });
 
-  t.true(parser.calledWith(content));
-})
+  expect(parser).toHaveBeenCalled();
+  expect(parser.mock.calls[0][0].props.children).toBe(content);
+});

@@ -1,15 +1,18 @@
 import React from 'react';
-import {Element} from '../../constants/types';
-import {TextType} from '../block/text';
-import {OptionType} from './option';
-import {OptionGroupType} from './option-group';
-import {ConfirmationType} from '../block/confirmation';
-import {Props as SelectProps, selectTypes} from '../../components/input/select';
-import Option from '../../components/input/option';
+
+import {type Element} from '../../constants/types';
+import {type TextType} from '../block/text';
+import {type ConfirmationType} from '../block/confirmation';
+import {type Props as SelectProperties, selectTypes} from '../../components/input/select';
+import type Option from '../../components/input/option';
 import Text from '../../components/block/text';
 import {transform} from '..';
 import getType from '../../utils/get-type';
-import OptionGroup from '../../components/input/option-group';
+import type OptionGroup from '../../components/input/option-group';
+import {warnIfTooLong} from '../../utils/validation';
+
+import {type OptionGroupType} from './option-group';
+import {type OptionType} from './option';
 
 type ValidSelectType =
   'static_select' |
@@ -23,18 +26,33 @@ type ValidSelectType =
   'channels_select' |
   'multi_channels_select';
 
+type SelectionType = NonNullable<SelectProperties['type']>;
+
 export type SelectType = {
   type: ValidSelectType;
   placeholder: TextType;
   action_id: string;
   options?: OptionType[];
   option_groups?: OptionGroupType[];
+  initial_option?: OptionType;
   initial_options?: OptionType[];
   confirm?: ConfirmationType;
   max_selected_items?: number;
+  min_query_length?: number;
+  focus_on_load?: boolean;
+  initial_user?: string;
   initial_users?: string[];
+  initial_conversation?: string;
   initial_conversations?: string[];
+  initial_channel?: string;
   initial_channels?: string[];
+  default_to_current_conversation?: boolean;
+  response_url_enabled?: boolean;
+  filter?: {
+    include?: Array<'im' | 'mpim' | 'private' | 'public'>;
+    exclude_external_shared_channels?: boolean;
+    exclude_bot_users?: boolean;
+  };
 };
 
 const OPTION = 'Option';
@@ -45,11 +63,107 @@ const types = {
   [selectTypes.EXTERNAL]: 'external_select',
   [selectTypes.USER]: 'users_select',
   [selectTypes.CONVERSATION]: 'conversations_select',
-  [selectTypes.CHANNEL]: 'channels_select'
+  [selectTypes.CHANNEL]: 'channels_select',
 };
 const MULTI_PREFIX = 'multi_';
 
-export default (child: Element): SelectType => {
+const normalizeElements = (elements?: SelectProperties['children']): React.ReactElement[] => {
+  if (!elements) {
+    return [];
+  }
+
+  return Array.isArray(elements) ? elements : [elements];
+};
+
+const assignStaticOptions = (elements: React.ReactElement[], result: SelectType): void => {
+  const elementType = getType(elements[0] as Element);
+  if (elements.some(element => getType(element as Element) !== elementType)) {
+    if (elementType === OPTION && elements.some(element => getType(element as Element) !== OPTION_GROUP)) {
+      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+    } else if (elementType === OPTION_GROUP && elements.some(element => getType(element as Element) !== OPTION)) {
+      throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
+    }
+
+    throw new TypeError('Only allowed types are Option OR OptionGroup');
+  }
+
+  if (elementType === OPTION) {
+    const options = elements as Array<React.ReactElement<Option>>;
+    result.options = options.map(element => transform(element as Element)) as OptionType[];
+  } else if (elementType === OPTION_GROUP) {
+    const optionGroups = elements as Array<React.ReactElement<OptionGroup>>;
+    result.option_groups = optionGroups.map(element => transform(element as Element)) as OptionGroupType[];
+  }
+};
+
+const applyInitialSelections = (
+  type: SelectionType,
+  isMulti: boolean,
+  result: SelectType,
+  initialValues: {
+    initialOptions?: Array<React.ReactElement<Option>>;
+    initialUsers?: string[];
+    initialConversations?: string[];
+    initialChannels?: string[];
+  },
+): void => {
+  const {initialOptions, initialUsers, initialConversations, initialChannels} = initialValues;
+
+  switch (type) {
+    case selectTypes.USER: {
+      if (initialUsers && initialUsers.length > 0) {
+        if (isMulti) {
+          result.initial_users = initialUsers;
+        } else {
+          result.initial_user = initialUsers[0];
+        }
+      }
+
+      break;
+    }
+
+    case selectTypes.CONVERSATION: {
+      if (initialConversations && initialConversations.length > 0) {
+        if (isMulti) {
+          result.initial_conversations = initialConversations;
+        } else {
+          result.initial_conversation = initialConversations[0];
+        }
+      }
+
+      break;
+    }
+
+    case selectTypes.CHANNEL: {
+      if (initialChannels && initialChannels.length > 0) {
+        if (isMulti) {
+          result.initial_channels = initialChannels;
+        } else {
+          result.initial_channel = initialChannels[0];
+        }
+      }
+
+      break;
+    }
+
+    case selectTypes.STATIC:
+    case selectTypes.EXTERNAL: {
+      if (initialOptions && initialOptions.length > 0) {
+        const transformedOptions = initialOptions.map(element => transform(element as Element)) as OptionType[];
+
+        if (isMulti) {
+          result.initial_options = transformedOptions;
+        } else {
+          result.initial_option = transformedOptions[0];
+        }
+      }
+
+      break;
+    }
+  }
+};
+
+const transformSelect = (child: Element): SelectType => {
   const {
     placeholder,
     actionId,
@@ -58,79 +172,89 @@ export default (child: Element): SelectType => {
     initialOptions,
     confirm,
     maxSelectedItems,
-    type: typeProp,
+    type: typeProperty,
     initialUsers,
     initialConversations,
-    initialChannels
-  }: SelectProps = child.props;
+    initialChannels,
+    minQueryLength,
+    focusOnLoad,
+    defaultToCurrentConversation,
+    responseUrlEnabled,
+    filter,
+  }: SelectProperties = child.props;
 
-  const type = typeProp || selectTypes.STATIC;
+  const type: SelectionType = typeProperty ?? selectTypes.STATIC;
   const typeString = `${multi ? MULTI_PREFIX : ''}${types[type]}` as ValidSelectType;
 
-  const res: SelectType = {
+  warnIfTooLong('Select action_id', actionId, 255);
+  warnIfTooLong('Select placeholder', placeholder, 150);
+
+  const result: SelectType = {
     type: typeString,
     placeholder: transform(<Text plainText>{placeholder}</Text>) as TextType,
-    action_id: actionId
+    action_id: actionId,
   };
 
-  let elements = children;
-  if (!Array.isArray(elements)) {
-    elements = [elements] as React.ReactElement[];
-  }
+  const elements = normalizeElements(children);
 
   if (type === selectTypes.STATIC) {
-    const type = getType(elements[0] as Element);
-    if (elements.some((element: React.ReactElement) => getType(element as Element) !== type)) {
-      if (type === OPTION && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION_GROUP)) {
-        throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
-      } else if (type === OPTION_GROUP && elements.some((element: React.ReactElement) => getType(element as Element) !== OPTION)) {
-        throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
-      }
-      throw new TypeError('Only allowed types are Option OR OptionGroup');
-    }
-
-    if (type === OPTION) {
-      elements = elements as React.ReactElement<Option>[];
-
-      res.options = elements.map(element => transform(element as Element)) as OptionType[];
-    } else if (type === OPTION_GROUP) {
-      elements = elements as React.ReactElement<OptionGroup>[];
-
-      res.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
-    }
+    assignStaticOptions(elements, result);
   }
 
   if (confirm) {
-    res.confirm = transform(confirm as Element) as ConfirmationType;
+    result.confirm = transform(confirm as Element) as ConfirmationType;
   }
 
-  if (type !== selectTypes.USER && initialOptions) {
-  }
-
-  switch (type) {
-    case selectTypes.USER:
-      if (initialUsers) {
-        res.initial_users = initialUsers;
-      }
-      break;
-    case selectTypes.CONVERSATION:
-      if (initialConversations) {
-        res.initial_conversations = initialConversations;
-      }
-      break;
-    case selectTypes.CHANNEL:
-      if (initialChannels) {
-        res.initial_channels = initialChannels;
-      }
-    default:
-      if (initialOptions) {
-        res.initial_options = initialOptions.map(element => transform(element as Element)) as OptionType[];
-      }
-  }
+  applyInitialSelections(type, Boolean(multi), result, {
+    initialOptions,
+    initialUsers,
+    initialConversations,
+    initialChannels,
+  });
 
   if (maxSelectedItems) {
-    res.max_selected_items = maxSelectedItems;
+    result.max_selected_items = maxSelectedItems;
   }
 
-  return res;
+  if (focusOnLoad !== undefined) {
+    result.focus_on_load = focusOnLoad;
+  }
+
+  if (type === selectTypes.EXTERNAL && minQueryLength !== undefined) {
+    result.min_query_length = minQueryLength;
+  }
+
+  if (type === selectTypes.CONVERSATION) {
+    if (defaultToCurrentConversation !== undefined) {
+      result.default_to_current_conversation = defaultToCurrentConversation;
+    }
+
+    if (responseUrlEnabled !== undefined) {
+      result.response_url_enabled = responseUrlEnabled;
+    }
+
+    if (filter) {
+      const filterValue: SelectType['filter'] = {};
+
+      if (filter.include && filter.include.length > 0) {
+        filterValue.include = filter.include;
+      }
+
+      if (filter.excludeExternalSharedChannels !== undefined) {
+        filterValue.exclude_external_shared_channels = filter.excludeExternalSharedChannels;
+      }
+
+      if (filter.excludeBotUsers !== undefined) {
+        filterValue.exclude_bot_users = filter.excludeBotUsers;
+      }
+
+      if (Object.keys(filterValue).length > 0) {
+        result.filter = filterValue;
+      }
+    }
+  }
+
+  return result;
 };
+
+export default transformSelect;

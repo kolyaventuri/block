@@ -1,14 +1,16 @@
-import {Element} from '../../constants/types';
+import {type Element} from '../../constants/types';
+import {type Props as DividerProperties} from '../../components/layout/divider';
+import {warnIfTooLong} from '../../utils/validation';
 
-import {Props as DividerProps} from '../../components/layout/divider';
-
-type DividerType = {
+export type DividerType = {
   type: 'divider';
   block_id?: string;
 };
 
-export default (child: Element): DividerType => {
-  const {blockId}: DividerProps = child.props;
+const transformDivider = (child: Element): DividerType => {
+  const {blockId}: DividerProperties = child.props;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: DividerType = {type: 'divider'};
 
@@ -18,3 +20,5 @@ export default (child: Element): DividerType => {
 
   return res;
 };
+
+export default transformDivider;

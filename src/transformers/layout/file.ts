@@ -1,19 +1,21 @@
-import {Element} from '../../constants/types';
-import {Props as FileProps} from '../../components/layout/file';
+import {type Element} from '../../constants/types';
+import {type Props as FileProperties} from '../../components/layout/file';
+import {warnIfTooLong} from '../../utils/validation';
 
-type FileType = {
+export type FileType = {
   type: 'file';
   source: 'remote';
   external_id: string;
   block_id?: string;
 };
 
-export default (child: Element): FileType => {
-  const {externalId, blockId}: FileProps = child.props;
+const transformFile = (child: Element): FileType => {
+  const {externalId, blockId}: FileProperties = child.props;
+  warnIfTooLong('block_id', blockId, 255);
   const res: FileType = {
     type: 'file',
     source: 'remote',
-    external_id: externalId
+    external_id: externalId,
   };
 
   if (blockId) {
@@ -22,3 +24,5 @@ export default (child: Element): FileType => {
 
   return res;
 };
+
+export default transformFile;

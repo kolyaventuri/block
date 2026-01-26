@@ -1,26 +1,30 @@
 import React from 'react';
-import {Element, SerializedInputBlockElement} from '../../constants/types';
-import {TextType} from '../block/text';
-import {Props as InputProps} from '../../components/layout/input';
+
+import {type Element, type SerializedInputBlockElement} from '../../constants/types';
+import {type TextType} from '../block/text';
+import {type Props as InputProperties} from '../../components/layout/input';
 import {transform} from '..';
 import Text from '../../components/block/text';
+import {warnIfTooLong} from '../../utils/validation';
 
-type InputType = {
+export type InputType = {
   type: 'input';
   label: TextType;
   element: SerializedInputBlockElement;
   hint?: TextType;
   optional?: boolean;
   block_id?: string;
-}
+};
 
-export default (child: Element): InputType => {
-  const {label, element, hint, optional, blockId}: InputProps = child.props;
+const transformInput = (child: Element): InputType => {
+  const {label, element, hint, optional, blockId}: InputProperties = child.props;
+
+  warnIfTooLong('block_id', blockId, 255);
 
   const res: InputType = {
     type: 'input',
     label: transform(<Text plainText>{label}</Text>) as TextType,
-    element: transform(element as Element) as SerializedInputBlockElement
+    element: transform(element as Element) as SerializedInputBlockElement,
   };
 
   if (hint) {
@@ -37,3 +41,5 @@ export default (child: Element): InputType => {
 
   return res;
 };
+
+export default transformInput;

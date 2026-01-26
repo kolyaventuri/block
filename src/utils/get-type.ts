@@ -1,11 +1,11 @@
-import {Child} from '../constants/types';
+import {type Child} from '../constants/types';
 
-export default (element: Child): string => {
+const getType = (element: Child): string => {
   if (typeof element === 'string') {
     return 'string';
   }
 
-  if (element === null) {
+  if (element === null || element === undefined || typeof element === 'boolean') {
     return 'null';
   }
 
@@ -14,7 +14,18 @@ export default (element: Child): string => {
   }
 
   const {type} = element;
-  const fn = type as () => void;
 
-  return fn.name || type as string;
+  if (typeof type === 'string') {
+    return type;
+  }
+
+  const {slackType, displayName, name} = type as {
+    slackType?: string;
+    displayName?: string;
+    name?: string;
+  };
+
+  return slackType || displayName || name || (type as string);
 };
+
+export default getType;

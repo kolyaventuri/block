@@ -1,93 +1,147 @@
-import {Component, ReactElement} from 'react';
+import {type ReactElement} from 'react';
+import {type ChatPostMessageArguments} from '@slack/web-api';
+import {
+  type BroadcastedThreadReply,
+  type ChatPostMessageMetadata,
+  type ChannelAndAttachments,
+  type ChannelAndBlocks,
+  type ChannelAndMarkdownText,
+  type ChannelAndText,
+  type IconEmoji,
+  type IconURL,
+  type LinkNames,
+  type Parse,
+  type Unfurls,
+  type Username,
+  type WithinThreadReply,
+} from '@slack/web-api/dist/types/request/chat';
+import {type Block as SlackBlock, type KnownBlock, type MessageAttachment} from '@slack/types';
 
-import Text from '../components/block/text';
-import Button from '../components/block/button';
-import Image from '../components/block/image';
-import Confirmation from '../components/block/confirmation';
+import {type TextType as TextInputType} from '../transformers/input/text';
+import {type DatePickerType} from '../transformers/input/date-picker';
+import {type SelectType} from '../transformers/input/select';
+import {type CheckboxesType} from '../transformers/input/checkboxes';
+import {type TimePickerType} from '../transformers/input/time-picker';
+import {type DateTimePickerType} from '../transformers/input/date-time-picker';
+import {type OptionType} from '../transformers/input/option';
+import {type OptionGroupType} from '../transformers/input/option-group';
+import {type OverflowType} from '../transformers/input/overflow';
+import {type RadioGroupType} from '../transformers/input/radio-group';
+import {type TextType as BlockTextType} from '../transformers/block/text';
+import {type ImageType as BlockImageType} from '../transformers/block/image';
+import {type ButtonType} from '../transformers/block/button';
+import {type ConfirmationType} from '../transformers/block/confirmation';
+import {type ActionType as ActionsType} from '../transformers/layout/actions';
+import {type ContextType} from '../transformers/layout/context';
+import {type DividerType} from '../transformers/layout/divider';
+import {type FileType} from '../transformers/layout/file';
+import {type HeaderType} from '../transformers/layout/header';
+import {type ImageType as ImageLayoutType} from '../transformers/layout/image';
+import {type InputType} from '../transformers/layout/input';
+import {type RichTextType} from '../transformers/layout/rich-text';
+import {type SectionType} from '../transformers/layout/section';
+import {type VideoType} from '../transformers/layout/video';
 
-import Section from '../components/layout/section';
-import Actions from '../components/layout/actions';
-import Context from '../components/layout/context';
+type ImageBlockType = BlockImageType | ImageLayoutType;
 
-import TextInput from '../components/input/text';
-import DatePicker from '../components/input/date-picker';
-import Select from '../components/input/select';
-import Option from '../components/input/option';
-import OptionGroup from '../components/input/option-group';
-import Overflow from '../components/input/overflow';
-import RadioGroup from '../components/input/radio-group';
-
-import {TextType as TextInputType} from '../transformers/input/text';
-import {DatePickerType} from '../transformers/input/date-picker';
-import {SelectType} from '../transformers/input/select';
-import {OptionType} from '../transformers/input/option';
-import {OptionGroupType} from '../transformers/input/option-group';
-import {OverflowType} from '../transformers/input/overflow';
-import {RadioGroupType} from '../transformers/input/radio-group';
-
-import {TextType} from '../transformers/block/text';
-import {ImageType} from '../transformers/block/image';
-import {ButtonType} from '../transformers/block/button';
-import {ConfirmationType} from '../transformers/block/confirmation';
-
-export type Block = ReactElement<Section> | ReactElement<Actions> | ReactElement<Context>;
-export type Attachment = {
-  color: string;
-  blocks: Block[];
-};
-
-export type InteractiveBlockElement = ReactElement<Button>;
-export type SerializedInteractiveBlockElement = ButtonType;
-
-export type StandardBlockElement =
-  ReactElement<Text> |
-  ReactElement<Image> |
-  ReactElement<Confirmation>;
-
-export type InputBlockElement =
-  ReactElement<TextInput> |
-  ReactElement<DatePicker> |
-  ReactElement<Option> |
-  ReactElement<OptionGroup> |
-  ReactElement<Select> |
-  ReactElement<Overflow> |
-  ReactElement<RadioGroup>;
+export type SerializedOption = OptionType | OptionGroupType;
 
 export type SerializedInputBlockElement =
-  TextInputType |
-  DatePickerType |
-  OptionType |
-  OptionGroupType |
-  SelectType |
-  OverflowType |
-  RadioGroupType;
+  | TextInputType
+  | DatePickerType
+  | DateTimePickerType
+  | TimePickerType
+  | CheckboxesType
+  | SelectType
+  | OverflowType
+  | RadioGroupType;
 
-export type BlockElement = InteractiveBlockElement & StandardBlockElement & InputBlockElement;
-export type SerializedBlockElement = TextType | ImageType | ConfirmationType;
+export type SerializedInteractiveBlockElement =
+  | ButtonType
+  | SerializedInputBlockElement;
 
-export type SlackMessage = {
+export type SerializedBlockElement =
+  | BlockTextType
+  | ImageBlockType
+  | ConfirmationType
+  | SerializedInteractiveBlockElement;
+
+export type SerializedBlock =
+  | SectionType
+  | ActionsType
+  | ContextType
+  | DividerType
+  | FileType
+  | HeaderType
+  | ImageBlockType
+  | InputType
+  | RichTextType
+  | VideoType;
+
+export type SerializedElement =
+  | SerializedBlock
+  | SerializedBlockElement
+  | SerializedInputBlockElement
+  | SerializedOption;
+
+export type Block = KnownBlock | SlackBlock;
+export type Attachment = MessageAttachment;
+
+export type InteractiveBlockElement = ReactElement<any, any>;
+export type StandardBlockElement = ReactElement<any, any>;
+
+export type InputBlockElement = ReactElement<any, any>;
+export type BlockElement = InteractiveBlockElement | StandardBlockElement | InputBlockElement;
+
+type SlackMessageContents =
+  | Omit<ChannelAndText, 'channel'>
+  | Omit<ChannelAndBlocks, 'channel'>
+  | Omit<ChannelAndAttachments, 'channel'>
+  | Omit<ChannelAndMarkdownText, 'channel'>;
+
+type SlackAuthorship =
+  | ((IconEmoji | IconURL) & Username)
+  | {
+    as_user: true;
+    icon_emoji?: never;
+    icon_url?: never;
+    username?: never;
+  };
+
+type SlackThreadReply = WithinThreadReply | BroadcastedThreadReply;
+
+type SlackMessageBase = SlackMessageContents
+  & SlackThreadReply
+  & SlackAuthorship
+  & Parse
+  & LinkNames
+  & Unfurls
+  & ChatPostMessageMetadata
+  & {mrkdwn?: boolean};
+
+export type SlackMessage = SlackMessageBase & Omit<ChatPostMessageArguments, 'channel' | 'token'>;
+
+export type SlackMessageDraft = SlackMessage & {
   text?: string;
-  as_user?: boolean;
   blocks?: Block[];
   attachments?: Attachment[];
-  icon_emoji?: string;
-  icon_url?: string;
-  link_names?: boolean;
-  mrkdwn?: boolean;
-  parse?: 'full' | 'none';
-  reply_broadcast?: boolean;
-  thread_ts?: string;
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
-  username?: string;
+  markdown_text?: string;
 };
 
-type AnyFunction = () => any;
+type AnyFunction = (...parameters: any[]) => any;
+
+type AnyConstructor = new (...parameters: any[]) => any;
 
 export type WithType = {
-  type?: string | AnyFunction;
+  type?: string | AnyFunction | AnyConstructor;
 };
-export type BComponent = Component & WithType;
-export type BElement = ReactElement & WithType;
-export type Element = BComponent | BElement;
-export type Child = string | Element | Element[];
+export type BElement = ReactElement<any, any> & WithType;
+export type Element = BElement;
+export type Child =
+  | string
+  | Element
+  | Child[]
+  | boolean
+  | undefined
+  // eslint-disable-next-line @typescript-eslint/no-restricted-types -- React children can be null.
+  | null;

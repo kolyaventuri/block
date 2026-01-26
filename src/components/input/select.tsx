@@ -1,23 +1,26 @@
 import React from 'react';
-import Confirmation from '../block/confirmation';
-import Option from './option';
-import OptionGroup from './option-group';
-import {SingleOrArray} from '../../utils/type-helpers';
+
+import type Confirmation from '../block/confirmation';
+import {type SingleOrArray} from '../../utils/type-helpers';
+
+import type Option from './option';
+import type OptionGroup from './option-group';
 
 export const selectTypes = {
   STATIC: 'static',
   EXTERNAL: 'external',
   USER: 'user',
   CONVERSATION: 'conversation',
-  CHANNEL: 'channel'
-};
+  CHANNEL: 'channel',
+} as const;
 
-type SelectType =
-  'static' |
-  'external' |
-  'user' |
-  'conversation' |
-  'channel';
+type SelectType = typeof selectTypes[keyof typeof selectTypes];
+
+type ConversationFilter = {
+  include?: Array<'im' | 'mpim' | 'private' | 'public'>;
+  excludeExternalSharedChannels?: boolean;
+  excludeBotUsers?: boolean;
+};
 
 export type Props = {
   placeholder: string;
@@ -25,12 +28,19 @@ export type Props = {
   type?: SelectType;
   multi?: boolean;
   children?: SingleOrArray<React.ReactElement<Option>> | SingleOrArray<React.ReactElement<OptionGroup>>;
-  initialOptions?: React.ReactElement<Option>[];
+  initialOptions?: Array<React.ReactElement<Option>>;
   confirm?: React.ReactElement<Confirmation>;
   maxSelectedItems?: number;
+  minQueryLength?: number;
+  focusOnLoad?: boolean;
   initialUsers?: string[];
   initialConversations?: string[];
   initialChannels?: string[];
-}
+  defaultToCurrentConversation?: boolean;
+  responseUrlEnabled?: boolean;
+  filter?: ConversationFilter;
+};
 
-export default class Select extends React.Component<Props> {}
+export default class Select extends React.Component<Props> {
+  static slackType = 'Select';
+}

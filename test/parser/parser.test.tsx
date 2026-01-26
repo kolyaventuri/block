@@ -1,67 +1,104 @@
 import React from 'react';
-import test from 'ava';
-import {stub} from 'sinon';
-import proxyquire from 'proxyquire';
+import {
+  beforeEach,
+  expect,
+  test,
+  vi,
+} from 'vitest';
 
-const fooTransformer = stub();
-const divTransformer = stub().callsFake(elem => {
-  return {
-    type: 'div',
-    text: elem.props.children 
-  }
+import parser from '../../src/parser';
+
+const fooTransformer = vi.hoisted(() => vi.fn());
+const divTransformer = vi.hoisted(() => vi.fn(element => ({
+  type: 'div',
+  text: element.props.children,
+})));
+
+vi.mock('../../src/transformers', () => ({
+  default: {
+    Foo: fooTransformer,
+    div: divTransformer,
+  },
+}));
+
+beforeEach(() => {
+  fooTransformer.mockClear();
+  divTransformer.mockClear();
 });
 
-const parser = proxyquire('../../src/parser', {
-  '../transformers': {
-    default: {
-      Foo: fooTransformer,
-      div: divTransformer
-    }
-  }
-}).default;
-
-test('it returns a basic message if the child is just a string', t => {
+test('it returns a basic message if the child is just a string', () => {
   const text = 'Hello, world!';
   const result = parser(text);
   const expected = {text};
 
-  t.deepEqual(result, expected);
+  expect(result).toEqual(expected);
 });
 
-const Foo = () => <p>Test</p>;
-test('it passes the item to the right transformer', t => {
-  const elem = (
+function Foo() {
+  return <p>Test</p>;
+}
+
+test('it passes the item to the right transformer', () => {
+  const element = (
     <div>
       <p>Hi</p>
     </div>
   );
 
-  const elem2 = <Foo/>;
+  const element2 = <Foo/>;
 
-  parser([elem, elem2]);
+  parser([element, element2]);
 
-  t.true(divTransformer.calledWith(elem));
-  t.true(fooTransformer.calledWith(elem2));
+  expect(divTransformer).toHaveBeenCalledWith(element);
+  expect(fooTransformer).toHaveBeenCalledWith(element2);
 });
 
-test('it returns the result of the transformers', t => {
+test('it returns the result of the transformers', () => {
   const res = parser(<div>Foo</div>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     blocks: [
-      {type: 'div', text: 'Foo'}
-    ]
+      {type: 'div', text: 'Foo'},
+    ],
   });
 });
 
-test('it does not transform unkown types', t => {
+test('it does not transform unkown types', () => {
   const res = parser(<p>Hi</p>);
 
-  t.deepEqual(res, {});
+  expect(res).toEqual({blocks: []});
 });
 
-test('it does not explode on null', t => {
-  const fn = () => parser(null);
+test('it does not explode on null', () => {
+  const function_ = () => parser(null);
 
-  t.notThrows(fn);
+  expect(function_).not.toThrow();
+});
+
+test('it ignores falsey children', () => {
+  const element = <div>Hi</div>;
+
+  const res = parser([false, undefined, null, element]);
+
+  expect(res).toEqual({
+    blocks: [
+      {type: 'div', text: 'Hi'},
+    ],
+  });
+});
+
+test('it flattens nested child arrays', () => {
+  const element = <div>One</div>;
+  const element2 = <div>Two</div>;
+  const element3 = <div>Three</div>;
+
+  const res = parser([element, [element2, [element3]]]);
+
+  expect(res).toEqual({
+    blocks: [
+      {type: 'div', text: 'One'},
+      {type: 'div', text: 'Two'},
+      {type: 'div', text: 'Three'},
+    ],
+  });
 });

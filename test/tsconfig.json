@@ -2,7 +2,11 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "removeComments": true,
-    "target": "es5",
+    "target": "es2019",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node", "react"],
+    "lib": ["es2019", "dom", "esnext.disposable"],
     "jsx": "react",
     "esModuleInterop": true
   }

@@ -1,7 +1,9 @@
 import React from 'react';
-import Confirmation from '../block/confirmation';
-import Option from './option';
-import {SingleOrArray} from '../../utils/type-helpers';
+
+import type Confirmation from '../block/confirmation';
+import {type SingleOrArray} from '../../utils/type-helpers';
+
+import type Option from './option';
 
 export type Props = {
   actionId: string;
@@ -9,4 +11,6 @@ export type Props = {
   confirm?: React.ReactElement<Confirmation>;
 };
 
-export default class Overflow extends React.Component<Props> {}
+export default class Overflow extends React.Component<Props> {
+  static slackType = 'Overflow';
+}

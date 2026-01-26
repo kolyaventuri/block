@@ -5,4 +5,6 @@ export type Props = {
   blockId?: string;
 };
 
-export default class File extends React.Component<Props> {}
+export default class File extends React.Component<Props> {
+  static slackType = 'File';
+}

@@ -2,9 +2,14 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "removeComments": true,
-    "outDir": "../lib" ,
+    "outDir": "../dist" ,
     "rootDir": ".",
-    "target": "es5",
+    "declaration": true,
+    "declarationMap": true,
+    "target": "es2019",
+    "module": "Node16",
+    "moduleResolution": "node16",
+    "types": ["node", "react"],
     "esModuleInterop": true,
     "jsx": "react" 
   }

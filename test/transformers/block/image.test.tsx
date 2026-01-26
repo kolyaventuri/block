@@ -1,20 +1,18 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/block/image';
 import Image from '../../../src/components/block/image';
 
-test('transforms an image block', t => {
-  const res = transformer(
-    <Image
-      url="someUrl"
-      alt="someAlt"
-    />
-  );
+test('transforms an image block', () => {
+  const res = transformer(<Image
+    url="someUrl"
+    alt="someAlt"
+  />);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'image',
-    url: 'someUrl',
-    alt: 'someAlt'
+    image_url: 'someUrl',
+    alt_text: 'someAlt',
   });
 });

@@ -1,20 +1,20 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/layout/divider';
 import Divider from '../../../src/components/layout/divider';
 
-test('transforms a basic divider', t => {
+test('transforms a basic divider', () => {
   const res = transformer(<Divider/>);
 
-  t.deepEqual(res, {type: 'divider'});
+  expect(res).toEqual({type: 'divider'});
 });
 
-test('transforms a divider with id', t => {
+test('transforms a divider with id', () => {
   const res = transformer(<Divider blockId="blockId"/>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     type: 'divider',
-    block_id: 'blockId'
+    block_id: 'blockId',
   });
 });

@@ -1,20 +1,22 @@
 import React from 'react';
-import Confirmation from './confirmation';
 
-type TopProps = {
+import type Confirmation from './confirmation';
+
+type TopProperties = {
   children: string;
   actionId: string;
   url?: string;
   value?: string;
   style?: 'primary' | 'danger';
+  accessibilityLabel?: string;
 };
 
-export type ButtonProps = TopProps & {
-  confirm?: Confirmation;
-};
-
-type Props = TopProps & {
+export type ButtonProps = TopProperties & {
   confirm?: React.ReactElement<Confirmation>;
 };
 
-export default class Button extends React.Component<Props> {}
+type Properties = ButtonProps;
+
+export default class Button extends React.Component<Properties> {
+  static slackType = 'Button';
+}

@@ -1,26 +1,24 @@
 import React from 'react';
-import test from 'ava';
+import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/input/option-group';
 import optionTransformer from '../../../src/transformers/input/option';
 import Option from '../../../src/components/input/option';
 import OptionGroup from '../../../src/components/input/option-group';
 
-test('transforms an OptionGroup', t => {
+test('transforms an OptionGroup', () => {
   const option = <Option value="val">SomeOption</Option>;
   const transformedOption = optionTransformer(option);
 
-  const res = transformer(
-    <OptionGroup label="someLabel">
-      {option}
-    </OptionGroup>
-  );
+  const res = transformer(<OptionGroup label="someLabel">
+    {option}
+  </OptionGroup>);
 
-  t.deepEqual(res, {
+  expect(res).toEqual({
     label: {
       type: 'plain_text',
-      text: 'someLabel'
+      text: 'someLabel',
     },
-    options: [transformedOption]
+    options: [transformedOption],
   });
 });
