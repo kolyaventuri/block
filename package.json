@@ -45,7 +45,8 @@
     "test:tsc": "tsc -p ./src -p ./test --noEmit",
     "test:lint": "xo",
     "test:unit": "vitest run",
-    "prebuild": "rimraf dist",
+    "prebuild": "pnpm run clean",
+    "clean": "rimraf ./dist",
     "build": "tsup",
     "prepublish": "pnpm run test && pnpm run build"
   },
