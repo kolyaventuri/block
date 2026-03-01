@@ -33,6 +33,7 @@
       "default": "./dist/block.cjs"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist",
     "README.md",
