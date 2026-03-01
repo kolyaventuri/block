@@ -93,6 +93,11 @@
     "@slack/types": "^2.19.0",
     "@slack/web-api": "^7.13.0"
   },
+  "pnpm": {
+    "overrides": {
+      "rollup": "^4.59.0"
+    }
+  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "xo"
