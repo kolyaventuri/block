@@ -69,7 +69,6 @@
   "homepage": "https://github.com/kolyaventuri/block#readme",
   "devDependencies": {
     "@types/node": "25.0.10",
-    "@types/react": "^19.2.9",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
     "eslint": "^9.39.2",
@@ -80,15 +79,11 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "react": "^19.2.3",
     "rimraf": "^6.1.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18",
     "xo": "^1.2.3"
-  },
-  "peerDependencies": {
-    "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "dependencies": {
     "@slack/types": "^2.19.0"
