@@ -48,7 +48,7 @@
     "prebuild": "pnpm run clean",
     "clean": "rimraf ./dist",
     "build": "tsup",
-    "prepublish": "pnpm run test && pnpm run build"
+    "prepublishOnly": "pnpm run test && pnpm run build"
   },
   "repository": {
     "type": "git",
