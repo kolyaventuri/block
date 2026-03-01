@@ -1,6 +1,3 @@
-import {type Child, type Element} from '../constants/types';
-import getType from '../utils/get-type';
-
 import Text from './block/text';
 import Confirmation from './block/confirmation';
 import Button from './block/button';
@@ -38,10 +35,9 @@ import RichTextEmoji from './rich-text/emoji';
 import RichTextDate from './rich-text/date';
 import RichTextBroadcast from './rich-text/broadcast';
 import RichTextUserGroup from './rich-text/user-group';
+import Transformers from './registry';
 
-type TransformersType = Record<string, (child: Child) => unknown>;
-
-const Transformers: TransformersType = {
+Object.assign(Transformers, {
   Container,
   Section,
   Actions,
@@ -53,12 +49,10 @@ const Transformers: TransformersType = {
   Input,
   RichText,
   Video,
-
   Text,
   Confirmation,
   Button,
   Image,
-
   TextInput,
   DateTimePicker,
   DatePicker,
@@ -67,10 +61,8 @@ const Transformers: TransformersType = {
   Overflow,
   RadioGroup,
   TimePicker,
-
   Option,
   OptionGroup,
-
   RichTextSection,
   RichTextList,
   RichTextQuote,
@@ -83,16 +75,8 @@ const Transformers: TransformersType = {
   RichTextDate,
   RichTextBroadcast,
   RichTextUserGroup,
-};
+});
 
-export default Transformers;
+export {default} from './registry';
 
-export const transform = (element: Element): Record<string, any> => {
-  const type = getType(element);
-
-  if (!Transformers[type]) {
-    throw new Error(`No transformer exists for type '${type}'`);
-  }
-
-  return Transformers[type](element);
-};
+export {transform} from './transform';

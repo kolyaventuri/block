@@ -4,7 +4,7 @@ import {type Props as DatePickerProperties} from '../../components/input/date-pi
 import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {type ConfirmationType} from '../block/confirmation';
-import {transform} from '..';
+import {transform} from '../transform';
 import Text from '../../components/block/text';
 import {warnIfTooLong} from '../../utils/validation';
 

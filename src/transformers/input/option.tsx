@@ -4,7 +4,7 @@ import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
 import Text from '../../components/block/text';
 import {type Props as OptionProperties} from '../../components/input/option';
-import {transform} from '..';
+import {transform} from '../transform';
 import {warnIfTooLong} from '../../utils/validation';
 
 export type OptionType = {

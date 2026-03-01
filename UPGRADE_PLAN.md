@@ -1,12 +1,12 @@
 # Upgrade Plan
 
-This plan modernizes the codebase, targets Node >= 24 (current LTS),
+This plan modernizes the codebase, targets Node >= 20 (current LTS),
 migrates to pnpm, stabilizes builds/tests, and then aligns with the
 current Slack Block Kit API. The project uses JSX as a templating engine
 and does not require a full React runtime unless intentionally kept.
 
 ## Goals
-- Target Node >= 24 and modern TypeScript outputs.
+- Target Node >= 20 and modern TypeScript outputs.
 - Migrate from npm to pnpm with a clean, reproducible install.
 - Fix packaging/exports so documented imports work.
 - Harden runtime behavior (parsing/transformers) and typings.
@@ -20,12 +20,12 @@ and does not require a full React runtime unless intentionally kept.
 - Block Kit coverage expanded with new blocks/elements, with rich_text helpers and dispatch_action_config now included.
 
 ## Constraints
-- Node >= 24 (LTS) as the supported runtime.
+- Node >= 20 (LTS) as the supported runtime.
 - JSX remains as a templating layer (React optional).
 - Avoid regressions; keep API surface stable where possible, or document changes.
 
 ## Status (Completed So Far)
-- Node >= 24 engine requirement and pnpm pin added in `package.json`.
+- Node >= 20 engine requirement and pnpm pin added in `package.json`.
 - npm lockfile removed; `pnpm-lock.yaml` added and installs verified.
 - TypeScript baseline updated to `es2019` with `moduleResolution: node16`.
 - Declarations enabled with `declarationMap`, and build output standardized on `dist/`.
@@ -37,7 +37,7 @@ and does not require a full React runtime unless intentionally kept.
 - React and `@types/react` upgraded to current 19.x.
 - React moved to `peerDependencies` (kept in `devDependencies` for tests).
 - Git hooks migrated to Husky + lint-staged; `npm-run-all` and `pre-commit` removed.
-- Tests passing on Node 24 (`pnpm test`) with Vitest.
+- Tests passing on Node 20/22/24 (`pnpm test`) with Vitest.
 - Transformer routing stabilized with component `slackType` identifiers.
 - Parser/container now ignore falsey children and fully flatten nested arrays.
 - Image block vs layout fields aligned to Slack spec.
@@ -48,14 +48,22 @@ and does not require a full React runtime unless intentionally kept.
 - Added select enhancements (`min_query_length`, conversation filter/flags) and option descriptions.
 - Added `focus_on_load` across inputs and `accessibility_label` for buttons.
 - Added `dispatch_action_config` for text inputs and rich_text helper components.
+- Dropped `@slack/web-api` runtime dependency; types replicated locally in `src/constants/slack-message-types.ts`.
+- Deleted `.npmignore`; `files` field in `package.json` is the sole publish whitelist.
+- Renamed `prepublish` → `prepublishOnly` to prevent accidental runs on install.
+- Added `"sideEffects": false` to `package.json` for better bundler tree-shaking.
+- Extracted shared `normalizeChildren` to `src/utils/normalize-children.ts`.
+- Broke circular transformer import: registry moved to `src/transformers/registry.ts`, `transform()` extracted to `src/transformers/transform.ts`; `import-x/no-cycle` re-enabled.
+- Added end-to-end pipeline tests in `test/e2e/pipeline.test.tsx` covering all major block/input/rich-text types and conditional Container rendering.
+- CI matrix expanded to Node 20, 22, and 24.
 
 ## Phase 0: Baseline & Safety Net
 - Add a `UPGRADE_NOTES.md` for tracked decisions, breaking changes, and rationale.
 - Ensure tests run on current branch before changes; document gaps.
 - Define a minimal "golden" JSON output spec for key components.
 
-## Phase 1: Tooling + Runtime Baseline (Node >= 24)
-- Set `engines.node` to `>=24` in `package.json`. (done)
+## Phase 1: Tooling + Runtime Baseline (Node >= 20)
+- Set `engines.node` to `>=20` in `package.json`. (done)
 - Add `packageManager` with a pinned pnpm version. (done)
 - Replace `package-lock.json` with `pnpm-lock.yaml`. (done)
 - Update TS config:
@@ -125,7 +133,7 @@ and does not require a full React runtime unless intentionally kept.
 - Remaining optional gaps: none for Phase 6; further validation tightening can be added as needed.
 
 ## Phase 7: CI + Release Hygiene
-- Add CI matrix for Node 24. (done via GitHub Actions)
+- Add CI matrix for Node 20, 22, and 24. (done via GitHub Actions)
 - Add `pnpm install --frozen-lockfile` to CI. (done)
 - Ensure `build`, `lint`, and `test` pipelines are green. (done)
 - Add release notes template and changelog entry format. (done)
@@ -136,6 +144,7 @@ and does not require a full React runtime unless intentionally kept.
   - `Select` with multi/single `initial_*`.
   - `Image` block vs `Image` layout.
   - Container conditional rendering with nested arrays.
+- End-to-end pipeline tests in `test/e2e/` exercising the full render() API. (done)
 - Snapshot JSON outputs for key component trees.
 - Type tests (tsd or tsd-lite) for public API typing.
 
@@ -145,7 +154,7 @@ and does not require a full React runtime unless intentionally kept.
 - Provide a v1.0 breaking-change boundary if needed.
 
 ## Acceptance Criteria
-- Node >= 24 compatibility verified in CI.
+- Node >= 20 compatibility verified in CI.
 - pnpm lockfile and builds are deterministic.
 - Published package supports documented imports.
 - All tests pass on Node 24.

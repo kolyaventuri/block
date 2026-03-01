@@ -1,5 +1,5 @@
 import {type Element} from '../../constants/types';
-import {transform} from '..';
+import {transform} from '../transform';
 
 type RichTextChild = Element | string;
 

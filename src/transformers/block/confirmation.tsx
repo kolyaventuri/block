@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {type Element} from '../../constants/types';
-import {transform} from '..';
+import {transform} from '../transform';
 import {type ConfirmationProps} from '../../components/block/confirmation';
 import Text from '../../components/block/text';
 

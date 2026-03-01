@@ -1,6 +1,6 @@
 import {type Element, type SerializedInteractiveBlockElement, type InteractiveBlockElement} from '../../constants/types';
 import {type Props as ActionProperties} from '../../components/layout/actions';
-import {transform} from '..';
+import {transform} from '../transform';
 import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
 
 export type ActionType = {

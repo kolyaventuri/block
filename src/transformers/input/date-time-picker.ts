@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as DateTimePickerProperties} from '../../components/input/date-time-picker';
 import {type ConfirmationType} from '../block/confirmation';
-import {transform} from '..';
+import {transform} from '../transform';
 import {warnIfTooLong} from '../../utils/validation';
 
 export type DateTimePickerType = {

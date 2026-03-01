@@ -3,7 +3,7 @@ import React from 'react';
 import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {type Props as ImageProperties} from '../../components/layout/image';
-import {transform} from '..';
+import {transform} from '../transform';
 import Text from '../../components/block/text';
 import {warnIfTooLong} from '../../utils/validation';
 

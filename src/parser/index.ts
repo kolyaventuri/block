@@ -1,28 +1,7 @@
 import {type Child, type Block, type SlackMessageDraft} from '../constants/types';
 import transformers from '../transformers';
 import getType from '../utils/get-type';
-
-const normalizeChildren = (children: Child): Child[] => {
-  const result: Child[] = [];
-  const stack = Array.isArray(children) ? [...children] : [children];
-
-  while (stack.length > 0) {
-    const child = stack.shift();
-
-    if (child === null || child === undefined || typeof child === 'boolean') {
-      continue;
-    }
-
-    if (Array.isArray(child)) {
-      stack.unshift(...child);
-      continue;
-    }
-
-    result.push(child);
-  }
-
-  return result;
-};
+import normalizeChildren from '../utils/normalize-children';
 
 const appendTransformed = (value: unknown, blocks: Block[]): void => {
   if (value === null || value === undefined || typeof value === 'boolean') {
