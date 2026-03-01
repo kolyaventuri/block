@@ -21,7 +21,7 @@ module.exports = [
       'react/jsx-closing-bracket-location': 'off',
       'react/jsx-closing-tag-location': 'off',
       'react/jsx-sort-props': 'off',
-      'import-x/no-cycle': 'off',
+      'import-x/no-cycle': 'error',
       'import-x/order': [
         'error',
         {

@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as CheckboxesProperties} from '../../components/input/checkboxes';
 import {type ConfirmationType} from '../block/confirmation';
-import {transform} from '..';
+import {transform} from '../transform';
 import {warnIfTooLong} from '../../utils/validation';
 
 import {type OptionType} from './option';

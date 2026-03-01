@@ -2,7 +2,7 @@ import React from 'react';
 
 import {type Element} from '../../constants/types';
 import {type ButtonProps} from '../../components/block/button';
-import {transform} from '..';
+import {transform} from '../transform';
 import Text from '../../components/block/text';
 import Confirmation from '../../components/block/confirmation';
 import {warnIfTooLong} from '../../utils/validation';

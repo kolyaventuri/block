@@ -2,7 +2,7 @@ import {type Element} from '../../constants/types';
 import {type Props as ContextProperties, type ImageOrText as ImageOrTextElement} from '../../components/layout/context';
 import {type TextType} from '../block/text';
 import {type ImageType} from '../block/image';
-import {transform} from '..';
+import {transform} from '../transform';
 import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
 
 type ImageOrText = ImageType | TextType;

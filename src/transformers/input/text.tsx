@@ -4,7 +4,7 @@ import Text from '../../components/block/text';
 import {type Props as TextInputProperties} from '../../components/input/text';
 import {type TextType as TextProperties} from '../block/text';
 import {type Element} from '../../constants/types';
-import {transform} from '..';
+import {transform} from '../transform';
 import {warnIfTooLong} from '../../utils/validation';
 
 export type TextType = {

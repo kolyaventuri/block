@@ -1,6 +1,6 @@
 import {type Element, type SerializedBlockElement} from '../../constants/types';
 import {type TextType as Text} from '../block/text';
-import {transform} from '..';
+import {transform} from '../transform';
 import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
 
 export type SectionType = {

@@ -1,6 +1,6 @@
 import {type Props as ContainerProperties} from '../../components/layout/container';
 import {type Element, type Child} from '../../constants/types';
-import {transform} from '..';
+import {transform} from '../transform';
 import normalizeChildren from '../../utils/normalize-children';
 
 type ContainerType = Child[];

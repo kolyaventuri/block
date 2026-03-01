@@ -3,7 +3,7 @@ import React from 'react';
 import {type Element, type SerializedInputBlockElement} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {type Props as InputProperties} from '../../components/layout/input';
-import {transform} from '..';
+import {transform} from '../transform';
 import Text from '../../components/block/text';
 import {warnIfTooLong} from '../../utils/validation';
 
