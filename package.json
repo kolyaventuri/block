@@ -91,10 +91,12 @@
   },
   "dependencies": {
     "@slack/types": "^2.19.0",
-    "@slack/web-api": "^7.13.0"
+    "@slack/web-api": "^7.14.1"
   },
   "pnpm": {
     "overrides": {
+      "@eslint/plugin-kit": "^0.3.4",
+      "minimatch": "^10.2.3",
       "rollup": "^4.59.0"
     }
   },
