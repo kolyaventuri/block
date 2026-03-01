@@ -1,5 +1,15 @@
 # Changelog
 
+### 1.1.0
+- Drop `@slack/web-api` runtime dependency; types replicated locally
+- Lower Node engine requirement to `>=20` (from `>=24`)
+- Add CI matrix for Node 20, 22, and 24
+- Break circular transformer import via mutable registry pattern
+- Extract shared `normalizeChildren` utility
+- Add `"sideEffects": false` for bundler tree-shaking
+- Add end-to-end pipeline tests covering all major block/input/rich-text types
+- Fix publish hygiene: delete `.npmignore`, rename `prepublish` → `prepublishOnly`
+
 ### 1.0.1
 - Upgrade `@slack/web-api` to 7.14.1 (resolves CVE-2026-25639 via axios upgrade)
 - Bump `rollup` to 4.59.0 (resolves CVE-2026-27606)
