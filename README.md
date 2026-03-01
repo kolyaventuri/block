@@ -1,7 +1,7 @@
 # SlackBlock
 JSX-based Slack message renderer
 
-[![CircleCI](https://circleci.com/gh/kolyaventuri/block/tree/master.svg?style=svg)](https://circleci.com/gh/kolyaventuri/block/tree/master)
+[![CI](https://github.com/kolyaventuri/block/actions/workflows/ci.yml/badge.svg)](https://github.com/kolyaventuri/block/actions/workflows/ci.yml)
 
 ## What
 A message builder for Slack bots, using JSX with a React-compatible API. Generally follows the [Block Kit](https://api.slack.com/block-kit) naming and options.
