@@ -1,12 +1,12 @@
 # Upgrade Plan
 
-This plan modernizes the codebase, targets Node >= 24 (current LTS),
+This plan modernizes the codebase, targets Node >= 20 (current LTS),
 migrates to pnpm, stabilizes builds/tests, and then aligns with the
 current Slack Block Kit API. The project uses JSX as a templating engine
 and does not require a full React runtime unless intentionally kept.
 
 ## Goals
-- Target Node >= 24 and modern TypeScript outputs.
+- Target Node >= 20 and modern TypeScript outputs.
 - Migrate from npm to pnpm with a clean, reproducible install.
 - Fix packaging/exports so documented imports work.
 - Harden runtime behavior (parsing/transformers) and typings.
@@ -20,12 +20,12 @@ and does not require a full React runtime unless intentionally kept.
 - Block Kit coverage expanded with new blocks/elements, with rich_text helpers and dispatch_action_config now included.
 
 ## Constraints
-- Node >= 24 (LTS) as the supported runtime.
+- Node >= 20 (LTS) as the supported runtime.
 - JSX remains as a templating layer (React optional).
 - Avoid regressions; keep API surface stable where possible, or document changes.
 
 ## Status (Completed So Far)
-- Node >= 24 engine requirement and pnpm pin added in `package.json`.
+- Node >= 20 engine requirement and pnpm pin added in `package.json`.
 - npm lockfile removed; `pnpm-lock.yaml` added and installs verified.
 - TypeScript baseline updated to `es2019` with `moduleResolution: node16`.
 - Declarations enabled with `declarationMap`, and build output standardized on `dist/`.
@@ -54,7 +54,7 @@ and does not require a full React runtime unless intentionally kept.
 - Ensure tests run on current branch before changes; document gaps.
 - Define a minimal "golden" JSON output spec for key components.
 
-## Phase 1: Tooling + Runtime Baseline (Node >= 24)
+## Phase 1: Tooling + Runtime Baseline (Node >= 20)
 - Set `engines.node` to `>=24` in `package.json`. (done)
 - Add `packageManager` with a pinned pnpm version. (done)
 - Replace `package-lock.json` with `pnpm-lock.yaml`. (done)
@@ -145,7 +145,7 @@ and does not require a full React runtime unless intentionally kept.
 - Provide a v1.0 breaking-change boundary if needed.
 
 ## Acceptance Criteria
-- Node >= 24 compatibility verified in CI.
+- Node >= 20 compatibility verified in CI.
 - pnpm lockfile and builds are deterministic.
 - Published package supports documented imports.
 - All tests pass on Node 24.
