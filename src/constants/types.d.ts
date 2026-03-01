@@ -1,20 +1,4 @@
 import {type ReactElement} from 'react';
-import {type ChatPostMessageArguments} from '@slack/web-api';
-import {
-  type BroadcastedThreadReply,
-  type ChatPostMessageMetadata,
-  type ChannelAndAttachments,
-  type ChannelAndBlocks,
-  type ChannelAndMarkdownText,
-  type ChannelAndText,
-  type IconEmoji,
-  type IconURL,
-  type LinkNames,
-  type Parse,
-  type Unfurls,
-  type Username,
-  type WithinThreadReply,
-} from '@slack/web-api/dist/types/request/chat';
 import {type Block as SlackBlock, type KnownBlock, type MessageAttachment} from '@slack/types';
 
 import {type TextType as TextInputType} from '../transformers/input/text';
@@ -41,6 +25,23 @@ import {type InputType} from '../transformers/layout/input';
 import {type RichTextType} from '../transformers/layout/rich-text';
 import {type SectionType} from '../transformers/layout/section';
 import {type VideoType} from '../transformers/layout/video';
+
+import {
+  type BroadcastedThreadReply,
+  type ChatPostMessageArguments,
+  type ChatPostMessageMetadata,
+  type ChannelAndAttachments,
+  type ChannelAndBlocks,
+  type ChannelAndMarkdownText,
+  type ChannelAndText,
+  type IconEmoji,
+  type IconURL,
+  type LinkNames,
+  type Parse,
+  type Unfurls,
+  type Username,
+  type WithinThreadReply,
+} from './slack-message-types';
 
 type ImageBlockType = BlockImageType | ImageLayoutType;
 
