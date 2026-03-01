@@ -6,9 +6,7 @@ settings:
 
 overrides:
   '@eslint/plugin-kit': ^0.3.4
-  '@isaacs/brace-expansion': ^5.0.1
   ajv: ^8.18.0
-  axios: ^1.13.5
   minimatch: ^10.2.3
   rollup: ^4.59.0
 
@@ -20,8 +18,8 @@ importers:
         specifier: ^2.19.0
         version: 2.19.0
       '@slack/web-api':
-        specifier: ^7.13.0
-        version: 7.13.0
+        specifier: ^7.14.1
+        version: 7.14.1
     devDependencies:
       '@types/node':
         specifier: 25.0.10
@@ -579,8 +577,12 @@ packages:
     resolution: {integrity: sha512-7+QZ38HGcNh/b/7MpvPG6jnw7mliV6UmrquJLqgdxkzJgQEYUcEztvFWRU49z0x4vthF0ixL5lTK601AXrS8IA==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
 
-  '@slack/web-api@7.13.0':
-    resolution: {integrity: sha512-ERcExbWrnkDN8ovoWWe6Wgt/usanj1dWUd18dJLpctUI4mlPS0nKt81Joh8VI+OPbNnY1lIilVt9gdMBD9U2ig==}
+  '@slack/types@2.20.0':
+    resolution: {integrity: sha512-PVF6P6nxzDMrzPC8fSCsnwaI+kF8YfEpxf3MqXmdyjyWTYsZQURpkK7WWUWvP5QpH55pB7zyYL9Qem/xSgc5VA==}
+    engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
+
+  '@slack/web-api@7.14.1':
+    resolution: {integrity: sha512-RoygyteJeFswxDPJjUMESn9dldWVMD2xUcHHd9DenVavSfVC6FeVnSdDerOO7m8LLvw4Q132nQM4hX8JiF7dng==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
 
   '@standard-schema/spec@1.1.0':
@@ -3202,10 +3204,12 @@ snapshots:
 
   '@slack/types@2.19.0': {}
 
-  '@slack/web-api@7.13.0':
+  '@slack/types@2.20.0': {}
+
+  '@slack/web-api@7.14.1':
     dependencies:
       '@slack/logger': 4.0.0
-      '@slack/types': 2.19.0
+      '@slack/types': 2.20.0
       '@types/node': 25.0.10
       '@types/retry': 0.12.0
       axios: 1.13.6
