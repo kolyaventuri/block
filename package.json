@@ -1,6 +1,6 @@
 {
   "name": "slackblock",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JSX-based Slack message renderer",
   "engines": {
     "node": ">=24"

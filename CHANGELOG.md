@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.0.1
+- Upgrade `@slack/web-api` to 7.14.1 (resolves CVE-2026-25639 via axios upgrade)
+- Bump `rollup` to 4.59.0 (resolves CVE-2026-27606)
+- Bump `minimatch` to 10.2.3+ (resolves CVE-2026-27904, CVE-2026-27903, CVE-2026-26996)
+- Resolve CVE-2025-69873 via ajv 6.14.0 (already latest in range)
+- Resolve CVE-2026-25547 via minimatch 10.2.3+ (replaces @isaacs/brace-expansion)
+
 ### 1.0.0
 - Modernize tooling (Node 24, pnpm, tsup, Vitest, XO, Husky + lint-staged)
 - Stabilize parser/transformer routing and align output types to serialized JSON
