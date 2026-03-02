@@ -1,10 +1,11 @@
 import {type SlackMessage, type SlackMessageDraft, type Element} from '../constants/types';
+import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
 import getType from '../utils/get-type';
 import {warnIfTooMany} from '../utils/validation';
 
 const render = (element: Element): SlackMessage => {
-  const {props: properties = {}} = element || {};
+  const properties = element.props as MessageProperties;
 
   const typeName = getType(element);
   if (typeName !== 'Message') {
@@ -25,7 +26,7 @@ const render = (element: Element): SlackMessage => {
     json.mrkdwn = properties.markdown;
   }
 
-  json.text = properties.text || '';
+  json.text = properties.text ?? '';
 
   if (properties.iconEmoji) {
     json.icon_emoji = properties.iconEmoji;
@@ -63,7 +64,7 @@ const render = (element: Element): SlackMessage => {
     json.attachments = [
       {
         fallback: json.text,
-        color: properties.color as string,
+        color: properties.color,
         blocks: json.blocks,
       },
     ];

@@ -8,7 +8,7 @@ export type ImageType = {
 };
 
 const transformImage = (child: Element): ImageType => {
-  const {url, alt}: ImageProperties = child.props;
+  const {url, alt} = child.props as ImageProperties;
 
   return {
     type: 'image',

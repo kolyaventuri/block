@@ -15,7 +15,7 @@ export type ContextType = {
 };
 
 const transformContext = (child: Element): ContextType => {
-  const {children, blockId}: ContextProperties = child.props;
+  const {children, blockId} = child.props as ContextProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 
@@ -26,7 +26,7 @@ const transformContext = (child: Element): ContextType => {
 
   const res: ContextType = {
     type: 'context',
-    elements: elements.map(element => transform(element as Element) as ImageOrText),
+    elements: elements.map(element => transform(element as Element)) as ImageOrText[],
   };
 
   if (blockId) {

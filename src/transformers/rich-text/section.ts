@@ -9,7 +9,7 @@ export type RichTextSectionType = {
 };
 
 const transformRichTextSection = (child: Element): RichTextSectionType => {
-  const {children}: RichTextSectionProperties = child.props;
+  const {children} = child.props as RichTextSectionProperties;
 
   return {
     type: 'rich_text_section',

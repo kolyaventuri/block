@@ -14,7 +14,7 @@ export type OptionGroupType = {
 };
 
 const transformOptionGroup = (child: Element): OptionGroupType => {
-  const {label, children}: OptionGroupProperties = child.props;
+  const {label, children} = child.props as OptionGroupProperties;
 
   warnIfTooLong('OptionGroup label', label, 75);
 

@@ -10,7 +10,7 @@ export type RichTextLinkType = {
 };
 
 const transformRichTextLink = (child: Element): RichTextLinkType => {
-  const {url, children, style}: RichTextLinkProperties = child.props;
+  const {url, children, style} = child.props as RichTextLinkProperties;
 
   const res: RichTextLinkType = {
     type: 'link',

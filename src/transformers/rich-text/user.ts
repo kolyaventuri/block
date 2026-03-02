@@ -7,7 +7,7 @@ export type RichTextUserType = {
 };
 
 const transformRichTextUser = (child: Element): RichTextUserType => {
-  const {userId}: RichTextUserProperties = child.props;
+  const {userId} = child.props as RichTextUserProperties;
 
   return {
     type: 'user',

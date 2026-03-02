@@ -3,12 +3,12 @@ import getType from '../utils/get-type';
 
 import Transformers from './registry';
 
-export const transform = (element: Element): Record<string, any> => {
+export const transform = (element: Element): unknown => {
   const type = getType(element);
 
   if (!Transformers[type]) {
     throw new Error(`No transformer exists for type '${type}'`);
   }
 
-  return Transformers[type](element) as Record<string, any>;
+  return Transformers[type](element);
 };

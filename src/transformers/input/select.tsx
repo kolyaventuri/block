@@ -157,6 +157,10 @@ const applyInitialSelections = (
 
       break;
     }
+
+    default: {
+      break;
+    }
   }
 };
 
@@ -178,7 +182,7 @@ const transformSelect = (child: Element): SelectType => {
     defaultToCurrentConversation,
     responseUrlEnabled,
     filter,
-  }: SelectProperties = child.props;
+  } = child.props as SelectProperties;
 
   const type: SelectionType = typeProperty ?? selectTypes.STATIC;
   const typeString = `${multi ? MULTI_PREFIX : ''}${types[type]}` as ValidSelectType;

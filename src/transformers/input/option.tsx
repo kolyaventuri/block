@@ -14,7 +14,7 @@ export type OptionType = {
 };
 
 const transformOption = (child: Element): OptionType => {
-  const {children: text, value, url, description}: OptionProperties = child.props;
+  const {children: text, value, url, description} = child.props as OptionProperties;
 
   warnIfTooLong('Option text', text, 75);
   warnIfTooLong('Option value', value, 75);

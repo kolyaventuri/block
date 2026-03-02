@@ -6,7 +6,7 @@ import normalizeChildren from '../../utils/normalize-children';
 type ContainerType = Child[];
 
 const transformContainer = (child: Element): ContainerType => {
-  const {children}: ContainerProperties = child.props;
+  const {children} = child.props as ContainerProperties;
   const elements = normalizeChildren(children);
 
   return (elements as Element[]).map(element => transform(element)) as Child[];

@@ -9,7 +9,7 @@ export type RichTextTextType = {
 };
 
 const transformRichTextText = (child: Element): RichTextTextType => {
-  const {children, style}: RichTextTextProperties = child.props;
+  const {children, style} = child.props as RichTextTextProperties;
 
   const res: RichTextTextType = {
     type: 'text',

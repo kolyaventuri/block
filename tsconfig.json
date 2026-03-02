@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
     "noImplicitAny": true,
     "removeComments": true,
-    "outDir": "./dist" ,
+    "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
@@ -14,9 +16,17 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "paths": {
-      "jsx-runtime/jsx-runtime": ["./src/jsx-runtime.ts"]
-    }
+      "jsx-runtime/jsx-runtime": [
+        "./src/jsx-runtime.ts"
+      ]
+    },
   },
-  "exclude": ["node_modules", "test/**/*"],
-  "include": ["src"] 
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "src",
+    "test",
+    "tsup.config.ts"
+  ]
 }

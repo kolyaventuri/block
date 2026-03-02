@@ -14,7 +14,7 @@ export type OverflowType = {
 };
 
 const transformOverflow = (child: Element): OverflowType => {
-  const {actionId, children, confirm}: OverflowProperties = child.props;
+  const {actionId, children, confirm} = child.props as OverflowProperties;
 
   warnIfTooLong('Overflow action_id', actionId, 255);
 

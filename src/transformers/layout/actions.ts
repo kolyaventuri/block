@@ -10,7 +10,7 @@ export type ActionType = {
 };
 
 const transformActions = (child: Element): ActionType => {
-  const {children, blockId}: ActionProperties = child.props;
+  const {children, blockId} = child.props as ActionProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 

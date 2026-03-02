@@ -1,6 +1,7 @@
 declare namespace JSX {
-  export type Element = {type: any; props: any; children: any[]};
-  export type IntrinsicElements = Record<string, any>;
-  export type ElementClass = {props: any};
-  export type ElementAttributesProperty = {props: Record<string, any>};
+  type ComponentType = string | ((...parameters: unknown[]) => unknown) | (new (...parameters: unknown[]) => unknown);
+  export type Element = {type: ComponentType; props: Record<string, unknown>; children: unknown[]};
+  export type IntrinsicElements = Record<string, Record<string, unknown>>;
+  export type ElementClass = {props: Record<string, unknown>};
+  export type ElementAttributesProperty = {props: Record<string, unknown>};
 }

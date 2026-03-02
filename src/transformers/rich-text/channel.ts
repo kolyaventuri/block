@@ -7,7 +7,7 @@ export type RichTextChannelType = {
 };
 
 const transformRichTextChannel = (child: Element): RichTextChannelType => {
-  const {channelId}: RichTextChannelProperties = child.props;
+  const {channelId} = child.props as RichTextChannelProperties;
 
   return {
     type: 'channel',

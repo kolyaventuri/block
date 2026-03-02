@@ -21,7 +21,7 @@ export type ButtonType = {
 };
 
 const transformButton = (child: Element): ButtonType => {
-  const {actionId, children, url, value, style, confirm, accessibilityLabel}: ButtonProps = child.props;
+  const {actionId, children, url, value, style, confirm, accessibilityLabel} = child.props as ButtonProps;
 
   warnIfTooLong('Button action_id', actionId, 255);
   if (typeof children === 'string') {

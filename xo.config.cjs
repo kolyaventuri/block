@@ -1,14 +1,24 @@
 /** @type {import('xo').FlatXoConfig} */
 module.exports = [
   {
-    ignores: ['**/*.js', '**/*.cjs', '**/*.mjs']
+    ignores: ['**/*.js', '**/*.cjs', '**/*.mjs', 'tsup.config.ts', 'vitest.config.ts']
   },
   {
     space: true,
     files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: './tsconfig.json',
+        tsconfigRootDir: __dirname,
+      },
+    },
     rules: {
-      '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off',
-      '@typescript-eslint/prefer-nullish-coalescing': 'off',
+      // @typescript-eslint cannot resolve JSX.Element through our custom JSX runtime path alias
+      // (jsxImportSource: "jsx-runtime" mapped via tsconfig paths). This causes every variable
+      // typed as Element/Child/BElement to appear "error typed", cascading into hundreds of
+      // false-positive no-unsafe-* violations across all transformer files. tsc already enforces
+      // type safety here, so these rules are disabled for the linter only.
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',

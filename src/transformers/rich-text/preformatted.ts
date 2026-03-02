@@ -9,7 +9,7 @@ export type RichTextPreformattedType = {
 };
 
 const transformRichTextPreformatted = (child: Element): RichTextPreformattedType => {
-  const {children}: RichTextPreformattedProperties = child.props;
+  const {children} = child.props as RichTextPreformattedProperties;
 
   return {
     type: 'rich_text_preformatted',

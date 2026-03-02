@@ -13,7 +13,7 @@ export type RichTextListType = {
 };
 
 const transformRichTextList = (child: Element): RichTextListType => {
-  const {style, children, indent, border}: RichTextListProperties = child.props;
+  const {style, children, indent, border} = child.props as RichTextListProperties;
 
   const res: RichTextListType = {
     type: 'rich_text_list',

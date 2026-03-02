@@ -29,7 +29,7 @@ const isValidTimeString = (value: string): boolean => {
 };
 
 const transformTimePicker = (child: Element): TimePickerType => {
-  const {actionId, placeholder, initialTime, confirm, focusOnLoad}: TimePickerProperties = child.props;
+  const {actionId, placeholder, initialTime, confirm, focusOnLoad} = child.props as TimePickerProperties;
 
   warnIfTooLong('TimePicker action_id', actionId, 255);
   if (placeholder) {

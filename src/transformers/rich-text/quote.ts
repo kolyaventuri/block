@@ -9,7 +9,7 @@ export type RichTextQuoteType = {
 };
 
 const transformRichTextQuote = (child: Element): RichTextQuoteType => {
-  const {children}: RichTextQuoteProperties = child.props;
+  const {children} = child.props as RichTextQuoteProperties;
 
   return {
     type: 'rich_text_quote',

@@ -1,7 +1,7 @@
 
 import {type Child} from '../constants/types';
 
-type Properties = {
+export type Properties = {
   children: Child;
   text?: string;
   asUser?: boolean;

@@ -15,7 +15,7 @@ export type ImageType = {
 };
 
 const transformImageLayout = (child: Element): ImageType => {
-  const {url, alt, title, blockId}: ImageProperties = child.props;
+  const {url, alt, title, blockId} = child.props as ImageProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 

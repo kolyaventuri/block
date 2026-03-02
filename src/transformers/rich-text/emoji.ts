@@ -7,7 +7,7 @@ export type RichTextEmojiType = {
 };
 
 const transformRichTextEmoji = (child: Element): RichTextEmojiType => {
-  const {name}: RichTextEmojiProperties = child.props;
+  const {name} = child.props as RichTextEmojiProperties;
 
   return {
     type: 'emoji',

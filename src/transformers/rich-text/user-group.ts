@@ -7,7 +7,7 @@ export type RichTextUserGroupType = {
 };
 
 const transformRichTextUserGroup = (child: Element): RichTextUserGroupType => {
-  const {usergroupId}: RichTextUserGroupProperties = child.props;
+  const {usergroupId} = child.props as RichTextUserGroupProperties;
 
   return {
     type: 'usergroup',

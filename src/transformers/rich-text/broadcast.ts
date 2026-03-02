@@ -8,7 +8,7 @@ export type RichTextBroadcastType = {
 };
 
 const transformRichTextBroadcast = (child: Element): RichTextBroadcastType => {
-  const {range}: RichTextBroadcastProperties = child.props;
+  const {range} = child.props as RichTextBroadcastProperties;
 
   return {
     type: 'broadcast',
