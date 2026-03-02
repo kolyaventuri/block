@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type InteractiveBlockElement} from '../../constants/types';
 
@@ -7,6 +6,7 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Actions extends React.Component<Props> {
+export default class Actions {
   static slackType = 'Actions';
+  declare props: Props;
 }

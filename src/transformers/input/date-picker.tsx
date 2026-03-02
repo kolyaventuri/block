@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type Props as DatePickerProperties} from '../../components/input/date-picker';
 import {type Element} from '../../constants/types';

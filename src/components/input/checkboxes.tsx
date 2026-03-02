@@ -1,4 +1,3 @@
-import React from 'react';
 
 import type Confirmation from '../block/confirmation';
 import {type SingleOrArray} from '../../utils/type-helpers';
@@ -7,12 +6,13 @@ import type Option from './option';
 
 export type Props = {
   actionId: string;
-  children: SingleOrArray<React.ReactElement<Option>>;
-  initialOptions?: Array<React.ReactElement<Option>>;
-  confirm?: React.ReactElement<Confirmation>;
+  children: SingleOrArray<JSX.Element>;
+  initialOptions?: JSX.Element[];
+  confirm?: JSX.Element;
   focusOnLoad?: boolean;
 };
 
-export default class Checkboxes extends React.Component<Props> {
+export default class Checkboxes {
   static slackType = 'Checkboxes';
+  declare props: Props;
 }

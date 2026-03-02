@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type Props = {
   text: string;
@@ -6,6 +5,7 @@ export type Props = {
   emoji?: boolean;
 };
 
-export default class Header extends React.Component<Props> {
+export default class Header {
   static slackType = 'Header';
+  declare props: Props;
 }

@@ -5,7 +5,6 @@ module.exports = [
   },
   {
     space: true,
-    react: true,
     files: ['**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off',
@@ -16,11 +15,6 @@ module.exports = [
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@stylistic/jsx-quotes': ['error', 'prefer-double'],
-      'react/jsx-indent': 'off',
-      'react/jsx-indent-props': 'off',
-      'react/jsx-closing-bracket-location': 'off',
-      'react/jsx-closing-tag-location': 'off',
-      'react/jsx-sort-props': 'off',
       'import-x/no-cycle': 'error',
       'import-x/order': [
         'error',
@@ -41,10 +35,6 @@ module.exports = [
           tsx: 'never'
         }
       ],
-      'react/no-unused-prop-types': 'off',
-      'react/prefer-read-only-props': 'off',
-      'react/require-default-props': 'off',
-      'react/style-prop-object': 'off',
       'unicorn/prevent-abbreviations': [
         'error',
         {
@@ -59,7 +49,6 @@ module.exports = [
           }
         }
       ],
-      'react/jsx-fragments': ['error', 'element'],
       '@typescript-eslint/naming-convention': [
         'error',
         {
@@ -82,9 +71,6 @@ module.exports = [
         node: {
           extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts', '.cjs', '.mjs', '.json']
         }
-      },
-      react: {
-        version: 'detect'
       }
     }
   }

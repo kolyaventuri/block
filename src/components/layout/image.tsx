@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type Props = {
   url: string;
@@ -7,6 +6,7 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Image extends React.Component<Props> {
+export default class Image {
   static slackType = 'ImageLayout';
+  declare props: Props;
 }

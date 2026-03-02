@@ -1,5 +1,4 @@
 import {test, expect} from 'vitest';
-import React from 'react';
 
 import transformer from '../../../src/transformers/block/confirmation';
 import Confirmation from '../../../src/components/block/confirmation';

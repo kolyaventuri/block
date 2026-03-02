@@ -1,6 +1,3 @@
-import React from 'react';
-
-import type Text from './text';
 
 type TopProperties = {
   title: string;
@@ -10,11 +7,12 @@ type TopProperties = {
 
 /* This is a dumb workaround to merging props */
 export type ConfirmationProps = TopProperties & {
-  children: React.ReactElement<Text>;
+  children: JSX.Element;
 };
 
 type Properties = ConfirmationProps;
 
-export default class Confirmation extends React.Component<Properties> {
+export default class Confirmation {
   static slackType = 'Confirmation';
+  declare props: Properties;
 }

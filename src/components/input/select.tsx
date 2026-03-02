@@ -1,4 +1,3 @@
-import React from 'react';
 
 import type Confirmation from '../block/confirmation';
 import {type SingleOrArray} from '../../utils/type-helpers';
@@ -27,9 +26,9 @@ export type Props = {
   actionId: string;
   type?: SelectType;
   multi?: boolean;
-  children?: SingleOrArray<React.ReactElement<Option>> | SingleOrArray<React.ReactElement<OptionGroup>>;
-  initialOptions?: Array<React.ReactElement<Option>>;
-  confirm?: React.ReactElement<Confirmation>;
+  children?: SingleOrArray<JSX.Element>;
+  initialOptions?: JSX.Element[];
+  confirm?: JSX.Element;
   maxSelectedItems?: number;
   minQueryLength?: number;
   focusOnLoad?: boolean;
@@ -41,6 +40,7 @@ export type Props = {
   filter?: ConversationFilter;
 };
 
-export default class Select extends React.Component<Props> {
+export default class Select {
   static slackType = 'Select';
+  declare props: Props;
 }

@@ -1,9 +1,9 @@
-import React from 'react';
 
 export type Props = {
   usergroupId: string;
 };
 
-export default class RichTextUserGroup extends React.Component<Props> {
+export default class RichTextUserGroup {
   static slackType = 'RichTextUserGroup';
+  declare props: Props;
 }

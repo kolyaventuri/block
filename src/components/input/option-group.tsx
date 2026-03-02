@@ -1,12 +1,12 @@
-import React from 'react';
 
 import type Option from './option';
 
 export type Props = {
   label: string;
-  children: React.ReactElement<Option> | Array<React.ReactElement<Option>>;
+  children: JSX.Element | JSX.Element[];
 };
 
-export default class OptionGroup extends React.Component<Props> {
+export default class OptionGroup {
   static slackType = 'OptionGroup';
+  declare props: Props;
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 
 import type Confirmation from './confirmation';
 
@@ -12,11 +11,12 @@ type TopProperties = {
 };
 
 export type ButtonProps = TopProperties & {
-  confirm?: React.ReactElement<Confirmation>;
+  confirm?: JSX.Element;
 };
 
 type Properties = ButtonProps;
 
-export default class Button extends React.Component<Properties> {
+export default class Button {
   static slackType = 'Button';
+  declare props: Properties;
 }

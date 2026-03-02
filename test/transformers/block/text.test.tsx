@@ -1,4 +1,3 @@
-import React from 'react';
 import {test, expect} from 'vitest';
 
 import Text from '../../../src/components/block/text';

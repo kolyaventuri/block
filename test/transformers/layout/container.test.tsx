@@ -1,4 +1,3 @@
-import React from 'react';
 import {test, expect} from 'vitest';
 
 import Container from '../../../src/components/layout/container';

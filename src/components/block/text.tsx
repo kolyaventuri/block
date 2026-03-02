@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type Props = {
   children: string;
@@ -7,6 +6,7 @@ export type Props = {
   verbatim?: boolean;
 };
 
-export default class Text extends React.Component<Props> {
+export default class Text {
   static slackType = 'Text';
+  declare props: Props;
 }

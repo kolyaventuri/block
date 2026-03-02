@@ -1,9 +1,9 @@
-import React from 'react';
 
 export type Props = {
   name: string;
 };
 
-export default class RichTextEmoji extends React.Component<Props> {
+export default class RichTextEmoji {
   static slackType = 'RichTextEmoji';
+  declare props: Props;
 }

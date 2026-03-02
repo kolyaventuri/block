@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type InputBlockElement} from '../../constants/types';
 
@@ -10,6 +9,7 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Input extends React.Component<Props> {
+export default class Input {
   static slackType = 'Input';
+  declare props: Props;
 }

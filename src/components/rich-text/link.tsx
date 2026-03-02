@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type RichTextStyle} from './types';
 
@@ -8,6 +7,7 @@ export type Props = {
   style?: RichTextStyle;
 };
 
-export default class RichTextLink extends React.Component<Props> {
+export default class RichTextLink {
   static slackType = 'RichTextLink';
+  declare props: Props;
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 
 import type Confirmation from '../block/confirmation';
 
@@ -6,10 +5,11 @@ export type Props = {
   actionId: string;
   placeholder?: string;
   initialDate?: string;
-  confirm?: React.ReactElement<Confirmation>;
+  confirm?: JSX.Element;
   focusOnLoad?: boolean;
 };
 
-export default class DatePicker extends React.Component<Props> {
+export default class DatePicker {
   static slackType = 'DatePicker';
+  declare props: Props;
 }

@@ -1,9 +1,11 @@
-import React from 'react';
 import {test, expect} from 'vitest';
 
 import getType from '../../src/utils/get-type';
 
-class Foo extends React.Component {}
+class Foo {
+  static slackType = 'Foo';
+  declare props: Record<string, unknown>;
+}
 
 test('it recognizes strings', () => {
   expect(getType('Hello')).toBe('string');

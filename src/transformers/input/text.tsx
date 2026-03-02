@@ -1,4 +1,3 @@
-import React from 'react';
 
 import Text from '../../components/block/text';
 import {type Props as TextInputProperties} from '../../components/input/text';
