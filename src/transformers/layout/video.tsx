@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type Element} from '../../constants/types';
 import {type Props as VideoProperties} from '../../components/layout/video';

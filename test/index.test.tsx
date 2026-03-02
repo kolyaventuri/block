@@ -1,5 +1,4 @@
 import {test, expect} from 'vitest';
-import React from 'react';
 
 import render from '../src';
 import Message from '../src/components/message';

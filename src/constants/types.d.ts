@@ -1,4 +1,3 @@
-import {type ReactElement} from 'react';
 import {type Block as SlackBlock, type KnownBlock, type MessageAttachment} from '@slack/types';
 
 import {type TextType as TextInputType} from '../transformers/input/text';
@@ -88,11 +87,11 @@ export type SerializedElement =
 export type Block = KnownBlock | SlackBlock;
 export type Attachment = MessageAttachment;
 
-export type InteractiveBlockElement = ReactElement<any, any>;
-export type StandardBlockElement = ReactElement<any, any>;
+export type InteractiveBlockElement = JSX.Element;
+export type StandardBlockElement = JSX.Element;
 
-export type InputBlockElement = ReactElement<any, any>;
-export type BlockElement = InteractiveBlockElement | StandardBlockElement | InputBlockElement;
+export type InputBlockElement = JSX.Element;
+export type BlockElement = JSX.Element;
 
 type SlackMessageContents =
   | Omit<ChannelAndText, 'channel'>
@@ -136,7 +135,7 @@ type AnyConstructor = new (...parameters: any[]) => any;
 export type WithType = {
   type?: string | AnyFunction | AnyConstructor;
 };
-export type BElement = ReactElement<any, any> & WithType;
+export type BElement = JSX.Element & WithType;
 export type Element = BElement;
 export type Child =
   | string

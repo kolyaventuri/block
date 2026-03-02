@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type Props = {
   children: string;
@@ -7,6 +6,7 @@ export type Props = {
   description?: string;
 };
 
-export default class Option extends React.Component<Props> {
+export default class Option {
   static slackType = 'Option';
+  declare props: Props;
 }

@@ -1,14 +1,14 @@
-import React from 'react';
 
 import type Confirmation from '../block/confirmation';
 
 export type Props = {
   actionId: string;
   initialDateTime?: number;
-  confirm?: React.ReactElement<Confirmation>;
+  confirm?: JSX.Element;
   focusOnLoad?: boolean;
 };
 
-export default class DateTimePicker extends React.Component<Props> {
+export default class DateTimePicker {
   static slackType = 'DateTimePicker';
+  declare props: Props;
 }

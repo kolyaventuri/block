@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
@@ -67,7 +66,7 @@ const types = {
 };
 const MULTI_PREFIX = 'multi_';
 
-const normalizeElements = (elements?: SelectProperties['children']): React.ReactElement[] => {
+const normalizeElements = (elements?: SelectProperties['children']): JSX.Element[] => {
   if (!elements) {
     return [];
   }
@@ -75,7 +74,7 @@ const normalizeElements = (elements?: SelectProperties['children']): React.React
   return Array.isArray(elements) ? elements : [elements];
 };
 
-const assignStaticOptions = (elements: React.ReactElement[], result: SelectType): void => {
+const assignStaticOptions = (elements: JSX.Element[], result: SelectType): void => {
   const elementType = getType(elements[0] as Element);
   if (elements.some(element => getType(element as Element) !== elementType)) {
     if (elementType === OPTION && elements.some(element => getType(element as Element) !== OPTION_GROUP)) {
@@ -88,11 +87,9 @@ const assignStaticOptions = (elements: React.ReactElement[], result: SelectType)
   }
 
   if (elementType === OPTION) {
-    const options = elements as Array<React.ReactElement<Option>>;
-    result.options = options.map(element => transform(element as Element)) as OptionType[];
+    result.options = elements.map(element => transform(element as Element)) as OptionType[];
   } else if (elementType === OPTION_GROUP) {
-    const optionGroups = elements as Array<React.ReactElement<OptionGroup>>;
-    result.option_groups = optionGroups.map(element => transform(element as Element)) as OptionGroupType[];
+    result.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
   }
 };
 
@@ -101,7 +98,7 @@ const applyInitialSelections = (
   isMulti: boolean,
   result: SelectType,
   initialValues: {
-    initialOptions?: Array<React.ReactElement<Option>>;
+    initialOptions?: JSX.Element[];
     initialUsers?: string[];
     initialConversations?: string[];
     initialChannels?: string[];

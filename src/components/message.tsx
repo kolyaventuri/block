@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type Child} from '../constants/types';
 
@@ -18,6 +17,7 @@ type Properties = {
   color?: string;
 };
 
-export default class Message extends React.Component<Properties> {
+export default class Message {
   static slackType = 'Message';
+  declare props: Properties;
 }

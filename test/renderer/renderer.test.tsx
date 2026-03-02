@@ -4,7 +4,6 @@ import {
   test,
   vi,
 } from 'vitest';
-import React from 'react';
 
 import Message from '../../src/components/message';
 import Container from '../../src/components/layout/container';

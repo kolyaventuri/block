@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type Props = {
   title: string;
@@ -13,6 +12,7 @@ export type Props = {
   blockId?: string;
 };
 
-export default class Video extends React.Component<Props> {
+export default class Video {
   static slackType = 'Video';
+  declare props: Props;
 }

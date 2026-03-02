@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import {defineConfig} from 'vitest/config';
 
 export default defineConfig({
@@ -6,9 +8,14 @@ export default defineConfig({
     include: ['test/**/*.test.ts', 'test/**/*.test.tsx'],
     setupFiles: ['./test/setup.ts'],
   },
+  resolve: {
+    alias: {
+      'jsx-runtime/jsx-runtime': path.resolve('./src/jsx-runtime.ts'),
+      'jsx-runtime/jsx-dev-runtime': path.resolve('./src/jsx-dev-runtime.ts'),
+    },
+  },
   esbuild: {
-    jsx: 'transform',
-    jsxFactory: 'React.createElement',
-    jsxFragment: 'React.Fragment',
+    jsx: 'automatic',
+    jsxImportSource: 'jsx-runtime',
   },
 });

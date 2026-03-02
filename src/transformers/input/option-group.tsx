@@ -1,4 +1,3 @@
-import React from 'react';
 
 import Text from '../../components/block/text';
 import {type Props as OptionGroupProperties} from '../../components/input/option-group';

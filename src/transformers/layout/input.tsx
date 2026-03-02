@@ -1,4 +1,3 @@
-import React from 'react';
 
 import {type Element, type SerializedInputBlockElement} from '../../constants/types';
 import {type TextType} from '../block/text';

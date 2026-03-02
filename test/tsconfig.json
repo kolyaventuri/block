@@ -1,13 +1,19 @@
 {
   "compilerOptions": {
+    "baseUrl": "..",
     "noImplicitAny": true,
     "removeComments": true,
     "target": "es2019",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": ["node", "react"],
+    "types": ["node"],
     "lib": ["es2019", "dom", "esnext.disposable"],
-    "jsx": "react",
-    "esModuleInterop": true
-  }
+    "jsx": "react-jsx",
+    "jsxImportSource": "jsx-runtime",
+    "esModuleInterop": true,
+    "paths": {
+      "jsx-runtime/jsx-runtime": ["./src/jsx-runtime.ts"]
+    }
+  },
+  "include": ["./**/*", "../src/jsx.d.ts"]
 }

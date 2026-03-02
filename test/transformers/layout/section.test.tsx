@@ -1,4 +1,3 @@
-import React from 'react';
 import {test, expect} from 'vitest';
 
 import Section from '../../../src/components/layout/section';

@@ -1,11 +1,11 @@
-import React from 'react';
 
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export type Props = {
-  children: SingleOrArray<React.ReactElement | string>;
+  children: SingleOrArray<JSX.Element | string>;
 };
 
-export default class RichTextQuote extends React.Component<Props> {
+export default class RichTextQuote {
   static slackType = 'RichTextQuote';
+  declare props: Props;
 }

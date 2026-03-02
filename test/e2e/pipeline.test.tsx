@@ -3,7 +3,6 @@
  * These tests use the public render() API and assert on the final output,
  * unlike the unit tests which test individual transformer functions.
  */
-import React from 'react';
 import {test, expect, describe} from 'vitest';
 
 import render from '../../src';

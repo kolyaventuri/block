@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type Props = {
   actionId: string;
@@ -13,6 +12,7 @@ export type Props = {
   };
 };
 
-export default class TextInput extends React.Component<Props> {
+export default class TextInput {
   static slackType = 'TextInput';
+  declare props: Props;
 }

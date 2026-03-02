@@ -1,4 +1,3 @@
-import React from 'react';
 
 export type Props = {
   timestamp: number;
@@ -7,6 +6,7 @@ export type Props = {
   link?: string;
 };
 
-export default class RichTextDate extends React.Component<Props> {
+export default class RichTextDate {
   static slackType = 'RichTextDate';
+  declare props: Props;
 }
