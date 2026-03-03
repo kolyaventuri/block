@@ -78,5 +78,3 @@ Object.assign(Transformers, {
 });
 
 export {default} from './registry';
-
-export {transform} from './transform';

@@ -37,7 +37,7 @@ const isValidDateString = (value: string): boolean => {
 };
 
 const transformDatePicker = (child: Element): DatePickerType => {
-  const {actionId, placeholder, initialDate, confirm, focusOnLoad}: DatePickerProperties = child.props;
+  const {actionId, placeholder, initialDate, confirm, focusOnLoad} = child.props as DatePickerProperties;
 
   warnIfTooLong('DatePicker action_id', actionId, 255);
   if (placeholder) {

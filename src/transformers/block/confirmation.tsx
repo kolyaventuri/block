@@ -14,7 +14,7 @@ export type ConfirmationType = {
 };
 
 const transformConfirmation = (child: Element): ConfirmationType => {
-  const {title, confirm, deny, children}: ConfirmationProps = child.props;
+  const {title, confirm, deny, children} = child.props as ConfirmationProps;
 
   const res: ConfirmationType = {
     title: transform(<Text plainText>{title}</Text>) as TextType,

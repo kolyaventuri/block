@@ -1,4 +1,5 @@
 import {type Element} from '../../constants/types';
+import {type Props as TextProps} from '../../components/block/text';
 import {warnIfTooLong} from '../../utils/validation';
 
 export type TextType = {
@@ -9,14 +10,7 @@ export type TextType = {
 };
 
 const transformText = (element: Element): TextType => {
-  const {
-    props: {
-      plainText,
-      children,
-      emoji,
-      verbatim,
-    },
-  } = element;
+  const {plainText, children, emoji, verbatim} = element.props as TextProps;
 
   const res: TextType = {
     type: plainText ? 'plain_text' : 'mrkdwn',

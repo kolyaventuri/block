@@ -30,7 +30,7 @@ const transformTextInput = (child: Element): TextType => {
     maxLength,
     focusOnLoad,
     dispatchActionConfig,
-  }: TextInputProperties = child.props;
+  } = child.props as TextInputProperties;
 
   warnIfTooLong('TextInput action_id', actionId, 255);
   if (placeholder) {

@@ -4,7 +4,7 @@ import {type RichTextListStyle} from '../../components/rich-text/types';
 
 import {toBlockElements} from './utils';
 
-export type RichTextListType = {
+type RichTextListType = {
   type: 'rich_text_list';
   style: RichTextListStyle;
   elements: Array<Record<string, unknown>>;
@@ -13,7 +13,7 @@ export type RichTextListType = {
 };
 
 const transformRichTextList = (child: Element): RichTextListType => {
-  const {style, children, indent, border}: RichTextListProperties = child.props;
+  const {style, children, indent, border} = child.props as RichTextListProperties;
 
   const res: RichTextListType = {
     type: 'rich_text_list',

@@ -10,7 +10,7 @@ export type FileType = {
 };
 
 const transformFile = (child: Element): FileType => {
-  const {externalId, blockId}: FileProperties = child.props;
+  const {externalId, blockId} = child.props as FileProperties;
   warnIfTooLong('block_id', blockId, 255);
   const res: FileType = {
     type: 'file',

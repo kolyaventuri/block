@@ -1,6 +1,4 @@
 
-import type Confirmation from './confirmation';
-
 type TopProperties = {
   children: string;
   actionId: string;

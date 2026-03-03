@@ -1,6 +1,4 @@
 
-import type Confirmation from '../block/confirmation';
-
 export type Props = {
   actionId: string;
   placeholder?: string;

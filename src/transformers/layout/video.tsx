@@ -32,7 +32,7 @@ const transformVideo = (child: Element): VideoType => {
     providerName,
     providerIconUrl,
     blockId,
-  }: VideoProperties = child.props;
+  } = child.props as VideoProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 

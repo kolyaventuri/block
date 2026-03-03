@@ -16,7 +16,7 @@ export type RadioGroupType = {
 };
 
 const transformRadioGroup = (child: Element): RadioGroupType => {
-  const {actionId, children, initialOption, confirm, focusOnLoad}: RadioGroupProperties = child.props;
+  const {actionId, children, initialOption, confirm, focusOnLoad} = child.props as RadioGroupProperties;
 
   warnIfTooLong('RadioGroup action_id', actionId, 255);
 

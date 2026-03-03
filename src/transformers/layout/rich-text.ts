@@ -10,7 +10,7 @@ export type RichTextType = {
 };
 
 const transformRichText = (child: Element): RichTextType => {
-  const {elements, children, blockId}: RichTextProperties = child.props;
+  const {elements, children, blockId} = child.props as RichTextProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 

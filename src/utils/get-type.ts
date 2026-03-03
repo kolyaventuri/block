@@ -25,7 +25,7 @@ const getType = (element: Child): string => {
     name?: string;
   };
 
-  return slackType || displayName || name || (type as string);
+  return slackType ?? displayName ?? name ?? (type as unknown as string);
 };
 
 export default getType;

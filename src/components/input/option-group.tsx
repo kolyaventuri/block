@@ -1,6 +1,4 @@
 
-import type Option from './option';
-
 export type Props = {
   label: string;
   children: JSX.Element | JSX.Element[];

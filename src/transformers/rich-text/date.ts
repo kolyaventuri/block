@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as RichTextDateProperties} from '../../components/rich-text/date';
 
-export type RichTextDateType = {
+type RichTextDateType = {
   type: 'date';
   timestamp: number;
   format: string;
@@ -10,7 +10,7 @@ export type RichTextDateType = {
 };
 
 const transformRichTextDate = (child: Element): RichTextDateType => {
-  const {timestamp, format, fallback, link}: RichTextDateProperties = child.props;
+  const {timestamp, format, fallback, link} = child.props as RichTextDateProperties;
 
   const res: RichTextDateType = {
     type: 'date',

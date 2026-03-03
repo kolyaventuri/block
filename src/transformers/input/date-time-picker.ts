@@ -13,7 +13,7 @@ export type DateTimePickerType = {
 };
 
 const transformDateTimePicker = (child: Element): DateTimePickerType => {
-  const {actionId, initialDateTime, confirm, focusOnLoad}: DateTimePickerProperties = child.props;
+  const {actionId, initialDateTime, confirm, focusOnLoad} = child.props as DateTimePickerProperties;
 
   warnIfTooLong('DateTimePicker action_id', actionId, 255);
 

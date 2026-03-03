@@ -1,13 +1,13 @@
 import {type Element} from '../../constants/types';
 import {type Props as RichTextChannelProperties} from '../../components/rich-text/channel';
 
-export type RichTextChannelType = {
+type RichTextChannelType = {
   type: 'channel';
   channel_id: string;
 };
 
 const transformRichTextChannel = (child: Element): RichTextChannelType => {
-  const {channelId}: RichTextChannelProperties = child.props;
+  const {channelId} = child.props as RichTextChannelProperties;
 
   return {
     type: 'channel',

@@ -2,7 +2,7 @@ import {type Element} from '../../constants/types';
 import {type Props as RichTextLinkProperties} from '../../components/rich-text/link';
 import {type RichTextStyle} from '../../components/rich-text/types';
 
-export type RichTextLinkType = {
+type RichTextLinkType = {
   type: 'link';
   url: string;
   text?: string;
@@ -10,7 +10,7 @@ export type RichTextLinkType = {
 };
 
 const transformRichTextLink = (child: Element): RichTextLinkType => {
-  const {url, children, style}: RichTextLinkProperties = child.props;
+  const {url, children, style} = child.props as RichTextLinkProperties;
 
   const res: RichTextLinkType = {
     type: 'link',

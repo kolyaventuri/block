@@ -13,7 +13,7 @@ export type HeaderType = {
 };
 
 const transformHeader = (child: Element): HeaderType => {
-  const {text, blockId, emoji}: HeaderProperties = child.props;
+  const {text, blockId, emoji} = child.props as HeaderProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 

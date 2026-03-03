@@ -2,7 +2,6 @@ import {test, expect} from 'vitest';
 
 import transformer from '../../../src/transformers/layout/image';
 import Image from '../../../src/components/layout/image';
-import Text from '../../../src/components/block/text';
 
 test('transforms a basic image layout', () => {
   const res = transformer(<Image

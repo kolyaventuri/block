@@ -16,7 +16,7 @@ export type CheckboxesType = {
 };
 
 const transformCheckboxes = (child: Element): CheckboxesType => {
-  const {actionId, children, initialOptions, confirm, focusOnLoad}: CheckboxesProperties = child.props;
+  const {actionId, children, initialOptions, confirm, focusOnLoad} = child.props as CheckboxesProperties;
 
   warnIfTooLong('Checkboxes action_id', actionId, 255);
 

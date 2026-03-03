@@ -1,4 +1,5 @@
 import {type Element, type SerializedBlockElement} from '../../constants/types';
+import {type Props as SectionComponentProps} from '../../components/layout/section';
 import {type TextType as Text} from '../block/text';
 import {transform} from '../transform';
 import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
@@ -12,14 +13,7 @@ export type SectionType = {
 };
 
 const transformSection = (element: Element): SectionType => {
-  const {
-    props: {
-      text,
-      blockId,
-      children,
-      accessory,
-    },
-  } = element;
+  const {text, blockId, children, accessory} = element.props as SectionComponentProps;
 
   warnIfTooLong('block_id', blockId, 255);
 

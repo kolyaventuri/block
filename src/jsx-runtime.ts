@@ -1,4 +1,6 @@
-export function jsx(type: any, props: any) {
+type ComponentType = string | ((...parameters: unknown[]) => unknown) | (new (...parameters: unknown[]) => unknown);
+
+export function jsx(type: ComponentType, props: Record<string, unknown>) {
   const {children} = props;
 
   return {
@@ -8,5 +10,8 @@ export function jsx(type: any, props: any) {
   };
 }
 
-export const jsxs = jsx;
+export function jsxs(type: ComponentType, props: Record<string, unknown>) {
+  return jsx(type, props);
+}
+
 export const Fragment = 'fragment';

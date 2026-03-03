@@ -16,7 +16,7 @@ export type InputType = {
 };
 
 const transformInput = (child: Element): InputType => {
-  const {label, element, hint, optional, blockId}: InputProperties = child.props;
+  const {label, element, hint, optional, blockId} = child.props as InputProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 

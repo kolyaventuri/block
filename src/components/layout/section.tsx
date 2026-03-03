@@ -1,5 +1,4 @@
 
-import type Text from '../block/text';
 import {type BlockElement} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 

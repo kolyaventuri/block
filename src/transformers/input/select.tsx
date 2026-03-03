@@ -3,11 +3,9 @@ import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {type ConfirmationType} from '../block/confirmation';
 import {type Props as SelectProperties, selectTypes} from '../../components/input/select';
-import type Option from '../../components/input/option';
 import Text from '../../components/block/text';
 import {transform} from '../transform';
 import getType from '../../utils/get-type';
-import type OptionGroup from '../../components/input/option-group';
 import {warnIfTooLong} from '../../utils/validation';
 
 import {type OptionGroupType} from './option-group';
@@ -178,7 +176,7 @@ const transformSelect = (child: Element): SelectType => {
     defaultToCurrentConversation,
     responseUrlEnabled,
     filter,
-  }: SelectProperties = child.props;
+  } = child.props as SelectProperties;
 
   const type: SelectionType = typeProperty ?? selectTypes.STATIC;
   const typeString = `${multi ? MULTI_PREFIX : ''}${types[type]}` as ValidSelectType;

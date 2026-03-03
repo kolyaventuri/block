@@ -8,7 +8,7 @@ export type DividerType = {
 };
 
 const transformDivider = (child: Element): DividerType => {
-  const {blockId}: DividerProperties = child.props;
+  const {blockId} = child.props as DividerProperties;
 
   warnIfTooLong('block_id', blockId, 255);
 

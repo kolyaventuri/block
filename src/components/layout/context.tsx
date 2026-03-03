@@ -1,7 +1,4 @@
 
-import type Text from '../block/text';
-import type Image from '../block/image';
-
 export type ImageOrText = JSX.Element;
 
 export type Props = {

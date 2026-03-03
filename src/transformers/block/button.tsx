@@ -3,7 +3,6 @@ import {type Element} from '../../constants/types';
 import {type ButtonProps} from '../../components/block/button';
 import {transform} from '../transform';
 import Text from '../../components/block/text';
-import Confirmation from '../../components/block/confirmation';
 import {warnIfTooLong} from '../../utils/validation';
 
 import {type ConfirmationType} from './confirmation';
@@ -21,7 +20,7 @@ export type ButtonType = {
 };
 
 const transformButton = (child: Element): ButtonType => {
-  const {actionId, children, url, value, style, confirm, accessibilityLabel}: ButtonProps = child.props;
+  const {actionId, children, url, value, style, confirm, accessibilityLabel} = child.props as ButtonProps;
 
   warnIfTooLong('Button action_id', actionId, 255);
   if (typeof children === 'string') {

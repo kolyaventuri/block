@@ -128,9 +128,9 @@ export type SlackMessageDraft = SlackMessage & {
   markdown_text?: string;
 };
 
-type AnyFunction = (...parameters: any[]) => any;
+type AnyFunction = (...parameters: unknown[]) => unknown;
 
-type AnyConstructor = new (...parameters: any[]) => any;
+type AnyConstructor = new (...parameters: unknown[]) => unknown;
 
 export type WithType = {
   type?: string | AnyFunction | AnyConstructor;

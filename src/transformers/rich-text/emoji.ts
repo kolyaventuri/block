@@ -1,13 +1,13 @@
 import {type Element} from '../../constants/types';
 import {type Props as RichTextEmojiProperties} from '../../components/rich-text/emoji';
 
-export type RichTextEmojiType = {
+type RichTextEmojiType = {
   type: 'emoji';
   name: string;
 };
 
 const transformRichTextEmoji = (child: Element): RichTextEmojiType => {
-  const {name}: RichTextEmojiProperties = child.props;
+  const {name} = child.props as RichTextEmojiProperties;
 
   return {
     type: 'emoji',
