@@ -1,9 +1,5 @@
 
-import type Confirmation from '../block/confirmation';
 import {type SingleOrArray} from '../../utils/type-helpers';
-
-import type Option from './option';
-import type OptionGroup from './option-group';
 
 export const selectTypes = {
   STATIC: 'static',

@@ -45,7 +45,7 @@
     "prepare": "husky install",
     "test": "pnpm run test:tsc && pnpm run test:lint && pnpm run test:knip && pnpm run test:unit",
     "test:tsc": "tsc -p tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit",
-    "test:lint": "xo",
+    "test:lint": "xo --fix",
     "test:knip": "knip",
     "test:unit": "vitest run",
     "prebuild": "pnpm run clean",
