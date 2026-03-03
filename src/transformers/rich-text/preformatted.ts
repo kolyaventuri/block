@@ -3,7 +3,7 @@ import {type Props as RichTextPreformattedProperties} from '../../components/ric
 
 import {toInlineElements} from './utils';
 
-export type RichTextPreformattedType = {
+type RichTextPreformattedType = {
   type: 'rich_text_preformatted';
   elements: Array<Record<string, unknown>>;
 };

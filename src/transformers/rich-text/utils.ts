@@ -3,7 +3,7 @@ import {transform} from '../transform';
 
 type RichTextChild = Element | string;
 
-export const normalizeRichTextChildren = (children: unknown): RichTextChild[] => {
+const normalizeRichTextChildren = (children: unknown): RichTextChild[] => {
   const result: RichTextChild[] = [];
   const stack = Array.isArray(children) ? [...children] : [children];
 

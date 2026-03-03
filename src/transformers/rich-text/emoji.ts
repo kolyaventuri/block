@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as RichTextEmojiProperties} from '../../components/rich-text/emoji';
 
-export type RichTextEmojiType = {
+type RichTextEmojiType = {
   type: 'emoji';
   name: string;
 };

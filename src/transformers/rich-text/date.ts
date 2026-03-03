@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as RichTextDateProperties} from '../../components/rich-text/date';
 
-export type RichTextDateType = {
+type RichTextDateType = {
   type: 'date';
   timestamp: number;
   format: string;

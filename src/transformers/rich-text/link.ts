@@ -2,7 +2,7 @@ import {type Element} from '../../constants/types';
 import {type Props as RichTextLinkProperties} from '../../components/rich-text/link';
 import {type RichTextStyle} from '../../components/rich-text/types';
 
-export type RichTextLinkType = {
+type RichTextLinkType = {
   type: 'link';
   url: string;
   text?: string;

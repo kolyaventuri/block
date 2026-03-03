@@ -3,7 +3,7 @@ import {type Props as RichTextQuoteProperties} from '../../components/rich-text/
 
 import {toInlineElements} from './utils';
 
-export type RichTextQuoteType = {
+type RichTextQuoteType = {
   type: 'rich_text_quote';
   elements: Array<Record<string, unknown>>;
 };

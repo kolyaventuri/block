@@ -10,5 +10,8 @@ export function jsx(type: ComponentType, props: Record<string, unknown>) {
   };
 }
 
-export const jsxs = jsx;
+export function jsxs(type: ComponentType, props: Record<string, unknown>) {
+  return jsx(type, props);
+}
+
 export const Fragment = 'fragment';

@@ -2,7 +2,7 @@ import {type Element} from '../../constants/types';
 import {type Props as RichTextTextProperties} from '../../components/rich-text/text';
 import {type RichTextStyle} from '../../components/rich-text/types';
 
-export type RichTextTextType = {
+type RichTextTextType = {
   type: 'text';
   text: string;
   style?: RichTextStyle;
