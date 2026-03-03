@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
     "strict": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
     "removeComments": true,
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "target": "es2019",
-    "module": "Node16",
-    "moduleResolution": "node16",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "jsxImportSource": "jsx-runtime",
     "baseUrl": ".",
@@ -19,14 +17,12 @@
       "jsx-runtime/jsx-runtime": [
         "./src/jsx-runtime.ts"
       ]
-    },
+    }
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
     "node_modules"
-  ],
-  "include": [
-    "src",
-    "test",
-    "tsup.config.ts"
   ]
 }

@@ -44,7 +44,7 @@
   "scripts": {
     "prepare": "husky install",
     "test": "pnpm run test:tsc && pnpm run test:lint && pnpm run test:unit",
-    "test:tsc": "tsc -p ./src -p ./test --noEmit",
+    "test:tsc": "tsc -p tsconfig.json --noEmit && tsc -p test/tsconfig.json --noEmit",
     "test:lint": "xo",
     "test:unit": "vitest run",
     "prebuild": "pnpm run clean",
