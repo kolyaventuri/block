@@ -13,7 +13,6 @@ export default defineConfig({
   clean: true,
   platform: 'node',
   target: 'es2019',
-  external: ['react'],
   outExtension({format}) {
     return {
       js: format === 'esm' ? '.mjs' : '.cjs',
