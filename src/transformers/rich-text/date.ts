@@ -6,24 +6,17 @@ type RichTextDateType = {
   timestamp: number;
   format: string;
   fallback: string;
-  link?: string;
 };
 
 const transformRichTextDate = (child: Element): RichTextDateType => {
-  const {timestamp, format, fallback, link} = child.props as RichTextDateProperties;
+  const {timestamp, format, fallback} = child.props as RichTextDateProperties;
 
-  const res: RichTextDateType = {
+  return {
     type: 'date',
     timestamp,
     format,
     fallback,
   };
-
-  if (link) {
-    res.link = link;
-  }
-
-  return res;
 };
 
 export default transformRichTextDate;

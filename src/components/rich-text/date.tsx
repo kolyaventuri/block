@@ -3,7 +3,6 @@ export type Props = {
   timestamp: number;
   format: string;
   fallback: string;
-  link?: string;
 };
 
 export default class RichTextDate {
