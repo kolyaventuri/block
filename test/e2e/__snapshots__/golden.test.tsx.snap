@@ -1,0 +1,2275 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`golden payloads > 01-basic 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "emoji": true,
+        "text": "Block Kit Sample: Layout",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "accessory": {
+        "accessibility_label": "More info",
+        "action_id": "more_info",
+        "text": {
+          "text": "More info",
+          "type": "plain_text",
+        },
+        "type": "button",
+      },
+      "fields": [
+        {
+          "text": "Field A",
+          "type": "plain_text",
+        },
+        {
+          "text": "Field B",
+          "type": "plain_text",
+        },
+      ],
+      "text": {
+        "text": "Hello *Block Kit*.",
+        "type": "mrkdwn",
+        "verbatim": true,
+      },
+      "type": "section",
+    },
+    {
+      "type": "divider",
+    },
+    {
+      "elements": [
+        {
+          "text": "Context detail",
+          "type": "plain_text",
+        },
+        {
+          "alt_text": "Image",
+          "image_url": "https://placehold.co/48x48/png",
+          "type": "image",
+        },
+      ],
+      "type": "context",
+    },
+    {
+      "elements": [
+        {
+          "action_id": "approve",
+          "style": "primary",
+          "text": {
+            "text": "Approve",
+            "type": "plain_text",
+          },
+          "type": "button",
+          "value": "approved",
+        },
+        {
+          "action_id": "deny",
+          "confirm": {
+            "confirm": {
+              "text": "Yes",
+              "type": "plain_text",
+            },
+            "deny": {
+              "text": "No",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Are you sure?",
+              "type": "plain_text",
+            },
+            "title": {
+              "text": "Confirm",
+              "type": "plain_text",
+            },
+          },
+          "style": "danger",
+          "text": {
+            "text": "Deny",
+            "type": "plain_text",
+          },
+          "type": "button",
+        },
+        {
+          "action_id": "open_link",
+          "text": {
+            "text": "Open link",
+            "type": "plain_text",
+          },
+          "type": "button",
+          "url": "https://example.com",
+        },
+        {
+          "action_id": "more_actions",
+          "confirm": {
+            "confirm": {
+              "text": "Yes",
+              "type": "plain_text",
+            },
+            "deny": {
+              "text": "No",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Are you sure?",
+              "type": "plain_text",
+            },
+            "title": {
+              "text": "Confirm",
+              "type": "plain_text",
+            },
+          },
+          "options": [
+            {
+              "description": {
+                "text": "First option",
+                "type": "plain_text",
+              },
+              "text": {
+                "text": "Option A",
+                "type": "plain_text",
+              },
+              "value": "opt_a",
+            },
+            {
+              "text": {
+                "text": "Option B",
+                "type": "plain_text",
+              },
+              "value": "opt_b",
+            },
+            {
+              "text": {
+                "text": "Open link",
+                "type": "plain_text",
+              },
+              "url": "https://example.com",
+              "value": "opt_c",
+            },
+          ],
+          "type": "overflow",
+        },
+      ],
+      "type": "actions",
+    },
+    {
+      "alt_text": "Sample image",
+      "image_url": "https://placehold.co/640x320/png",
+      "title": {
+        "text": "Image block title",
+        "type": "plain_text",
+      },
+      "type": "image",
+    },
+  ],
+  "text": "Block Kit sample: basic blocks",
+}
+`;
+
+exports[`golden payloads > 02-inputs 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Inputs",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "element": {
+        "action_id": "name_input",
+        "dispatch_action_config": {
+          "trigger_actions_on": [
+            "on_enter_pressed",
+            "on_character_entered",
+          ],
+        },
+        "focus_on_load": true,
+        "initial_value": "Jane",
+        "max_length": 80,
+        "min_length": 2,
+        "placeholder": {
+          "text": "Jane Doe",
+          "type": "plain_text",
+        },
+        "type": "plain_text_input",
+      },
+      "hint": {
+        "text": "Use your full name",
+        "type": "plain_text",
+      },
+      "label": {
+        "text": "Your name",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "notes_input",
+        "multiline": true,
+        "placeholder": {
+          "text": "Any additional notes...",
+          "type": "plain_text",
+        },
+        "type": "plain_text_input",
+      },
+      "label": {
+        "text": "Notes",
+        "type": "plain_text",
+      },
+      "optional": true,
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_single",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "placeholder": {
+          "text": "Pick one",
+          "type": "plain_text",
+        },
+        "type": "static_select",
+      },
+      "label": {
+        "text": "Choose one",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_multi",
+        "initial_options": [
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "max_selected_items": 2,
+        "option_groups": [
+          {
+            "label": {
+              "text": "Grouped Options",
+              "type": "plain_text",
+            },
+            "options": [
+              {
+                "text": {
+                  "text": "Option B",
+                  "type": "plain_text",
+                },
+                "value": "opt_b",
+              },
+              {
+                "text": {
+                  "text": "Option C",
+                  "type": "plain_text",
+                },
+                "value": "opt_c",
+              },
+            ],
+          },
+        ],
+        "placeholder": {
+          "text": "Pick multiple",
+          "type": "plain_text",
+        },
+        "type": "multi_static_select",
+      },
+      "label": {
+        "text": "Choose many",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "checks",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+        ],
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "checkboxes",
+      },
+      "label": {
+        "text": "Checkboxes",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "radio",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_option": {
+          "text": {
+            "text": "Option B",
+            "type": "plain_text",
+          },
+          "value": "opt_b",
+        },
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "radio_buttons",
+      },
+      "label": {
+        "text": "Radio",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "date",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_date": "2024-01-15",
+        "placeholder": {
+          "text": "Select a date",
+          "type": "plain_text",
+        },
+        "type": "datepicker",
+      },
+      "label": {
+        "text": "Date",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "time",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_time": "12:30",
+        "placeholder": {
+          "text": "Select a time",
+          "type": "plain_text",
+        },
+        "type": "timepicker",
+      },
+      "label": {
+        "text": "Time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "date_time",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_date_time": 1700000000,
+        "type": "datetimepicker",
+      },
+      "label": {
+        "text": "Date + time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_external",
+        "min_query_length": 2,
+        "placeholder": {
+          "text": "Search...",
+          "type": "plain_text",
+        },
+        "type": "external_select",
+      },
+      "label": {
+        "text": "External select",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_user",
+        "placeholder": {
+          "text": "Pick a user",
+          "type": "plain_text",
+        },
+        "type": "users_select",
+      },
+      "label": {
+        "text": "User",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_users_multi",
+        "initial_users": [
+          "U123456",
+        ],
+        "placeholder": {
+          "text": "Pick users",
+          "type": "plain_text",
+        },
+        "type": "multi_users_select",
+      },
+      "label": {
+        "text": "Users (multi)",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_channel",
+        "placeholder": {
+          "text": "Pick a channel",
+          "type": "plain_text",
+        },
+        "type": "channels_select",
+      },
+      "label": {
+        "text": "Channel",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_channels_multi",
+        "initial_channels": [
+          "C123456",
+        ],
+        "placeholder": {
+          "text": "Pick channels",
+          "type": "plain_text",
+        },
+        "type": "multi_channels_select",
+      },
+      "label": {
+        "text": "Channels (multi)",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_conversation",
+        "default_to_current_conversation": true,
+        "filter": {
+          "exclude_bot_users": true,
+          "exclude_external_shared_channels": true,
+          "include": [
+            "public",
+            "private",
+          ],
+        },
+        "placeholder": {
+          "text": "Pick a conversation",
+          "type": "plain_text",
+        },
+        "response_url_enabled": true,
+        "type": "conversations_select",
+      },
+      "label": {
+        "text": "Conversation",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_conversations_multi",
+        "initial_conversations": [
+          "C123456",
+        ],
+        "placeholder": {
+          "text": "Pick conversations",
+          "type": "plain_text",
+        },
+        "type": "multi_conversations_select",
+      },
+      "label": {
+        "text": "Conversations (multi)",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: inputs",
+}
+`;
+
+exports[`golden payloads > 03-rich-text 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Rich Text",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "elements": [
+        {
+          "elements": [
+            {
+              "style": {
+                "bold": true,
+              },
+              "text": "Bold",
+              "type": "text",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "style": {
+                "italic": true,
+              },
+              "text": "italic",
+              "type": "text",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "style": {
+                "strike": true,
+              },
+              "text": "strike",
+              "type": "text",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "style": {
+                "bold": true,
+              },
+              "text": "bold link",
+              "type": "link",
+              "url": "https://example.com",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "name": "wave",
+              "type": "emoji",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "type": "user",
+              "user_id": "U123456",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "channel_id": "C123456",
+              "type": "channel",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "type": "usergroup",
+              "usergroup_id": "S123456",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "range": "here",
+              "type": "broadcast",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "fallback": "2024-01-01 12:00",
+              "format": "{date_num} {time}",
+              "timestamp": 1700000000,
+              "type": "date",
+            },
+          ],
+          "type": "rich_text_section",
+        },
+        {
+          "border": 1,
+          "elements": [
+            {
+              "elements": [
+                {
+                  "text": "List item one",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+            {
+              "elements": [
+                {
+                  "text": "List item two",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+          ],
+          "indent": 1,
+          "style": "bullet",
+          "type": "rich_text_list",
+        },
+        {
+          "elements": [
+            {
+              "elements": [
+                {
+                  "text": "Ordered item one",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+            {
+              "elements": [
+                {
+                  "text": "Ordered item two",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+          ],
+          "style": "ordered",
+          "type": "rich_text_list",
+        },
+        {
+          "elements": [
+            {
+              "text": "Quoted text block",
+              "type": "text",
+            },
+          ],
+          "type": "rich_text_quote",
+        },
+        {
+          "elements": [
+            {
+              "style": {
+                "code": true,
+              },
+              "text": "preformatted code",
+              "type": "text",
+            },
+          ],
+          "type": "rich_text_preformatted",
+        },
+      ],
+      "type": "rich_text",
+    },
+  ],
+  "text": "Block Kit sample: rich text",
+}
+`;
+
+exports[`golden payloads > 04-video 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Video",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "alt_text": "Video thumbnail image",
+      "author_name": "Block Kit Bot",
+      "description": {
+        "text": "Demo video description",
+        "type": "plain_text",
+      },
+      "provider_icon_url": "https://placehold.co/32x32/png",
+      "provider_name": "Example Video",
+      "thumbnail_url": "https://placehold.co/640x360/png",
+      "title": {
+        "text": "Video block title",
+        "type": "plain_text",
+      },
+      "title_url": "https://example.com/video",
+      "type": "video",
+      "video_url": "https://example.com/video.mp4",
+    },
+  ],
+  "text": "Block Kit sample: video",
+}
+`;
+
+exports[`golden payloads > 05-message-options 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Message Options",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "text": {
+        "text": "Message with custom username, icon, and thread options.",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "icon_emoji": ":robot_face:",
+  "mrkdwn": false,
+  "parse": "none",
+  "reply_broadcast": true,
+  "text": "Block Kit sample: message options",
+  "thread_ts": "1700000000.000100",
+  "unfurl_links": true,
+  "unfurl_media": false,
+  "username": "Custom Bot",
+}
+`;
+
+exports[`golden payloads > 06-message-attachment 1`] = `
+{
+  "as_user": true,
+  "attachments": [
+    {
+      "blocks": [
+        {
+          "text": {
+            "text": "Block Kit Sample: Attachment",
+            "type": "plain_text",
+          },
+          "type": "header",
+        },
+        {
+          "text": {
+            "text": "Message rendered as a colored attachment.",
+            "type": "mrkdwn",
+          },
+          "type": "section",
+        },
+      ],
+      "color": "#36a64f",
+      "fallback": "Block Kit sample: attachment",
+    },
+  ],
+  "text": "Block Kit sample: attachment",
+}
+`;
+
+exports[`golden payloads > 07-focus-select 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "select_focus",
+        "focus_on_load": true,
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "placeholder": {
+          "text": "Pick one",
+          "type": "plain_text",
+        },
+        "type": "static_select",
+      },
+      "label": {
+        "text": "Choose one",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad select",
+}
+`;
+
+exports[`golden payloads > 08-focus-checkboxes 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "checks_focus",
+        "focus_on_load": true,
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "checkboxes",
+      },
+      "label": {
+        "text": "Checkboxes",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad checkboxes",
+}
+`;
+
+exports[`golden payloads > 09-focus-radio 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "radio_focus",
+        "focus_on_load": true,
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "radio_buttons",
+      },
+      "label": {
+        "text": "Radio",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad radio",
+}
+`;
+
+exports[`golden payloads > 10-focus-datepicker 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "date_focus",
+        "focus_on_load": true,
+        "type": "datepicker",
+      },
+      "label": {
+        "text": "Date",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad date picker",
+}
+`;
+
+exports[`golden payloads > 11-focus-timepicker 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "time_focus",
+        "focus_on_load": true,
+        "type": "timepicker",
+      },
+      "label": {
+        "text": "Time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad time picker",
+}
+`;
+
+exports[`golden payloads > 12-focus-datetimepicker 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "datetime_focus",
+        "focus_on_load": true,
+        "type": "datetimepicker",
+      },
+      "label": {
+        "text": "Date + time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad datetime picker",
+}
+`;
+
+exports[`golden payloads > basic layout blocks: header, section, divider, context, actions, image, container 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "emoji": true,
+        "text": "Block Kit Sample: Layout",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "accessory": {
+        "accessibility_label": "More info",
+        "action_id": "more_info",
+        "text": {
+          "text": "More info",
+          "type": "plain_text",
+        },
+        "type": "button",
+      },
+      "fields": [
+        {
+          "text": "Field A",
+          "type": "plain_text",
+        },
+        {
+          "text": "Field B",
+          "type": "plain_text",
+        },
+      ],
+      "text": {
+        "text": "Hello *Block Kit*.",
+        "type": "mrkdwn",
+        "verbatim": true,
+      },
+      "type": "section",
+    },
+    {
+      "type": "divider",
+    },
+    {
+      "elements": [
+        {
+          "text": "Context detail",
+          "type": "plain_text",
+        },
+        {
+          "alt_text": "Image",
+          "image_url": "https://placehold.co/48x48/png",
+          "type": "image",
+        },
+      ],
+      "type": "context",
+    },
+    {
+      "elements": [
+        {
+          "action_id": "approve",
+          "style": "primary",
+          "text": {
+            "text": "Approve",
+            "type": "plain_text",
+          },
+          "type": "button",
+          "value": "approved",
+        },
+        {
+          "action_id": "deny",
+          "confirm": {
+            "confirm": {
+              "text": "Yes",
+              "type": "plain_text",
+            },
+            "deny": {
+              "text": "No",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Are you sure?",
+              "type": "plain_text",
+            },
+            "title": {
+              "text": "Confirm",
+              "type": "plain_text",
+            },
+          },
+          "style": "danger",
+          "text": {
+            "text": "Deny",
+            "type": "plain_text",
+          },
+          "type": "button",
+        },
+        {
+          "action_id": "open_link",
+          "text": {
+            "text": "Open link",
+            "type": "plain_text",
+          },
+          "type": "button",
+          "url": "https://example.com",
+        },
+        {
+          "action_id": "more_actions",
+          "confirm": {
+            "confirm": {
+              "text": "Yes",
+              "type": "plain_text",
+            },
+            "deny": {
+              "text": "No",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Are you sure?",
+              "type": "plain_text",
+            },
+            "title": {
+              "text": "Confirm",
+              "type": "plain_text",
+            },
+          },
+          "options": [
+            {
+              "description": {
+                "text": "First option",
+                "type": "plain_text",
+              },
+              "text": {
+                "text": "Option A",
+                "type": "plain_text",
+              },
+              "value": "opt_a",
+            },
+            {
+              "text": {
+                "text": "Option B",
+                "type": "plain_text",
+              },
+              "value": "opt_b",
+            },
+            {
+              "text": {
+                "text": "Open link",
+                "type": "plain_text",
+              },
+              "url": "https://example.com",
+              "value": "opt_c",
+            },
+          ],
+          "type": "overflow",
+        },
+      ],
+      "type": "actions",
+    },
+    {
+      "alt_text": "Sample image",
+      "image_url": "https://placehold.co/640x320/png",
+      "title": {
+        "text": "Image block title",
+        "type": "plain_text",
+      },
+      "type": "image",
+    },
+  ],
+  "text": "Block Kit sample: basic blocks",
+}
+`;
+
+exports[`golden payloads > focusOnLoad on checkboxes 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "checks_focus",
+        "focus_on_load": true,
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "checkboxes",
+      },
+      "label": {
+        "text": "Checkboxes",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad checkboxes",
+}
+`;
+
+exports[`golden payloads > focusOnLoad on date picker 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "date_focus",
+        "focus_on_load": true,
+        "type": "datepicker",
+      },
+      "label": {
+        "text": "Date",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad date picker",
+}
+`;
+
+exports[`golden payloads > focusOnLoad on date-time picker 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "datetime_focus",
+        "focus_on_load": true,
+        "type": "datetimepicker",
+      },
+      "label": {
+        "text": "Date + time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad datetime picker",
+}
+`;
+
+exports[`golden payloads > focusOnLoad on radio group 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "radio_focus",
+        "focus_on_load": true,
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "radio_buttons",
+      },
+      "label": {
+        "text": "Radio",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad radio",
+}
+`;
+
+exports[`golden payloads > focusOnLoad on static select 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "select_focus",
+        "focus_on_load": true,
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "placeholder": {
+          "text": "Pick one",
+          "type": "plain_text",
+        },
+        "type": "static_select",
+      },
+      "label": {
+        "text": "Choose one",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad select",
+}
+`;
+
+exports[`golden payloads > focusOnLoad on time picker 1`] = `
+{
+  "blocks": [
+    {
+      "element": {
+        "action_id": "time_focus",
+        "focus_on_load": true,
+        "type": "timepicker",
+      },
+      "label": {
+        "text": "Time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: focusOnLoad time picker",
+}
+`;
+
+exports[`golden payloads > input blocks: text input, selects, checkboxes, radio, date/time pickers, all select types 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Inputs",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "element": {
+        "action_id": "name_input",
+        "dispatch_action_config": {
+          "trigger_actions_on": [
+            "on_enter_pressed",
+            "on_character_entered",
+          ],
+        },
+        "focus_on_load": true,
+        "initial_value": "Jane",
+        "max_length": 80,
+        "min_length": 2,
+        "placeholder": {
+          "text": "Jane Doe",
+          "type": "plain_text",
+        },
+        "type": "plain_text_input",
+      },
+      "hint": {
+        "text": "Use your full name",
+        "type": "plain_text",
+      },
+      "label": {
+        "text": "Your name",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "notes_input",
+        "multiline": true,
+        "placeholder": {
+          "text": "Any additional notes...",
+          "type": "plain_text",
+        },
+        "type": "plain_text_input",
+      },
+      "label": {
+        "text": "Notes",
+        "type": "plain_text",
+      },
+      "optional": true,
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_single",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "placeholder": {
+          "text": "Pick one",
+          "type": "plain_text",
+        },
+        "type": "static_select",
+      },
+      "label": {
+        "text": "Choose one",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_multi",
+        "initial_options": [
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "max_selected_items": 2,
+        "option_groups": [
+          {
+            "label": {
+              "text": "Grouped Options",
+              "type": "plain_text",
+            },
+            "options": [
+              {
+                "text": {
+                  "text": "Option B",
+                  "type": "plain_text",
+                },
+                "value": "opt_b",
+              },
+              {
+                "text": {
+                  "text": "Option C",
+                  "type": "plain_text",
+                },
+                "value": "opt_c",
+              },
+            ],
+          },
+        ],
+        "placeholder": {
+          "text": "Pick multiple",
+          "type": "plain_text",
+        },
+        "type": "multi_static_select",
+      },
+      "label": {
+        "text": "Choose many",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "checks",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+        ],
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "checkboxes",
+      },
+      "label": {
+        "text": "Checkboxes",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "radio",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_option": {
+          "text": {
+            "text": "Option B",
+            "type": "plain_text",
+          },
+          "value": "opt_b",
+        },
+        "options": [
+          {
+            "description": {
+              "text": "First option",
+              "type": "plain_text",
+            },
+            "text": {
+              "text": "Option A",
+              "type": "plain_text",
+            },
+            "value": "opt_a",
+          },
+          {
+            "text": {
+              "text": "Option B",
+              "type": "plain_text",
+            },
+            "value": "opt_b",
+          },
+        ],
+        "type": "radio_buttons",
+      },
+      "label": {
+        "text": "Radio",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "date",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_date": "2024-01-15",
+        "placeholder": {
+          "text": "Select a date",
+          "type": "plain_text",
+        },
+        "type": "datepicker",
+      },
+      "label": {
+        "text": "Date",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "time",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_time": "12:30",
+        "placeholder": {
+          "text": "Select a time",
+          "type": "plain_text",
+        },
+        "type": "timepicker",
+      },
+      "label": {
+        "text": "Time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "date_time",
+        "confirm": {
+          "confirm": {
+            "text": "Yes",
+            "type": "plain_text",
+          },
+          "deny": {
+            "text": "No",
+            "type": "plain_text",
+          },
+          "text": {
+            "text": "Are you sure?",
+            "type": "plain_text",
+          },
+          "title": {
+            "text": "Confirm",
+            "type": "plain_text",
+          },
+        },
+        "initial_date_time": 1700000000,
+        "type": "datetimepicker",
+      },
+      "label": {
+        "text": "Date + time",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_external",
+        "min_query_length": 2,
+        "placeholder": {
+          "text": "Search...",
+          "type": "plain_text",
+        },
+        "type": "external_select",
+      },
+      "label": {
+        "text": "External select",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_user",
+        "placeholder": {
+          "text": "Pick a user",
+          "type": "plain_text",
+        },
+        "type": "users_select",
+      },
+      "label": {
+        "text": "User",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_users_multi",
+        "initial_users": [
+          "U123456",
+        ],
+        "placeholder": {
+          "text": "Pick users",
+          "type": "plain_text",
+        },
+        "type": "multi_users_select",
+      },
+      "label": {
+        "text": "Users (multi)",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_channel",
+        "placeholder": {
+          "text": "Pick a channel",
+          "type": "plain_text",
+        },
+        "type": "channels_select",
+      },
+      "label": {
+        "text": "Channel",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_channels_multi",
+        "initial_channels": [
+          "C123456",
+        ],
+        "placeholder": {
+          "text": "Pick channels",
+          "type": "plain_text",
+        },
+        "type": "multi_channels_select",
+      },
+      "label": {
+        "text": "Channels (multi)",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_conversation",
+        "default_to_current_conversation": true,
+        "filter": {
+          "exclude_bot_users": true,
+          "exclude_external_shared_channels": true,
+          "include": [
+            "public",
+            "private",
+          ],
+        },
+        "placeholder": {
+          "text": "Pick a conversation",
+          "type": "plain_text",
+        },
+        "response_url_enabled": true,
+        "type": "conversations_select",
+      },
+      "label": {
+        "text": "Conversation",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+    {
+      "element": {
+        "action_id": "select_conversations_multi",
+        "initial_conversations": [
+          "C123456",
+        ],
+        "placeholder": {
+          "text": "Pick conversations",
+          "type": "plain_text",
+        },
+        "type": "multi_conversations_select",
+      },
+      "label": {
+        "text": "Conversations (multi)",
+        "type": "plain_text",
+      },
+      "type": "input",
+    },
+  ],
+  "text": "Block Kit sample: inputs",
+}
+`;
+
+exports[`golden payloads > message envelope options: username, iconEmoji, parse, unfurl, thread reply 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Message Options",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "text": {
+        "text": "Message with custom username, icon, and thread options.",
+        "type": "mrkdwn",
+      },
+      "type": "section",
+    },
+  ],
+  "icon_emoji": ":robot_face:",
+  "mrkdwn": false,
+  "parse": "none",
+  "reply_broadcast": true,
+  "text": "Block Kit sample: message options",
+  "thread_ts": "1700000000.000100",
+  "unfurl_links": true,
+  "unfurl_media": false,
+  "username": "Custom Bot",
+}
+`;
+
+exports[`golden payloads > message with color renders as attachment with asUser 1`] = `
+{
+  "as_user": true,
+  "attachments": [
+    {
+      "blocks": [
+        {
+          "text": {
+            "text": "Block Kit Sample: Attachment",
+            "type": "plain_text",
+          },
+          "type": "header",
+        },
+        {
+          "text": {
+            "text": "Message rendered as a colored attachment.",
+            "type": "mrkdwn",
+          },
+          "type": "section",
+        },
+      ],
+      "color": "#36a64f",
+      "fallback": "Block Kit sample: attachment",
+    },
+  ],
+  "text": "Block Kit sample: attachment",
+}
+`;
+
+exports[`golden payloads > rich text: all element types, styles, bullet and ordered lists, quote, preformatted 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Rich Text",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "elements": [
+        {
+          "elements": [
+            {
+              "style": {
+                "bold": true,
+              },
+              "text": "Bold",
+              "type": "text",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "style": {
+                "italic": true,
+              },
+              "text": "italic",
+              "type": "text",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "style": {
+                "strike": true,
+              },
+              "text": "strike",
+              "type": "text",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "style": {
+                "bold": true,
+              },
+              "text": "bold link",
+              "type": "link",
+              "url": "https://example.com",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "name": "wave",
+              "type": "emoji",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "type": "user",
+              "user_id": "U123456",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "channel_id": "C123456",
+              "type": "channel",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "type": "usergroup",
+              "usergroup_id": "S123456",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "range": "here",
+              "type": "broadcast",
+            },
+            {
+              "text": " ",
+              "type": "text",
+            },
+            {
+              "fallback": "2024-01-01 12:00",
+              "format": "{date_num} {time}",
+              "timestamp": 1700000000,
+              "type": "date",
+            },
+          ],
+          "type": "rich_text_section",
+        },
+        {
+          "border": 1,
+          "elements": [
+            {
+              "elements": [
+                {
+                  "text": "List item one",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+            {
+              "elements": [
+                {
+                  "text": "List item two",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+          ],
+          "indent": 1,
+          "style": "bullet",
+          "type": "rich_text_list",
+        },
+        {
+          "elements": [
+            {
+              "elements": [
+                {
+                  "text": "Ordered item one",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+            {
+              "elements": [
+                {
+                  "text": "Ordered item two",
+                  "type": "text",
+                },
+              ],
+              "type": "rich_text_section",
+            },
+          ],
+          "style": "ordered",
+          "type": "rich_text_list",
+        },
+        {
+          "elements": [
+            {
+              "text": "Quoted text block",
+              "type": "text",
+            },
+          ],
+          "type": "rich_text_quote",
+        },
+        {
+          "elements": [
+            {
+              "style": {
+                "code": true,
+              },
+              "text": "preformatted code",
+              "type": "text",
+            },
+          ],
+          "type": "rich_text_preformatted",
+        },
+      ],
+      "type": "rich_text",
+    },
+  ],
+  "text": "Block Kit sample: rich text",
+}
+`;
+
+exports[`golden payloads > video block: all props including providerIconUrl 1`] = `
+{
+  "blocks": [
+    {
+      "text": {
+        "text": "Block Kit Sample: Video",
+        "type": "plain_text",
+      },
+      "type": "header",
+    },
+    {
+      "alt_text": "Video thumbnail image",
+      "author_name": "Block Kit Bot",
+      "description": {
+        "text": "Demo video description",
+        "type": "plain_text",
+      },
+      "provider_icon_url": "https://placehold.co/32x32/png",
+      "provider_name": "Example Video",
+      "thumbnail_url": "https://placehold.co/640x360/png",
+      "title": {
+        "text": "Video block title",
+        "type": "plain_text",
+      },
+      "title_url": "https://example.com/video",
+      "type": "video",
+      "video_url": "https://example.com/video.mp4",
+    },
+  ],
+  "text": "Block Kit sample: video",
+}
+`;
