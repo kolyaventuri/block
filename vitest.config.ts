@@ -7,6 +7,18 @@ export default defineConfig({
     environment: 'node',
     include: ['test/**/*.test.ts', 'test/**/*.test.tsx'],
     setupFiles: ['./test/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      include: ['src/**'],
+      exclude: ['src/jsx-runtime.ts', 'src/jsx-dev-runtime.ts', 'src/jsx.d.ts'],
+      reporter: ['text', 'lcov'],
+      thresholds: {
+        statements: 85,
+        branches: 85,
+        functions: 85,
+        lines: 85,
+      },
+    },
   },
   resolve: {
     alias: {

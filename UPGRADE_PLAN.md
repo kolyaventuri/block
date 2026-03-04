@@ -1,161 +1,190 @@
 # Upgrade Plan
 
-This plan modernizes the codebase, targets Node >= 20 (current LTS),
-migrates to pnpm, stabilizes builds/tests, and then aligns with the
-current Slack Block Kit API. The project uses JSX as a templating engine
-and does not require a full React runtime unless intentionally kept.
+> Last audited: 2026-03-03 against master @ 7980ecc
 
-## Goals
-- Target Node >= 20 and modern TypeScript outputs.
-- Migrate from npm to pnpm with a clean, reproducible install.
-- Fix packaging/exports so documented imports work.
-- Harden runtime behavior (parsing/transformers) and typings.
-- Upgrade dependencies safely with tests guarding behavior.
-- Align all blocks/elements to the latest Slack Block Kit API.
+## Overview
 
-## Current State (Key Findings)
-- Transformer routing now uses explicit `slackType` identifiers to avoid name collisions. (fixed)
-- Parser now ignores `false`/`null`/`undefined` and fully flattens arrays. (fixed)
-- Types now reflect serialized Slack JSON outputs instead of React elements. (fixed)
-- Block Kit coverage expanded with new blocks/elements, with rich_text helpers and dispatch_action_config now included.
+The original modernization work (Node upgrade, pnpm, tsup, Vitest, JSX runtime, Block Kit
+alignment) is complete. This document now tracks the remaining trust, reliability, and polish
+work needed before the project can be considered fully production-ready.
 
-## Constraints
-- Node >= 20 (LTS) as the supported runtime.
-- JSX remains as a templating layer (React optional).
-- Avoid regressions; keep API surface stable where possible, or document changes.
+---
 
-## Status (Completed So Far)
-- Node >= 20 engine requirement and pnpm pin added in `package.json`.
-- npm lockfile removed; `pnpm-lock.yaml` added and installs verified.
-- TypeScript baseline updated to `es2019` with `moduleResolution: node16`.
-- Declarations enabled with `declarationMap`, and build output standardized on `dist/`.
-- Lint stack upgraded (XO 1.x + ESLint 9 + @typescript-eslint 8 + TS 5.9).
-- XO config migrated to flat config in `xo.config.cjs`.
-- Packaging updated with TS entry points plus `exports`/`files` map for `slackblock` and `slackblock/block`.
-- Dual CJS/ESM build configured via `tsup` with `.cjs`/`.mjs` outputs in `dist/`.
-- Test stack migrated to Vitest; Enzyme and AVA removed.
-- React and `@types/react` upgraded to current 19.x.
-- React moved to `peerDependencies` (kept in `devDependencies` for tests).
-- Git hooks migrated to Husky + lint-staged; `npm-run-all` and `pre-commit` removed.
-- Tests passing on Node 20/22/24 (`pnpm test`) with Vitest.
-- Transformer routing stabilized with component `slackType` identifiers.
-- Parser/container now ignore falsey children and fully flatten nested arrays.
-- Image block vs layout fields aligned to Slack spec.
-- Select `initial_*` behavior aligned (single vs multi).
-- Date and time validation tightened for pickers.
-- Public types updated to reflect serialized output objects.
-- Added blocks/elements: `Header`, `RichText`, `Video`, `Checkboxes`, `TimePicker`, `DateTimePicker`.
-- Added select enhancements (`min_query_length`, conversation filter/flags) and option descriptions.
-- Added `focus_on_load` across inputs and `accessibility_label` for buttons.
-- Added `dispatch_action_config` for text inputs and rich_text helper components.
-- Dropped `@slack/web-api` runtime dependency; types replicated locally in `src/constants/slack-message-types.ts`.
-- Deleted `.npmignore`; `files` field in `package.json` is the sole publish whitelist.
-- Renamed `prepublish` → `prepublishOnly` to prevent accidental runs on install.
-- Added `"sideEffects": false` to `package.json` for better bundler tree-shaking.
-- Extracted shared `normalizeChildren` to `src/utils/normalize-children.ts`.
-- Broke circular transformer import: registry moved to `src/transformers/registry.ts`, `transform()` extracted to `src/transformers/transform.ts`; `import-x/no-cycle` re-enabled.
-- Added end-to-end pipeline tests in `test/e2e/pipeline.test.tsx` covering all major block/input/rich-text types and conditional Container rendering.
-- CI matrix expanded to Node 20, 22, and 24.
+## Completed (no further action needed)
 
-## Phase 0: Baseline & Safety Net
-- Add a `UPGRADE_NOTES.md` for tracked decisions, breaking changes, and rationale.
-- Ensure tests run on current branch before changes; document gaps.
-- Define a minimal "golden" JSON output spec for key components.
+**Tooling & runtime**
+- [x] Node `>=20` engine requirement; CI matrix on 20/22/24.
+- [x] Migrated from npm to pnpm; lockfile is deterministic.
+- [x] TypeScript 5.x, `es2019` target, `node16` moduleResolution, declaration maps.
+- [x] Dual CJS/ESM build via tsup; `dist/` as the sole output folder.
+- [x] `exports` map in `package.json` for `.` and `./block` entry points.
+- [x] XO 1.x + ESLint 9 + @typescript-eslint 8 in `xo.config.cjs`; `space: true` enforced.
+- [x] Husky + lint-staged; `npm-run-all` and legacy `pre-commit` removed.
+- [x] `sideEffects: false` for bundler tree-shaking.
+- [x] `files` whitelist is the sole publish gate; `.npmignore` deleted.
 
-## Phase 1: Tooling + Runtime Baseline (Node >= 20)
-- Set `engines.node` to `>=20` in `package.json`. (done)
-- Add `packageManager` with a pinned pnpm version. (done)
-- Replace `package-lock.json` with `pnpm-lock.yaml`. (done)
-- Update TS config:
-  - `target` to at least `es2019`. (done)
-  - `moduleResolution` to `node16` or `bundler` (decide based on build tool). (set to `node16`)
-  - Use `declaration` output and `declarationMap`. (done)
-- Build output folder standardization: `dist/` or `lib/` (pick one). (picked `dist/`)
+**Dependencies**
+- [x] React peer dependency dropped entirely; custom JSX runtime at `src/jsx-runtime.ts` (#35).
+- [x] `@slack/web-api` runtime dep removed; stable local type replicas in
+      `src/constants/slack-message-types.ts` (#34/#36).
+- [x] `@slack/types` retained as the only Slack-origin dependency.
 
-## Phase 2: Packaging + Exports
-- Replace ad-hoc JS wrappers with TS entry points:
-  - `src/index.ts` for default render export.
-  - `src/block.ts` for component exports. (done)
-- Add `exports` map in `package.json`: (done)
-  - `.` -> `dist/index.cjs`/`dist/index.mjs` + types
-  - `./block` -> `dist/block.cjs`/`dist/block.mjs` + types
-- Ensure `files` whitelist includes only published artifacts. (done)
-- Fix README import examples to match exports. (verified)
-- Validate ESM/CJS strategy: (done)
-  - Dual build via `tsup`, emitting `.cjs` and `.mjs` into `dist/`.
+**Block Kit alignment**
+- [x] Transformer routing via explicit `slackType` identifiers (no `function.name` fragility).
+- [x] Parser ignores `false`/`null`/`undefined`; fully flattens nested arrays.
+- [x] All current Block Kit blocks and elements implemented and tested.
+- [x] `focus_on_load`, `accessibility_label`, `dispatch_action_config`, rich_text helpers added.
+- [x] `@slack/web-api` deep imports eliminated.
 
-## Phase 3: Dependency Upgrades
-- Upgrade TypeScript to current 5.x. (done)
-- Replace XO + old ESLint with modern linting:
-  - Option A: ESLint 9 + @typescript-eslint 8+. (done)
-  - Option B: Biome for lint+format.
-- Update test stack:
-  - Migrate to Vitest for modern TS/JSX support. (done)
-- Remove unused deps (Enzyme) and legacy adapter. (done)
-- Upgrade React and `@types/react` to current 19.x. (done)
-- Replace `pre-commit` with Husky + lint-staged and drop `npm-run-all`. (done)
-- Update ts-node usage if still required; prefer native TS transpile in tests.
+**Type safety**
+- [x] `strictNullChecks: true`; all `any` removed from `src/`; `no-explicit-any` enabled.
+- [x] `JSX.Element.props` typed as `Record<string, unknown>` (not `any`).
 
-## Phase 4: JSX Runtime Decision
-- Decide whether to keep React as a peer dependency or replace it:
-  - If keeping React:
-    - Upgrade `react` and `@types/react` to current. (done)
-    - Move React to `peerDependencies` to preserve consumer compatibility. (done)
-  - Ensure JSX runtime config remains correct. (done)
-  - If removing React:
-    - Add a small custom `jsx-runtime` (createElement) that builds element objects.
-    - Document usage and add tests to ensure compatibility with JSX transforms.
+**CI / release hygiene**
+- [x] GitHub Actions CI; stale CircleCI badge removed.
+- [x] `CHANGELOG.md` populated through v1.1.0 (Keep a Changelog format).
+- [x] Node 20/22/24 matrix in CI.
+- [x] Duplicate CI run on PRs fixed (#33).
 
-## Phase 5: Core Behavior Fixes
-- Fix transformer selection:
-  - Assign explicit `type` identifiers or static fields to components.
-  - Avoid reliance on `function.name` for block lookup.
-- Harden parser:
-  - Ignore `false`, `null`, and `undefined`.
-  - Fully flatten nested arrays from containers.
-  - Preserve string-only messages (no blocks).
-- Correct Block Kit mappings:
-  - `image` element vs `image` block fields.
-  - Select `initial_*` fields for single vs multi.
-  - Validate date format errors consistently.
-- Update types to describe serialized JSON instead of React elements.
-- Phase 5 complete. (done)
+**Validation samples**
+- [x] `scripts/generate-block-kit-samples.cjs` ported away from React to custom `h()`.
+- [x] 12 Block Kit samples in `examples/block-kit/` covering all validatable components and props.
+- [x] Invalid `RichTextDate.link` prop removed from component and transformer.
 
-## Phase 6: Slack Block Kit Alignment
-- Audit all supported blocks/elements against the current Slack spec.
-- Add missing block types and elements (e.g. header, rich_text, checkboxes,
-  timepicker, datetimepicker, button styles, file details). (done)
-- Add select enhancements (min_query_length, conversation filters) and option descriptions. (done)
-- Add `focus_on_load` and `accessibility_label` support where applicable. (done)
-- Add rich_text helpers and `dispatch_action_config` for text inputs. (done)
-- Add validation helpers (optional) with warnings for deprecated fields. (done, basic coverage)
-- Update docs/examples with current Block Kit feature set.
-- Remaining optional gaps: none for Phase 6; further validation tightening can be added as needed.
+---
 
-## Phase 7: CI + Release Hygiene
-- Add CI matrix for Node 20, 22, and 24. (done via GitHub Actions)
-- Add `pnpm install --frozen-lockfile` to CI. (done)
-- Ensure `build`, `lint`, and `test` pipelines are green. (done)
-- Add release notes template and changelog entry format. (done)
+## Remaining Work
 
-## Testing Strategy
-- Unit tests for all transformers, especially for:
-  - `Section` with `fields` and `accessory`.
-  - `Select` with multi/single `initial_*`.
-  - `Image` block vs `Image` layout.
-  - Container conditional rendering with nested arrays.
-- End-to-end pipeline tests in `test/e2e/` exercising the full render() API. (done)
-- Snapshot JSON outputs for key component trees.
-- Type tests (tsd or tsd-lite) for public API typing.
+### Phase A — Trust signals ✅
 
-## Backward Compatibility
-- Keep public component names and props if possible.
-- When changes are required, add clear warnings and a migration guide.
-- Provide a v1.0 breaking-change boundary if needed.
+- [x] Add governance docs:
+  - [x] `CONTRIBUTING.md` — contribution guidelines, dev setup, PR checklist.
+  - [x] `CODE_OF_CONDUCT.md` — Contributor Covenant.
+  - [x] `SECURITY.md` — GitHub private vulnerability reporting (no email SLA).
+- [x] Add `.github/ISSUE_TEMPLATE/` (bug report + feature request templates).
+- [x] Add `.github/pull_request_template.md`.
+- [x] Add remaining README badges: npm version, license, TypeScript types.
+- [x] Add README compatibility section: Node >=20, no React required.
 
-## Acceptance Criteria
-- Node >= 20 compatibility verified in CI.
-- pnpm lockfile and builds are deterministic.
-- Published package supports documented imports.
-- All tests pass on Node 24.
-- Block Kit outputs match current Slack spec and pass validation.
+Acceptance criteria:
+- [x] Governance docs exist and link to each other where relevant.
+- [x] All README badges resolve to live targets.
+
+---
+
+### Phase B — Security automation ✅
+
+- [x] Add `.github/dependabot.yml` for npm and GitHub Actions dependency updates.
+- [x] Add `.github/workflows/security.yml`:
+  - [x] CodeQL analysis on push/PR.
+  - [x] `actions/dependency-review-action` on PRs.
+  - [x] Scheduled `pnpm audit --audit-level=high`.
+- [ ] Add npm provenance to publish workflow (deferred to Phase G).
+
+Acceptance criteria:
+- [x] Security workflow passes on `master`.
+- [x] Dependabot opens update PRs on schedule.
+
+---
+
+### Phase C — Testing quality gates (foundation for Phase D) ✅
+
+- [x] Add fixture-based "golden payload" tests: render each `examples/block-kit/` sample
+      through `render()` and assert the JSON output matches the committed fixture.
+      12 tests in `test/e2e/golden.test.tsx` covering all blocks and element types.
+- [x] Set coverage threshold in `vitest.config.ts` (85%+ statements/branches/functions/lines).
+      Current: ~97% statements, ~93% branches.
+- [ ] Add tests for unknown component types and parser flattening edge cases. *(deferred to Phase D)*
+
+Acceptance criteria:
+- [x] Every sample in `examples/block-kit/` has a corresponding golden test.
+- [x] CI fails if coverage drops below threshold.
+
+---
+
+### Phase D — Validation architecture (core technical work)
+
+- [ ] Add `validate` option to `render()`: `'off' | 'warn' | 'strict'` (default: `'warn'`).
+- [ ] Introduce `SlackblockValidationError` with `message`, `path`, and `rule` fields.
+- [ ] Centralize Slack limit constants (max blocks, text lengths, etc.).
+- [ ] Implement path-aware error messages (e.g. `Message > Section > Button: actionId required`).
+- [ ] Strict mode throws consistently for:
+  - [ ] Required field omissions.
+  - [ ] Length/count limit violations.
+  - [ ] Invalid date/time format inputs.
+- [ ] Add validation matrix tests: `warn`/`strict`/`off` × known edge cases.
+- [ ] Add text-safety helpers: `escapeMrkdwn()` and safe text builder for untrusted input.
+
+Acceptance criteria:
+- [ ] All three modes are tested and documented.
+- [ ] Error messages include component path and prop name.
+
+---
+
+### Phase E — API ergonomics
+
+- [ ] Add `renderToBlocks(element): Block[]` helper.
+- [ ] Add `renderToMessage(element, options): SlackMessage` helper (wraps current `render()`).
+- [ ] Clarify and document `color`-to-attachment conversion behavior.
+- [ ] Add Block Kit Builder preview URL helper.
+
+Acceptance criteria:
+- [ ] New helpers are documented and tested.
+
+---
+
+### Phase F — Documentation and adoption
+
+- [ ] Rewrite README: value proposition, install + quick start, compatibility matrix,
+      validation mode overview, links to examples.
+- [ ] Add component reference (one entry per public component, props table).
+- [ ] Add examples for: message, modal, home tab.
+- [ ] Add migration guides from `jsx-slack` and `slack-block-builder`.
+
+Acceptance criteria:
+- [ ] A new user can build and send a valid message in under 10 minutes from the README.
+- [ ] Migration guides exist for at least two alternatives.
+
+---
+
+### Phase G — Release automation and stabilization
+
+- [ ] Decide release tooling: Changesets vs semantic-release vs release-please.
+- [ ] Implement chosen release workflow with changelog automation.
+- [ ] Tag GitHub releases aligned to npm versions (back-fill for existing versions).
+- [ ] Cut a versioned release once Phases A–E are substantially complete.
+
+---
+
+## Recommended sequencing
+
+| Order | Phase | Effort | Rationale |
+|-------|-------|--------|-----------|
+| 1 | A — Trust signals | Low | Additive, no code changes, high public signal |
+| 2 | B — Security automation | Low | Mechanical; unblocks everything downstream |
+| 3 | C — Golden tests | Medium | Locks current behavior; safety net before validation lands |
+| 4 | D — Validation architecture | High | Core remaining technical work; unblocks D tests + F docs |
+| 5 | E — API ergonomics | Low–Medium | Small surface; natural companion to D |
+| 6 | F — Docs | Medium | Best written once D is stable |
+| 7 | G — Release | Low | Capstone; cut once A–F are substantially done |
+
+---
+
+## Decisions log
+
+| Decision | Outcome | Date | Rationale |
+|----------|---------|------|-----------|
+| Node support policy | `>=20` (LTS+), tested 20/22/24 | 2026-02 | Drops legacy maintenance burden |
+| React runtime | Dropped; custom `src/jsx-runtime.ts` | 2026-02 (#35) | Removes peer dep; elements are plain objects |
+| Slack SDK dep strategy | Removed `@slack/web-api`; local type replicas | 2026-02 (#34/#36) | Eliminates unstable deep imports |
+| Release tooling | **TBD** | — | — |
+
+---
+
+## Risk log
+
+| Risk | Mitigation |
+|------|-----------|
+| Validation strictness breaks existing users | Ship `warn` as default first; stage `strict` adoption with migration notes |
+| Documentation lags code changes | Docs update required in every feature PR checklist |
+| Coverage threshold introduces CI noise | Start at 80%, tune upward over two release cycles |

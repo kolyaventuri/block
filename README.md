@@ -2,9 +2,20 @@
 JSX-based Slack message renderer
 
 [![CI](https://github.com/kolyaventuri/block/actions/workflows/ci.yml/badge.svg)](https://github.com/kolyaventuri/block/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/slackblock)](https://www.npmjs.com/package/slackblock)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/types-included-blue)](https://www.typescriptlang.org/)
 
 ## What
 A message builder for Slack bots, using JSX with a React-compatible API. Generally follows the [Block Kit](https://api.slack.com/block-kit) naming and options.
+
+## Compatibility
+
+| | Supported |
+|---|---|
+| Node.js | >= 20 |
+| TypeScript | >= 5.0 |
+| React | Not required — uses a built-in JSX runtime |
 
 ## Getting started
 Install the library with your package manager, for example `pnpm add slackblock`.
@@ -66,7 +77,7 @@ const message = render(
 
 ## Things to note
 - The outputted message only needs to have your `token` and desired `channel_id` added, and it will be ready to send to the slack API!
-- React is a peer dependency and used only as a JSX runtime (no DOM renderer required).
+- No React dependency — uses a built-in JSX runtime.
 - There is limited input validation (for example, date/time formats and select constraints). Warnings are emitted for common Slack limits (IDs, text lengths, block counts). Non-recognized blocks will be ignored, but Slack will be the ultimate decider if your message is valid. Validation is on the roadmap.
 - There is currently almost no documentation. This will be resolved, but in general...
   - If a Slack message wants a property in format `foo_bar`, you will add it as a `fooBar` property in your message(ex: `<Element fooBar='blah'/>`)
