@@ -17,6 +17,8 @@ export type ImageType = {
 const transformImageLayout = (child: Element): ImageType => {
   const {url, alt, title, blockId} = child.props as ImageProperties;
 
+  warnIfTooLong('Image image_url', url, 3000);
+  warnIfTooLong('Image alt_text', alt, 2000);
   warnIfTooLong('block_id', blockId, 255);
 
   const res: ImageType = {
@@ -26,6 +28,7 @@ const transformImageLayout = (child: Element): ImageType => {
   };
 
   if (title) {
+    warnIfTooLong('Image title', title, 2000);
     res.title = transform(<Text plainText>{title}</Text>) as TextType;
   }
 

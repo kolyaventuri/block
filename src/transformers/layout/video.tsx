@@ -49,6 +49,7 @@ const transformVideo = (child: Element): VideoType => {
   }
 
   if (description) {
+    warnIfTooLong('Video description', description, 200);
     res.description = transform(<Text plainText>{description}</Text>) as TextType;
   }
 

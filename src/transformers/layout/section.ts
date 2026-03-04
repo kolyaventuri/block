@@ -39,8 +39,9 @@ const transformSection = (element: Element): SectionType => {
 
     for (const field of fields) {
       if (field) {
-        const t = transform(field as Element);
-        res.fields.push(t as Text);
+        const t = transform(field as Element) as Text;
+        warnIfTooLong('Section field text', t.text, 2000);
+        res.fields.push(t);
       }
     }
 

@@ -2,7 +2,7 @@ import {type SlackMessage, type SlackMessageDraft, type Element} from '../consta
 import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
 import getType from '../utils/get-type';
-import {warnIfTooMany} from '../utils/validation';
+import {warnIfTooMany, warnIfTooLong} from '../utils/validation';
 
 const render = (element: Element): SlackMessage => {
   const properties = element.props as MessageProperties;
@@ -27,6 +27,12 @@ const render = (element: Element): SlackMessage => {
   }
 
   json.text = properties.text ?? '';
+
+  if (properties.text && properties.text.length > 40_000) {
+    warnIfTooLong('Message text (Slack will truncate beyond 40,000 chars)', properties.text, 40_000);
+  } else if (properties.text) {
+    warnIfTooLong('Message text (recommended max for best results)', properties.text, 4000);
+  }
 
   if (properties.iconEmoji) {
     json.icon_emoji = properties.iconEmoji;

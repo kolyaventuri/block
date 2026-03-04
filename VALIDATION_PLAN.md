@@ -5,39 +5,39 @@ Covers gaps between what is currently warned and what the Slack API enforces.
 
 ## Bugs (wrong limits)
 
-- [ ] **Fix `Option value` limit: 75 → 150** (`src/transformers/input/option.tsx`)
+- [x] **Fix `Option value` limit: 75 → 150** (`src/transformers/input/option.tsx`)
   - Spec says 150 chars; current code uses 75 (copy-paste error from option text)
 
 ## Missing per-field warnings
 
-- [ ] **Header block: warn when `text` > 150 chars** (`src/transformers/layout/header.tsx`)
+- [x] **Header block: warn when `text` > 150 chars** (`src/transformers/layout/header.tsx`)
   - Most common real-world `invalid_blocks` cause; only `block_id` is checked today
 
-- [ ] **Image block: warn on `alt_text` > 2,000, `image_url` > 3,000, `title` > 2,000** (`src/transformers/layout/image.tsx`)
+- [x] **Image block: warn on `alt_text` > 2,000, `image_url` > 3,000, `title` > 2,000** (`src/transformers/layout/image.tsx`)
   - None of these three fields are validated
 
-- [ ] **Video block: warn when `description` > 200 chars** (`src/transformers/layout/video.tsx`)
+- [x] **Video block: warn when `description` > 200 chars** (`src/transformers/layout/video.tsx`)
   - `block_id` is checked but not description length
 
-- [ ] **Confirm dialog: warn when `title` > 100 and `text` > 300 chars** (`src/transformers/block/confirmation.tsx`)
+- [x] **Confirm dialog: warn when `title` > 100 and `text` > 300 chars** (`src/transformers/block/confirmation.tsx`)
   - No validation at all today
 
-- [ ] **Option: warn when `url` > 3,000 chars** (`src/transformers/input/option.tsx`)
+- [x] **Option: warn when `url` > 3,000 chars** (`src/transformers/input/option.tsx`)
   - `text`/`value`/`description` are checked; `url` is not
 
 ## Missing per-count warnings
 
-- [ ] **OptionGroup: warn when `options` > 100** (`src/transformers/input/option-group.tsx`)
+- [x] **OptionGroup: warn when `options` > 100** (`src/transformers/input/option-group.tsx`)
   - Label length is checked; options count is not
 
 ## Message-level warnings
 
-- [ ] **Message `text`: warn when > 4,000 chars (UX) and > 40,000 chars (truncation)** (`src/renderer/index.ts`)
+- [x] **Message `text`: warn when > 4,000 chars (UX) and > 40,000 chars (truncation)** (`src/renderer/index.ts`)
   - Two thresholds: soft recommendation at 4k, hard truncation at 40k
 
 ## Stricter context-specific limits
 
-- [ ] **Section field texts: warn at 2,000 chars** (`src/transformers/layout/section.ts`)
+- [x] **Section field texts: warn at 2,000 chars** (`src/transformers/layout/section.ts`)
   - Fields go through generic `transformText` (3k cap) but Slack spec says 2k per field
   - Needs either a context param on `transformText` or a post-transform check in `transformSection`
 
