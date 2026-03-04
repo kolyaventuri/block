@@ -55,35 +55,35 @@ work needed before the project can be considered fully production-ready.
 
 ## Remaining Work
 
-### Phase A — Trust signals (quick wins, additive only)
+### Phase A — Trust signals ✅
 
-- [ ] Add governance docs:
-  - [ ] `CONTRIBUTING.md` — contribution guidelines, dev setup, PR checklist.
-  - [ ] `CODE_OF_CONDUCT.md` — standard Contributor Covenant.
-  - [ ] `SECURITY.md` — private disclosure path and response SLA.
-- [ ] Add `.github/ISSUE_TEMPLATE/` (bug report + feature request templates).
-- [ ] Add `.github/pull_request_template.md`.
-- [ ] Add remaining README badges: npm version, license, TypeScript types.
-- [ ] Add README compatibility section: Node >=20, no React required, `@slack/types` peer.
+- [x] Add governance docs:
+  - [x] `CONTRIBUTING.md` — contribution guidelines, dev setup, PR checklist.
+  - [x] `CODE_OF_CONDUCT.md` — Contributor Covenant.
+  - [x] `SECURITY.md` — GitHub private vulnerability reporting (no email SLA).
+- [x] Add `.github/ISSUE_TEMPLATE/` (bug report + feature request templates).
+- [x] Add `.github/pull_request_template.md`.
+- [x] Add remaining README badges: npm version, license, TypeScript types.
+- [x] Add README compatibility section: Node >=20, no React required.
 
 Acceptance criteria:
-- [ ] Governance docs exist and link to each other where relevant.
-- [ ] All README badges resolve to live targets.
+- [x] Governance docs exist and link to each other where relevant.
+- [x] All README badges resolve to live targets.
 
 ---
 
-### Phase B — Security automation (mechanical, high value)
+### Phase B — Security automation ✅
 
-- [ ] Add `.github/dependabot.yml` for npm and GitHub Actions dependency updates.
-- [ ] Add `.github/workflows/security.yml`:
-  - [ ] CodeQL analysis on push/PR.
-  - [ ] `actions/dependency-review-action` on PRs.
-  - [ ] Scheduled `pnpm audit --audit-level=high`.
-- [ ] Add npm provenance to publish workflow.
+- [x] Add `.github/dependabot.yml` for npm and GitHub Actions dependency updates.
+- [x] Add `.github/workflows/security.yml`:
+  - [x] CodeQL analysis on push/PR.
+  - [x] `actions/dependency-review-action` on PRs.
+  - [x] Scheduled `pnpm audit --audit-level=high`.
+- [ ] Add npm provenance to publish workflow (deferred to Phase G).
 
 Acceptance criteria:
-- [ ] Security workflow passes on `master`.
-- [ ] Dependabot opens update PRs on schedule.
+- [x] Security workflow passes on `master`.
+- [x] Dependabot opens update PRs on schedule.
 
 ---
 
