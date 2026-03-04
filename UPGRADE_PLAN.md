@@ -87,17 +87,18 @@ Acceptance criteria:
 
 ---
 
-### Phase C — Testing quality gates (foundation for Phase D)
+### Phase C — Testing quality gates (foundation for Phase D) ✅
 
-- [ ] Add fixture-based "golden payload" tests: render each `examples/block-kit/` sample
+- [x] Add fixture-based "golden payload" tests: render each `examples/block-kit/` sample
       through `render()` and assert the JSON output matches the committed fixture.
-      This locks transformer behavior before validation changes land.
-- [ ] Add tests for unknown component types and parser flattening edge cases.
-- [ ] Set coverage threshold in `vitest.config.ts` (target: 85%+ statements) and enforce in CI.
+      12 tests in `test/e2e/golden.test.tsx` covering all blocks and element types.
+- [x] Set coverage threshold in `vitest.config.ts` (85%+ statements/branches/functions/lines).
+      Current: ~97% statements, ~93% branches.
+- [ ] Add tests for unknown component types and parser flattening edge cases. *(deferred to Phase D)*
 
 Acceptance criteria:
-- [ ] Every sample in `examples/block-kit/` has a corresponding golden test.
-- [ ] CI fails if coverage drops below threshold.
+- [x] Every sample in `examples/block-kit/` has a corresponding golden test.
+- [x] CI fails if coverage drops below threshold.
 
 ---
 
