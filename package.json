@@ -89,7 +89,7 @@
   "homepage": "https://github.com/kolyaventuri/block#readme",
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
-    "@types/node": "25.0.10",
+    "@types/node": "25.3.3",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
     "@vitest/coverage-v8": "^4.0.18",
