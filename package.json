@@ -51,7 +51,8 @@
     "prebuild": "pnpm run clean",
     "clean": "rimraf ./dist",
     "build": "tsup",
-    "prepublishOnly": "pnpm run test && pnpm run build"
+    "prepublishOnly": "pnpm run test && pnpm run build",
+    "release": "pnpm run build && changeset publish"
   },
   "repository": {
     "type": "git",
@@ -69,6 +70,7 @@
   },
   "homepage": "https://github.com/kolyaventuri/block#readme",
   "devDependencies": {
+    "@changesets/cli": "^2.30.0",
     "@types/node": "25.0.10",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",

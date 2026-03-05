@@ -79,7 +79,7 @@ Acceptance criteria:
   - [x] CodeQL analysis on push/PR.
   - [x] `actions/dependency-review-action` on PRs.
   - [x] Scheduled `pnpm audit --audit-level=high`.
-- [ ] Add npm provenance to publish workflow (deferred to Phase G).
+- [x] Add npm provenance to publish workflow (deferred to Phase G).
 
 Acceptance criteria:
 - [x] Security workflow passes on `master`.
@@ -142,7 +142,7 @@ Acceptance criteria:
 - [x] Add component reference (`docs/components.md` — one entry per public component, props table).
 - [x] Add migration guides from `jsx-slack` and `slack-block-builder`.
 - [x] Add JSDoc to all public components, render functions, and key utilities.
-- [ ] Add examples for: message, modal, home tab (JSX source files, not just JSON fixtures).
+- [x] Add examples for: message, modal, home tab (JSX source files, not just JSON fixtures).
 
 Acceptance criteria:
 - [x] A new user can build and send a valid message in under 10 minutes from the README.
@@ -152,9 +152,9 @@ Acceptance criteria:
 
 ### Phase G — Release automation and stabilization
 
-- [ ] Decide release tooling: Changesets vs semantic-release vs release-please.
-- [ ] Implement chosen release workflow with changelog automation.
-- [ ] Tag GitHub releases aligned to npm versions (back-fill for existing versions).
+- [x] Decide release tooling: Changesets.
+- [x] Implement chosen release workflow with changelog automation (`changesets/action` in `.github/workflows/release.yml`).
+- [x] Tag GitHub releases aligned to npm versions (back-filled v1.0.0, v1.0.1, v1.1.0).
 - [ ] Cut a versioned release once Phases A–E are substantially complete.
 
 ---
