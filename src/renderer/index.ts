@@ -3,37 +3,14 @@ import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
 import getType from '../utils/get-type';
 import {warnIfTooMany, warnIfTooLong} from '../utils/validation';
+import {
+  initContext, pushPath, popPath, type ValidationMode,
+} from '../utils/validation-context';
+import {MAX_BLOCKS, MAX_MESSAGE_TEXT, RECOMMENDED_MESSAGE_TEXT} from '../constants/limits';
 
-const render = (element: Element): SlackMessage => {
-  const properties = element.props as MessageProperties;
+export type RenderOptions = {validate?: ValidationMode};
 
-  const typeName = getType(element);
-  if (typeName !== 'Message') {
-    throw new TypeError('Provided top-level element must be a Message type.');
-  }
-
-  if (!properties.children) {
-    throw new Error('Cannot render a Message with no children.');
-  }
-
-  const json: SlackMessageDraft = {...parser(properties.children)};
-
-  if (properties.replyTo) {
-    json.thread_ts = properties.replyTo;
-  }
-
-  if (properties.markdown !== undefined) {
-    json.mrkdwn = properties.markdown;
-  }
-
-  json.text = properties.text ?? '';
-
-  if (properties.text && properties.text.length > 40_000) {
-    warnIfTooLong('Message text (Slack will truncate beyond 40,000 chars)', properties.text, 40_000);
-  } else if (properties.text) {
-    warnIfTooLong('Message text (recommended max for best results)', properties.text, 4000);
-  }
-
+const applyMessageMetadata = (json: SlackMessageDraft, properties: MessageProperties): void => {
   if (properties.iconEmoji) {
     json.icon_emoji = properties.iconEmoji;
   }
@@ -65,21 +42,62 @@ const render = (element: Element): SlackMessage => {
   if (properties.unfurlMedia !== undefined) {
     json.unfurl_media = properties.unfurlMedia;
   }
+};
 
-  if (properties.color && json.blocks) {
-    json.attachments = [
-      {
-        fallback: json.text,
-        color: properties.color,
-        blocks: json.blocks,
-      },
-    ];
+const render = (element: Element, options?: RenderOptions): SlackMessage => {
+  initContext(options?.validate ?? 'warn');
 
-    delete json.blocks;
+  const properties = element.props as MessageProperties;
+
+  const typeName = getType(element);
+  if (typeName !== 'Message') {
+    throw new TypeError('Provided top-level element must be a Message type.');
   }
 
-  if (json.blocks) {
-    warnIfTooMany('Message blocks', json.blocks, 50);
+  if (!properties.children) {
+    throw new Error('Cannot render a Message with no children.');
+  }
+
+  pushPath('Message');
+  let json: SlackMessageDraft;
+  try {
+    json = {...parser(properties.children)};
+
+    if (properties.replyTo) {
+      json.thread_ts = properties.replyTo;
+    }
+
+    if (properties.markdown !== undefined) {
+      json.mrkdwn = properties.markdown;
+    }
+
+    json.text = properties.text ?? '';
+
+    if (properties.text && properties.text.length > MAX_MESSAGE_TEXT) {
+      warnIfTooLong(`Message text (Slack will truncate beyond ${MAX_MESSAGE_TEXT} chars)`, properties.text, MAX_MESSAGE_TEXT);
+    } else if (properties.text) {
+      warnIfTooLong('Message text (recommended max for best results)', properties.text, RECOMMENDED_MESSAGE_TEXT);
+    }
+
+    applyMessageMetadata(json, properties);
+
+    if (properties.color && json.blocks) {
+      json.attachments = [
+        {
+          fallback: json.text,
+          color: properties.color,
+          blocks: json.blocks,
+        },
+      ];
+
+      delete json.blocks;
+    }
+
+    if (json.blocks) {
+      warnIfTooMany('Message blocks', json.blocks, MAX_BLOCKS);
+    }
+  } finally {
+    popPath();
   }
 
   return json as SlackMessage;

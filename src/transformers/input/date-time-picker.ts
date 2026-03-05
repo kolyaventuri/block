@@ -2,7 +2,8 @@ import {type Element} from '../../constants/types';
 import {type Props as DateTimePickerProperties} from '../../components/input/date-time-picker';
 import {type ConfirmationType} from '../block/confirmation';
 import {transform} from '../transform';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
+import {MAX_ACTION_ID_LENGTH} from '../../constants/limits';
 
 export type DateTimePickerType = {
   type: 'datetimepicker';
@@ -15,7 +16,8 @@ export type DateTimePickerType = {
 const transformDateTimePicker = (child: Element): DateTimePickerType => {
   const {actionId, initialDateTime, confirm, focusOnLoad} = child.props as DateTimePickerProperties;
 
-  warnIfTooLong('DateTimePicker action_id', actionId, 255);
+  requireField('actionId', actionId);
+  warnIfTooLong('DateTimePicker action_id', actionId, MAX_ACTION_ID_LENGTH);
 
   const res: DateTimePickerType = {
     type: 'datetimepicker',

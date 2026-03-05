@@ -1,10 +1,15 @@
-import {test, expect} from 'vitest';
+import {test, expect, afterEach} from 'vitest';
 
 import transformer from '../../../src/transformers/input/date-picker';
 import DatePicker from '../../../src/components/input/date-picker';
 import confirmTransformer from '../../../src/transformers/block/confirmation';
 import Confirmation from '../../../src/components/block/confirmation';
 import Text from '../../../src/components/block/text';
+import {initContext} from '../../../src/utils/validation-context';
+
+afterEach(() => {
+  initContext('warn');
+});
 
 test('transforms a simple DatePicker', () => {
   const res = transformer(<DatePicker
@@ -62,6 +67,7 @@ test('transforms DatePicker focus_on_load', () => {
 });
 
 test('rejects invalid dates', () => {
+  initContext('strict');
   const function_ = () => transformer(<DatePicker
     actionId="aid"
     initialDate="invalid-date"
@@ -71,6 +77,7 @@ test('rejects invalid dates', () => {
 });
 
 test('rejects invalid calendar dates', () => {
+  initContext('strict');
   const function_ = () => transformer(<DatePicker
     actionId="aid"
     initialDate="2024-02-31"

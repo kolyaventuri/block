@@ -1,5 +1,6 @@
 import {type Element} from '../constants/types';
 import getType from '../utils/get-type';
+import {pushPath, popPath} from '../utils/validation-context';
 
 import Transformers from './registry';
 
@@ -10,5 +11,10 @@ export const transform = (element: Element): unknown => {
     throw new Error(`No transformer exists for type '${type}'`);
   }
 
-  return Transformers[type](element);
+  pushPath(type);
+  try {
+    return Transformers[type](element);
+  } finally {
+    popPath();
+  }
 };

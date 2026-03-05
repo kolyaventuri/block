@@ -5,6 +5,7 @@ import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {transform} from '../transform';
 import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
+import {MAX_OPTION_GROUP_LABEL, MAX_OPTION_GROUP_OPTIONS} from '../../constants/limits';
 
 import {type OptionType} from './option';
 
@@ -16,14 +17,14 @@ export type OptionGroupType = {
 const transformOptionGroup = (child: Element): OptionGroupType => {
   const {label, children} = child.props as OptionGroupProperties;
 
-  warnIfTooLong('OptionGroup label', label, 75);
+  warnIfTooLong('OptionGroup label', label, MAX_OPTION_GROUP_LABEL);
 
   let options = children;
   if (!Array.isArray(options)) {
     options = [options];
   }
 
-  warnIfTooMany('OptionGroup options', options, 100);
+  warnIfTooMany('OptionGroup options', options, MAX_OPTION_GROUP_OPTIONS);
 
   return {
     label: transform(<Text plainText>{label}</Text>) as TextType,

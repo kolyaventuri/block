@@ -6,7 +6,8 @@ import {type Props as SelectProperties, selectTypes} from '../../components/inpu
 import Text from '../../components/block/text';
 import {transform} from '../transform';
 import getType from '../../utils/get-type';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
+import {MAX_ACTION_ID_LENGTH, MAX_PLACEHOLDER_LENGTH} from '../../constants/limits';
 
 import {type OptionGroupType} from './option-group';
 import {type OptionType} from './option';
@@ -181,8 +182,10 @@ const transformSelect = (child: Element): SelectType => {
   const type: SelectionType = typeProperty ?? selectTypes.STATIC;
   const typeString = `${multi ? MULTI_PREFIX : ''}${types[type]}` as ValidSelectType;
 
-  warnIfTooLong('Select action_id', actionId, 255);
-  warnIfTooLong('Select placeholder', placeholder, 150);
+  requireField('actionId', actionId);
+  requireField('placeholder', placeholder);
+  warnIfTooLong('Select action_id', actionId, MAX_ACTION_ID_LENGTH);
+  warnIfTooLong('Select placeholder', placeholder, MAX_PLACEHOLDER_LENGTH);
 
   const result: SelectType = {
     type: typeString,

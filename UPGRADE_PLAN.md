@@ -1,6 +1,6 @@
 # Upgrade Plan
 
-> Last audited: 2026-03-03 against master @ 7980ecc
+> Last audited: 2026-03-04 against master @ 6a55c52
 
 ## Overview
 
@@ -15,7 +15,7 @@ work needed before the project can be considered fully production-ready.
 **Tooling & runtime**
 - [x] Node `>=20` engine requirement; CI matrix on 20/22/24.
 - [x] Migrated from npm to pnpm; lockfile is deterministic.
-- [x] TypeScript 5.x, `es2019` target, `node16` moduleResolution, declaration maps.
+- [x] TypeScript 5.x, `es2022` target (matches Node ≥20 runtime), `node16` moduleResolution, declaration maps.
 - [x] Dual CJS/ESM build via tsup; `dist/` as the sole output folder.
 - [x] `exports` map in `package.json` for `.` and `./block` entry points.
 - [x] XO 1.x + ESLint 9 + @typescript-eslint 8 in `xo.config.cjs`; `space: true` enforced.
@@ -102,22 +102,24 @@ Acceptance criteria:
 
 ---
 
-### Phase D — Validation architecture (core technical work)
+### Phase D — Validation architecture ✅
 
-- [ ] Add `validate` option to `render()`: `'off' | 'warn' | 'strict'` (default: `'warn'`).
-- [ ] Introduce `SlackblockValidationError` with `message`, `path`, and `rule` fields.
-- [ ] Centralize Slack limit constants (max blocks, text lengths, etc.).
-- [ ] Implement path-aware error messages (e.g. `Message > Section > Button: actionId required`).
-- [ ] Strict mode throws consistently for:
-  - [ ] Required field omissions.
-  - [ ] Length/count limit violations.
-  - [ ] Invalid date/time format inputs.
-- [ ] Add validation matrix tests: `warn`/`strict`/`off` × known edge cases.
-- [ ] Add text-safety helpers: `escapeMrkdwn()` and safe text builder for untrusted input.
+- [x] Add `validate` option to `render()`: `'off' | 'warn' | 'strict'` (default: `'warn'`).
+- [x] Introduce `SlackblockValidationError` with `message`, `path`, and `rule` fields.
+- [x] Centralize Slack limit constants in `src/constants/limits.ts`; all magic numbers removed from transformers.
+- [x] Path-aware error messages via module singleton (`Message > Header: Header text exceeds 150 characters.`).
+- [x] Strict mode throws consistently for:
+  - [x] Required field omissions (`requireField()` in 9 transformers).
+  - [x] Length/count limit violations (`warnIfTooLong` / `warnIfTooMany` now route through `report()`).
+  - [x] Invalid date/time format inputs (date-picker, time-picker).
+- [x] Validation matrix tests: `warn`/`strict`/`off` × all rule categories (35 tests in `test/validation/`).
+- [x] `escapeMrkdwn()` helper exported from package root.
+- [x] `SlackblockValidationError`, `RenderOptions`, `ValidationMode` exported from package root.
+- [x] tsconfig `target` corrected from `es2019` → `es2022` (matches Node ≥20 runtime).
 
 Acceptance criteria:
-- [ ] All three modes are tested and documented.
-- [ ] Error messages include component path and prop name.
+- [x] All three modes are tested and documented.
+- [x] Error messages include component path and prop name.
 
 ---
 

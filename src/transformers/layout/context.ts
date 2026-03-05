@@ -4,6 +4,7 @@ import {type TextType} from '../block/text';
 import {type ImageType} from '../block/image';
 import {transform} from '../transform';
 import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
+import {MAX_BLOCK_ID_LENGTH, MAX_CONTEXT_ELEMENTS} from '../../constants/limits';
 
 type ImageOrText = ImageType | TextType;
 type ImageOrTextElementSet = ImageOrTextElement | ImageOrTextElement[];
@@ -17,7 +18,7 @@ export type ContextType = {
 const transformContext = (child: Element): ContextType => {
   const {children, blockId} = child.props as ContextProperties;
 
-  warnIfTooLong('block_id', blockId, 255);
+  warnIfTooLong('block_id', blockId, MAX_BLOCK_ID_LENGTH);
 
   let elements = children as ImageOrTextElementSet;
   if (!Array.isArray(elements)) {
@@ -33,7 +34,7 @@ const transformContext = (child: Element): ContextType => {
     res.block_id = blockId;
   }
 
-  warnIfTooMany('Context elements', res.elements as ImageOrText[], 10);
+  warnIfTooMany('Context elements', res.elements as ImageOrText[], MAX_CONTEXT_ELEMENTS);
 
   return res;
 };

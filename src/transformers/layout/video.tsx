@@ -5,6 +5,7 @@ import {type TextType} from '../block/text';
 import {transform} from '../transform';
 import Text from '../../components/block/text';
 import {warnIfTooLong} from '../../utils/validation';
+import {MAX_BLOCK_ID_LENGTH, MAX_VIDEO_DESCRIPTION} from '../../constants/limits';
 
 export type VideoType = {
   type: 'video';
@@ -34,7 +35,7 @@ const transformVideo = (child: Element): VideoType => {
     blockId,
   } = child.props as VideoProperties;
 
-  warnIfTooLong('block_id', blockId, 255);
+  warnIfTooLong('block_id', blockId, MAX_BLOCK_ID_LENGTH);
 
   const res: VideoType = {
     type: 'video',
@@ -49,7 +50,7 @@ const transformVideo = (child: Element): VideoType => {
   }
 
   if (description) {
-    warnIfTooLong('Video description', description, 200);
+    warnIfTooLong('Video description', description, MAX_VIDEO_DESCRIPTION);
     res.description = transform(<Text plainText>{description}</Text>) as TextType;
   }
 

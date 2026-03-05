@@ -1,6 +1,6 @@
-const warn = (message: string): void => {
-  console.warn(message);
-};
+import {report} from './validation-context';
+
+const toKebab = (name: string): string => name.replaceAll(/([A-Z])/g, '-$1').toLowerCase();
 
 export const warnIfTooLong = (name: string, value: string | undefined, max: number): void => {
   if (!value) {
@@ -8,7 +8,7 @@ export const warnIfTooLong = (name: string, value: string | undefined, max: numb
   }
 
   if (value.length > max) {
-    warn(`${name} exceeds ${max} characters.`);
+    report(`${name} exceeds ${max} characters.`, 'value-too-long');
   }
 };
 
@@ -18,6 +18,12 @@ export const warnIfTooMany = (name: string, values: unknown[] | undefined, max: 
   }
 
   if (values.length > max) {
-    warn(`${name} exceeds ${max} items.`);
+    report(`${name} exceeds ${max} items.`, 'too-many-items');
+  }
+};
+
+export const requireField = (fieldName: string, value: unknown): void => {
+  if (value === undefined || value === null || value === '') {
+    report(`${fieldName} is required.`, `${toKebab(fieldName)}-required`);
   }
 };
