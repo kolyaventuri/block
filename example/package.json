@@ -1,0 +1,20 @@
+{
+  "name": "slackblock-example-app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Practical Bolt app that consumes the built slackblock package",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "start": "tsx src/app.tsx"
+  },
+  "dependencies": {
+    "@slack/bolt": "^4.4.0",
+    "slackblock": "file:.."
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}

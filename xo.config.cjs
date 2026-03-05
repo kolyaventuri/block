@@ -74,7 +74,7 @@ const sharedSettings = {
 
 module.exports = [
   {
-    ignores: ['**/*.js', '**/*.cjs', '**/*.mjs', 'tsup.config.ts', 'vitest.config.ts', 'examples/**']
+    ignores: ['**/*.js', '**/*.cjs', '**/*.mjs', 'tsup.config.ts', 'vitest.config.ts', 'examples/**', 'example/**']
   },
   {
     space: true,
