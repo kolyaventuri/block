@@ -79,7 +79,7 @@ Acceptance criteria:
   - [x] CodeQL analysis on push/PR.
   - [x] `actions/dependency-review-action` on PRs.
   - [x] Scheduled `pnpm audit --audit-level=high`.
-- [ ] Add npm provenance to publish workflow (deferred to Phase G).
+- [x] Add npm provenance to publish workflow (deferred to Phase G).
 
 Acceptance criteria:
 - [x] Security workflow passes on `master`.
