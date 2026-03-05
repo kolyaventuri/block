@@ -1,7 +1,7 @@
 
 import {type SingleOrArray} from '../../utils/type-helpers';
 
-export type RichTextElement = Record<string, any>;
+export type RichTextElement = Record<string, unknown>;
 
 export type Props = {
   elements?: RichTextElement[];

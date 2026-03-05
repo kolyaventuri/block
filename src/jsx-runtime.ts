@@ -1,16 +1,16 @@
 type ComponentType = string | ((...parameters: unknown[]) => unknown) | (new (...parameters: unknown[]) => unknown);
 
-export function jsx(type: ComponentType, props: Record<string, unknown>) {
+export function jsx(type: ComponentType, props: Record<string, unknown>): JSX.Element {
   const {children} = props;
 
   return {
     type,
     props,
-    children: Array.isArray(children) ? children : (children === undefined ? [] : [children]),
+    children: Array.isArray(children) ? children as unknown[] : (children === undefined ? [] : [children]),
   };
 }
 
-export function jsxs(type: ComponentType, props: Record<string, unknown>) {
+export function jsxs(type: ComponentType, props: Record<string, unknown>): JSX.Element {
   return jsx(type, props);
 }
 
