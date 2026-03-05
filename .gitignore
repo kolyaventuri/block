@@ -65,4 +65,5 @@ dist/
 .history/
 .pnpm-store/
 
-examples/
+examples/block-kit/
+
