@@ -458,6 +458,102 @@ describe('section fields count', () => {
   });
 });
 
+// ─── unknown-type rule ───────────────────────────────────────────────────────
+
+function UnknownWidget() {
+  return null as unknown as JSX.Element;
+}
+
+describe('unknown-type rule', () => {
+  test('off mode: silently ignores unknown top-level component', () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    expect(() =>
+      render(
+        <Message>
+          <UnknownWidget/>
+        </Message>,
+        {validate: 'off'},
+      )).not.toThrow();
+
+    expect(consoleSpy).not.toHaveBeenCalled();
+    consoleSpy.mockRestore();
+  });
+
+  test('warn mode: warns on unknown top-level component and does not throw', () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    expect(() =>
+      render(
+        <Message>
+          <UnknownWidget/>
+        </Message>,
+        {validate: 'warn'},
+      )).not.toThrow();
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[slackblock]'));
+    consoleSpy.mockRestore();
+  });
+
+  test('strict mode: throws SlackblockValidationError on unknown top-level component', () => {
+    expect(() =>
+      render(
+        <Message>
+          <UnknownWidget/>
+        </Message>,
+        {validate: 'strict'},
+      )).toThrow(SlackblockValidationError);
+  });
+
+  test('strict mode: error.rule is unknown-type', () => {
+    let error_: SlackblockValidationError | undefined;
+
+    try {
+      render(
+        <Message>
+          <UnknownWidget/>
+        </Message>,
+        {validate: 'strict'},
+      );
+    } catch (error) {
+      if (error instanceof SlackblockValidationError) {
+        error_ = error;
+      }
+    }
+
+    expect(error_?.rule).toBe('unknown-type');
+  });
+
+  test('warn mode: warns on unknown nested component and does not throw', () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    expect(() =>
+      render(
+        <Message>
+          <Actions>
+            <UnknownWidget/>
+          </Actions>
+        </Message>,
+        {validate: 'warn'},
+      )).not.toThrow();
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[slackblock]'));
+    consoleSpy.mockRestore();
+  });
+
+  test('strict mode: throws on unknown nested component', () => {
+    expect(() =>
+      render(
+        <Message>
+          <Actions>
+            <UnknownWidget/>
+          </Actions>
+        </Message>,
+        {validate: 'strict'},
+      )).toThrow(SlackblockValidationError);
+  });
+});
+
 // ─── escapeMrkdwn ────────────────────────────────────────────────────────────
 
 describe('escapeMrkdwn', () => {

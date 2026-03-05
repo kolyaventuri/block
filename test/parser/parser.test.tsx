@@ -1,10 +1,13 @@
 import {
+  afterEach,
   beforeEach,
   expect,
   test,
   vi,
 } from 'vitest';
 
+import {initContext} from '../../src/utils/validation-context';
+import {SlackblockValidationError} from '../../src/errors';
 import parser from '../../src/parser';
 
 const fooTransformer = vi.hoisted(() => vi.fn());
@@ -23,6 +26,10 @@ vi.mock('../../src/transformers', () => ({
 beforeEach(() => {
   fooTransformer.mockClear();
   divTransformer.mockClear();
+});
+
+afterEach(() => {
+  initContext('warn');
 });
 
 test('it returns a basic message if the child is just a string', () => {
@@ -62,10 +69,29 @@ test('it returns the result of the transformers', () => {
   });
 });
 
-test('it does not transform unkown types', () => {
+test('it does not transform unknown types', () => {
+  const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
   const res = parser(<p>Hi</p>);
 
   expect(res).toEqual({blocks: []});
+  expect(consoleSpy).toHaveBeenCalledOnce();
+  consoleSpy.mockRestore();
+});
+
+test('it silently ignores unknown types in off mode', () => {
+  initContext('off');
+  const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+  const res = parser(<p>Hi</p>);
+
+  expect(res).toEqual({blocks: []});
+  expect(consoleSpy).not.toHaveBeenCalled();
+  consoleSpy.mockRestore();
+});
+
+test('it throws SlackblockValidationError on unknown types in strict mode', () => {
+  initContext('strict');
+  expect(() => parser(<p>Hi</p>)).toThrow(SlackblockValidationError);
 });
 
 test('it does not explode on null', () => {

@@ -94,7 +94,7 @@ Acceptance criteria:
       12 tests in `test/e2e/golden.test.tsx` covering all blocks and element types.
 - [x] Set coverage threshold in `vitest.config.ts` (85%+ statements/branches/functions/lines).
       Current: ~97% statements, ~93% branches.
-- [ ] Add tests for unknown component types and parser flattening edge cases. *(deferred to Phase D)*
+- [x] Add tests for unknown component types and parser flattening edge cases.
 
 Acceptance criteria:
 - [x] Every sample in `examples/block-kit/` has a corresponding golden test.
