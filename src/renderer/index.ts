@@ -1,4 +1,6 @@
-import {type SlackMessage, type SlackMessageDraft, type Element} from '../constants/types';
+import {
+  type SlackMessage, type SlackMessageDraft, type Element, type Block, type Child,
+} from '../constants/types';
 import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
 import getType from '../utils/get-type';
@@ -9,6 +11,25 @@ import {
 import {MAX_BLOCKS, MAX_MESSAGE_TEXT, RECOMMENDED_MESSAGE_TEXT} from '../constants/limits';
 
 export type RenderOptions = {validate?: ValidationMode};
+
+/**
+ * Renders JSX children directly to a `Block[]` array, without requiring a
+ * `<Message>` wrapper. Useful for modals, home tabs, and other surfaces that
+ * accept a blocks array rather than a full message payload.
+ */
+export const renderToBlocks = (element: Child, options?: RenderOptions): Block[] => {
+  initContext(options?.validate ?? 'warn');
+  // Unwrap top-level fragments so the parser receives their children directly.
+  const child: Child
+    = typeof element === 'object'
+      && element !== null
+      && !Array.isArray(element)
+      && (element).type === 'fragment'
+      ? (element).props.children as Child
+      : element;
+  const result = parser(child);
+  return result.blocks ?? [];
+};
 
 const applyMessageMetadata = (json: SlackMessageDraft, properties: MessageProperties): void => {
   if (properties.iconEmoji) {
@@ -104,3 +125,9 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
 };
 
 export default render;
+
+/**
+ * Named alias for {@link render}. Produces a full Slack message payload
+ * (including `text`, `blocks`, and optional `attachments` when `color` is set).
+ */
+export {render as renderToMessage};
