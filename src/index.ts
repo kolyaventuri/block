@@ -6,4 +6,3 @@ export {type ValidationMode} from './utils/validation-context';
 export {SlackblockValidationError} from './errors';
 export {escapeMrkdwn} from './utils/escape-mrkdwn';
 export {blockKitBuilderUrl} from './utils/block-kit-builder';
-export {type Block} from './constants/types';
