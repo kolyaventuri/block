@@ -65,5 +65,10 @@ dist/
 .history/
 .pnpm-store/
 
-examples/block-kit/
+examples/sample/block-kit/
+
+# Example Bolt app — standalone consumer of the built package
+example/node_modules/
+example/dist/
+example/.env
 
