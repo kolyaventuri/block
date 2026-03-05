@@ -2,7 +2,8 @@ import {type Element} from '../../constants/types';
 import {type Props as CheckboxesProperties} from '../../components/input/checkboxes';
 import {type ConfirmationType} from '../block/confirmation';
 import {transform} from '../transform';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
+import {MAX_ACTION_ID_LENGTH} from '../../constants/limits';
 
 import {type OptionType} from './option';
 
@@ -18,7 +19,8 @@ export type CheckboxesType = {
 const transformCheckboxes = (child: Element): CheckboxesType => {
   const {actionId, children, initialOptions, confirm, focusOnLoad} = child.props as CheckboxesProperties;
 
-  warnIfTooLong('Checkboxes action_id', actionId, 255);
+  requireField('actionId', actionId);
+  warnIfTooLong('Checkboxes action_id', actionId, MAX_ACTION_ID_LENGTH);
 
   let elements = children;
   if (!Array.isArray(elements)) {

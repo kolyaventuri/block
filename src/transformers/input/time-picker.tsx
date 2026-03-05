@@ -5,7 +5,9 @@ import {type ConfirmationType} from '../block/confirmation';
 import {type Props as TimePickerProperties} from '../../components/input/time-picker';
 import {transform} from '../transform';
 import Text from '../../components/block/text';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
+import {report} from '../../utils/validation-context';
+import {MAX_ACTION_ID_LENGTH, MAX_PLACEHOLDER_LENGTH} from '../../constants/limits';
 
 export type TimePickerType = {
   type: 'timepicker';
@@ -31,9 +33,10 @@ const isValidTimeString = (value: string): boolean => {
 const transformTimePicker = (child: Element): TimePickerType => {
   const {actionId, placeholder, initialTime, confirm, focusOnLoad} = child.props as TimePickerProperties;
 
-  warnIfTooLong('TimePicker action_id', actionId, 255);
+  requireField('actionId', actionId);
+  warnIfTooLong('TimePicker action_id', actionId, MAX_ACTION_ID_LENGTH);
   if (placeholder) {
-    warnIfTooLong('TimePicker placeholder', placeholder, 150);
+    warnIfTooLong('TimePicker placeholder', placeholder, MAX_PLACEHOLDER_LENGTH);
   }
 
   const res: TimePickerType = {
@@ -47,7 +50,7 @@ const transformTimePicker = (child: Element): TimePickerType => {
 
   if (initialTime) {
     if (!isValidTimeString(initialTime)) {
-      throw new Error('Time must be valid and in format HH:MM.');
+      report('Time must be valid and in format HH:MM.', 'invalid-time-format');
     }
 
     res.initial_time = initialTime;

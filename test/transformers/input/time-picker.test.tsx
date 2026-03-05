@@ -1,10 +1,15 @@
-import {expect, test} from 'vitest';
+import {expect, test, afterEach} from 'vitest';
 
 import transformer from '../../../src/transformers/input/time-picker';
 import TimePicker from '../../../src/components/input/time-picker';
 import Confirmation from '../../../src/components/block/confirmation';
 import confirmationTransformer from '../../../src/transformers/block/confirmation';
 import Text from '../../../src/components/block/text';
+import {initContext} from '../../../src/utils/validation-context';
+
+afterEach(() => {
+  initContext('warn');
+});
 
 test('transforms a time picker', () => {
   const res = transformer(<TimePicker actionId="aid"/>);
@@ -46,6 +51,7 @@ test('transforms a time picker with details', () => {
 });
 
 test('rejects invalid times', () => {
+  initContext('strict');
   const function_ = () => transformer(<TimePicker actionId="aid" initialTime="30:99"/>);
 
   expect(function_).toThrow();

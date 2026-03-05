@@ -4,7 +4,10 @@ import {type TextType} from '../block/text';
 import Text from '../../components/block/text';
 import {type Props as OptionProperties} from '../../components/input/option';
 import {transform} from '../transform';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
+import {
+  MAX_OPTION_TEXT, MAX_OPTION_VALUE, MAX_OPTION_DESCRIPTION, MAX_OPTION_URL,
+} from '../../constants/limits';
 
 export type OptionType = {
   text: TextType;
@@ -16,9 +19,11 @@ export type OptionType = {
 const transformOption = (child: Element): OptionType => {
   const {children: text, value, url, description} = child.props as OptionProperties;
 
-  warnIfTooLong('Option text', text, 75);
-  warnIfTooLong('Option value', value, 75);
-  warnIfTooLong('Option description', description, 75);
+  requireField('value', value);
+  warnIfTooLong('Option text', text, MAX_OPTION_TEXT);
+  warnIfTooLong('Option value', value, MAX_OPTION_VALUE);
+  warnIfTooLong('Option description', description, MAX_OPTION_DESCRIPTION);
+  warnIfTooLong('Option url', url, MAX_OPTION_URL);
 
   const res: OptionType = {
     text: transform(<Text plainText>{text}</Text>) as TextType,

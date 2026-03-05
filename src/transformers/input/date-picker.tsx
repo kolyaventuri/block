@@ -5,7 +5,9 @@ import {type TextType} from '../block/text';
 import {type ConfirmationType} from '../block/confirmation';
 import {transform} from '../transform';
 import Text from '../../components/block/text';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
+import {report} from '../../utils/validation-context';
+import {MAX_ACTION_ID_LENGTH, MAX_PLACEHOLDER_LENGTH} from '../../constants/limits';
 
 export type DatePickerType = {
   type: 'datepicker';
@@ -39,9 +41,10 @@ const isValidDateString = (value: string): boolean => {
 const transformDatePicker = (child: Element): DatePickerType => {
   const {actionId, placeholder, initialDate, confirm, focusOnLoad} = child.props as DatePickerProperties;
 
-  warnIfTooLong('DatePicker action_id', actionId, 255);
+  requireField('actionId', actionId);
+  warnIfTooLong('DatePicker action_id', actionId, MAX_ACTION_ID_LENGTH);
   if (placeholder) {
-    warnIfTooLong('DatePicker placeholder', placeholder, 150);
+    warnIfTooLong('DatePicker placeholder', placeholder, MAX_PLACEHOLDER_LENGTH);
   }
 
   const res: DatePickerType = {
@@ -55,7 +58,7 @@ const transformDatePicker = (child: Element): DatePickerType => {
 
   if (initialDate) {
     if (!isValidDateString(initialDate)) {
-      throw new Error('Date must be valid and in format YYYY-MM-DD.');
+      report('Date must be valid and in format YYYY-MM-DD.', 'invalid-date-format');
     }
 
     res.initial_date = initialDate;

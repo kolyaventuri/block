@@ -2,6 +2,7 @@ import {type Child, type Block, type SlackMessageDraft} from '../constants/types
 import transformers from '../transformers';
 import getType from '../utils/get-type';
 import normalizeChildren from '../utils/normalize-children';
+import {pushPath, popPath, report} from '../utils/validation-context';
 
 const appendTransformed = (value: unknown, blocks: Block[]): void => {
   if (value === null || value === undefined || typeof value === 'boolean') {
@@ -32,9 +33,14 @@ const parseChildren = (children: Child): SlackMessageDraft => {
     const transformer = transformers[type];
 
     if (transformer) {
-      appendTransformed(transformer(child), transformedBlocks);
+      pushPath(type);
+      try {
+        appendTransformed(transformer(child), transformedBlocks);
+      } finally {
+        popPath();
+      }
     } else if (type !== 'null') {
-      console.warn(`No transformer for child type '${type}' exists and will be ignored.`);
+      report(`No transformer for component type '${type}'.`, 'unknown-type');
     }
   }
 

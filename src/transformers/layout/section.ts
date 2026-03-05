@@ -3,6 +3,7 @@ import {type Props as SectionComponentProps} from '../../components/layout/secti
 import {type TextType as Text} from '../block/text';
 import {transform} from '../transform';
 import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
+import {MAX_BLOCK_ID_LENGTH, MAX_SECTION_FIELD_TEXT, MAX_SECTION_FIELDS} from '../../constants/limits';
 
 export type SectionType = {
   type: 'section';
@@ -15,7 +16,7 @@ export type SectionType = {
 const transformSection = (element: Element): SectionType => {
   const {text, blockId, children, accessory} = element.props as SectionComponentProps;
 
-  warnIfTooLong('block_id', blockId, 255);
+  warnIfTooLong('block_id', blockId, MAX_BLOCK_ID_LENGTH);
 
   const res: SectionType = {
     type: 'section',
@@ -39,12 +40,13 @@ const transformSection = (element: Element): SectionType => {
 
     for (const field of fields) {
       if (field) {
-        const t = transform(field as Element);
-        res.fields.push(t as Text);
+        const t = transform(field as Element) as Text;
+        warnIfTooLong('Section field text', t.text, MAX_SECTION_FIELD_TEXT);
+        res.fields.push(t);
       }
     }
 
-    warnIfTooMany('Section fields', res.fields, 10);
+    warnIfTooMany('Section fields', res.fields, MAX_SECTION_FIELDS);
   }
 
   return res;
