@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     index: 'src/index.ts',
     block: 'src/block.ts',
+    'jsx-runtime': 'src/jsx-runtime.ts',
   },
   outDir: 'dist',
   format: ['cjs', 'esm'],

@@ -15,6 +15,9 @@
       "block": [
         "dist/block.d.ts"
       ],
+      "jsx-runtime": [
+        "dist/jsx-runtime.d.ts"
+      ],
       "*": [
         "dist/index.d.ts"
       ]
@@ -32,6 +35,12 @@
       "import": "./dist/block.mjs",
       "require": "./dist/block.cjs",
       "default": "./dist/block.cjs"
+    },
+    "./jsx-runtime": {
+      "types": "./dist/jsx-runtime.d.ts",
+      "import": "./dist/jsx-runtime.mjs",
+      "require": "./dist/jsx-runtime.cjs",
+      "default": "./dist/jsx-runtime.cjs"
     }
   },
   "sideEffects": false,

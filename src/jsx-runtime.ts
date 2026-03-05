@@ -15,3 +15,11 @@ export function jsxs(type: ComponentType, props: Record<string, unknown>) {
 }
 
 export const Fragment = 'fragment';
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace JSX {
+  export type Element = {type: ComponentType; props: Record<string, unknown>; children: unknown[]};
+  export type IntrinsicElements = Record<string, Record<string, unknown>>;
+  export type ElementClass = {props: Record<string, unknown>};
+  export type ElementAttributesProperty = {props: Record<string, unknown>};
+}
