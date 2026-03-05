@@ -5,6 +5,7 @@
     "slackblock": "1.1.0"
   },
   "changesets": [
+    "public-rules-smell",
     "salty-rocks-kick"
   ]
 }

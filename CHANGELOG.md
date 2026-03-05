@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0-beta.1
+
+### Patch Changes
+
+- 2dc3b09: Fixes included files
+
 ## 2.0.0-beta.0
 
 ### Major Changes
