@@ -135,17 +135,18 @@ Acceptance criteria:
 
 ---
 
-### Phase F — Documentation and adoption
+### Phase F — Documentation and adoption ✅
 
-- [ ] Rewrite README: value proposition, install + quick start, compatibility matrix,
+- [x] Rewrite README: value proposition, install + quick start, compatibility matrix,
       validation mode overview, links to examples.
-- [ ] Add component reference (one entry per public component, props table).
-- [ ] Add examples for: message, modal, home tab.
-- [ ] Add migration guides from `jsx-slack` and `slack-block-builder`.
+- [x] Add component reference (`docs/components.md` — one entry per public component, props table).
+- [x] Add migration guides from `jsx-slack` and `slack-block-builder`.
+- [x] Add JSDoc to all public components, render functions, and key utilities.
+- [ ] Add examples for: message, modal, home tab (JSX source files, not just JSON fixtures).
 
 Acceptance criteria:
-- [ ] A new user can build and send a valid message in under 10 minutes from the README.
-- [ ] Migration guides exist for at least two alternatives.
+- [x] A new user can build and send a valid message in under 10 minutes from the README.
+- [x] Migration guides exist for at least two alternatives.
 
 ---
 

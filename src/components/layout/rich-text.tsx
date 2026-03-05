@@ -9,6 +9,22 @@ export type Props = {
   blockId?: string;
 };
 
+/**
+ * A rich text block — contains formatted text with inline styling, lists,
+ * quotes, and preformatted code.
+ *
+ * Accepts `<RichTextSection>`, `<RichTextList>`, `<RichTextQuote>`, and
+ * `<RichTextPreformatted>` as children.
+ *
+ * @example
+ * ```tsx
+ * <RichText>
+ *   <RichTextSection>
+ *     <RichTextText style={{ bold: true }}>Hello</RichTextText>
+ *   </RichTextSection>
+ * </RichText>
+ * ```
+ */
 export default class RichText {
   static slackType = 'RichText';
   declare props: Props;
