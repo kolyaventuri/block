@@ -18,6 +18,9 @@
       "jsx-runtime": [
         "dist/jsx-runtime.d.ts"
       ],
+      "jsx-dev-runtime": [
+        "dist/jsx-dev-runtime.d.ts"
+      ],
       "*": [
         "dist/index.d.ts"
       ]
@@ -41,6 +44,12 @@
       "import": "./dist/jsx-runtime.mjs",
       "require": "./dist/jsx-runtime.cjs",
       "default": "./dist/jsx-runtime.cjs"
+    },
+    "./jsx-dev-runtime": {
+      "types": "./dist/jsx-dev-runtime.d.ts",
+      "import": "./dist/jsx-dev-runtime.mjs",
+      "require": "./dist/jsx-dev-runtime.cjs",
+      "default": "./dist/jsx-dev-runtime.cjs"
     }
   },
   "sideEffects": false,

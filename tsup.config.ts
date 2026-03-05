@@ -5,6 +5,7 @@ export default defineConfig({
     index: 'src/index.ts',
     block: 'src/block.ts',
     'jsx-runtime': 'src/jsx-runtime.ts',
+    'jsx-dev-runtime': 'src/jsx-dev-runtime.ts',
   },
   outDir: 'dist',
   format: ['cjs', 'esm'],
