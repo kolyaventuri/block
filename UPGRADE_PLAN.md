@@ -123,15 +123,15 @@ Acceptance criteria:
 
 ---
 
-### Phase E — API ergonomics
+### Phase E — API ergonomics ✅
 
-- [ ] Add `renderToBlocks(element): Block[]` helper.
-- [ ] Add `renderToMessage(element, options): SlackMessage` helper (wraps current `render()`).
-- [ ] Clarify and document `color`-to-attachment conversion behavior.
-- [ ] Add Block Kit Builder preview URL helper.
+- [x] Add `renderToBlocks(element): Block[]` helper.
+- [x] Add `renderToMessage(element, options): SlackMessage` helper (wraps current `render()`).
+- [x] Clarify and document `color`-to-attachment conversion behavior.
+- [x] Add Block Kit Builder preview URL helper (`blockKitBuilderUrl`).
 
 Acceptance criteria:
-- [ ] New helpers are documented and tested.
+- [x] New helpers are documented and tested.
 
 ---
 
