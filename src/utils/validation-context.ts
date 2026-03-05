@@ -1,5 +1,12 @@
 import {SlackblockValidationError} from '../errors';
 
+/**
+ * Controls how SlackBlock handles validation violations during rendering.
+ *
+ * - `'warn'`   — emit `console.warn` messages (default)
+ * - `'strict'` — throw `SlackblockValidationError`
+ * - `'off'`    — suppress all validation
+ */
 export type ValidationMode = 'off' | 'warn' | 'strict';
 
 type ValidationContext = {

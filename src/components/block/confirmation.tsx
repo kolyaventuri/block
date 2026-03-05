@@ -12,6 +12,23 @@ export type ConfirmationProps = TopProperties & {
 
 type Properties = ConfirmationProps;
 
+/**
+ * A confirmation dialog — shown before an interactive action is triggered.
+ *
+ * Pass a `<Confirmation>` element to the `confirm` prop of interactive
+ * elements such as `<Button>`, `<Select>`, `<Overflow>`, etc.
+ *
+ * @example
+ * ```tsx
+ * const dialog = (
+ *   <Confirmation title="Are you sure?" confirm="Yes, delete" deny="Cancel">
+ *     <Text plainText>This action cannot be undone.</Text>
+ *   </Confirmation>
+ * );
+ *
+ * <Button actionId="delete" confirm={dialog} style="danger">Delete</Button>
+ * ```
+ */
 export default class Confirmation {
   static slackType = 'Confirmation';
   declare props: Properties;

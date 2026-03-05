@@ -36,6 +36,25 @@ export type Props = {
   filter?: ConversationFilter;
 };
 
+/**
+ * A select menu — supports static options, external data sources, and user /
+ * channel / conversation lists. Can be single or multi-select.
+ *
+ * Use the `type` prop to switch data sources (default: `'static'`).
+ * Pass `<Option>` or `<OptionGroup>` children for static selects.
+ *
+ * @example
+ * ```tsx
+ * // Static single-select
+ * <Select placeholder="Pick one" actionId="color">
+ *   <Option value="red">Red</Option>
+ *   <Option value="blue">Blue</Option>
+ * </Select>
+ *
+ * // User multi-select
+ * <Select type="user" multi placeholder="Pick users" actionId="mentions" />
+ * ```
+ */
 export default class Select {
   static slackType = 'Select';
   declare props: Props;

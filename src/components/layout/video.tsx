@@ -12,6 +12,20 @@ export type Props = {
   blockId?: string;
 };
 
+/**
+ * A video block — embeds an external video with a thumbnail, title, and metadata.
+ *
+ * @example
+ * ```tsx
+ * <Video
+ *   title="Product Demo"
+ *   videoUrl="https://example.com/demo.mp4"
+ *   thumbnailUrl="https://example.com/thumb.png"
+ *   altText="Product demo video"
+ *   authorName="Product Team"
+ * />
+ * ```
+ */
 export default class Video {
   static slackType = 'Video';
   declare props: Props;

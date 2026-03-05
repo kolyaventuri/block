@@ -10,6 +10,14 @@ import {
 } from '../utils/validation-context';
 import {MAX_BLOCKS, MAX_MESSAGE_TEXT, RECOMMENDED_MESSAGE_TEXT} from '../constants/limits';
 
+/**
+ * Options passed to `render()`, `renderToMessage()`, and `renderToBlocks()`.
+ *
+ * @property validate - Validation mode. Defaults to `'warn'`.
+ *   - `'warn'`   — log warnings via `console.warn` (default)
+ *   - `'strict'` — throw `SlackblockValidationError` on any violation
+ *   - `'off'`    — disable validation entirely
+ */
 export type RenderOptions = {validate?: ValidationMode};
 
 /**
@@ -65,6 +73,26 @@ const applyMessageMetadata = (json: SlackMessageDraft, properties: MessageProper
   }
 };
 
+/**
+ * Renders a `<Message>` JSX tree to a full Slack message payload.
+ *
+ * The result is a plain object ready to spread into `chat.postMessage`.
+ * The top-level element must be a `<Message>` — a `TypeError` is thrown otherwise.
+ *
+ * @example
+ * ```tsx
+ * import render from 'slackblock';
+ * import { Message, Header } from 'slackblock/block';
+ *
+ * const message = render(
+ *   <Message text="Hello">
+ *     <Header text="Hello world" />
+ *   </Message>
+ * );
+ *
+ * await slackClient.chat.postMessage({ channel: '#general', ...message });
+ * ```
+ */
 const render = (element: Element, options?: RenderOptions): SlackMessage => {
   initContext(options?.validate ?? 'warn');
 

@@ -5,6 +5,16 @@ export type Props = {
   emoji?: boolean;
 };
 
+/**
+ * A header block — displays large, bold plain text at the top of a section.
+ *
+ * Maximum 150 characters.
+ *
+ * @example
+ * ```tsx
+ * <Header text="Deploy complete" emoji />
+ * ```
+ */
 export default class Header {
   static slackType = 'Header';
   declare props: Props;

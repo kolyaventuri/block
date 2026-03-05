@@ -12,6 +12,21 @@ export type Props = {
   };
 };
 
+/**
+ * A plain-text input field — used as the `element` prop inside `<Input>`.
+ *
+ * @example
+ * ```tsx
+ * <Input label="Your name" element={
+ *   <TextInput
+ *     actionId="name"
+ *     placeholder="Jane Doe"
+ *     maxLength={80}
+ *     focusOnLoad
+ *   />
+ * } />
+ * ```
+ */
 export default class TextInput {
   static slackType = 'TextInput';
   declare props: Props;
