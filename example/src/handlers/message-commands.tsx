@@ -5,6 +5,7 @@
  */
 
 import type {App} from '@slack/bolt';
+import type {ChatPostMessageArguments} from '@slack/web-api';
 import render from 'slackblock';
 import {
   Message,
@@ -46,9 +47,6 @@ export function registerMessageCommands(app: App) {
       </Message>,
     );
 
-    await client.chat.postMessage({
-      channel: command.channel_id,
-      ...message,
-    });
+    await client.chat.postMessage({channel: command.channel_id, ...message} as unknown as ChatPostMessageArguments);
   });
 }
