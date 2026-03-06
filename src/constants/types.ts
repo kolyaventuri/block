@@ -76,14 +76,8 @@ export type InputBlockElement = JSX.Element;
 export type BlockElement = JSX.Element;
 
 /**
- * The concrete output of `render()`. A flat type containing only the fields
- * the renderer can produce — no inherited union — so spreading it preserves
- * `text: string` without TypeScript union-distributing the result.
- *
- * Direct calls to `chat.postMessage` / `chat.postEphemeral` still require a
- * cast to `SlackPostMessagePayload` / `SlackPostEphemeralPayload` because the
- * Slack SDK's argument types use `?: never` for mutual exclusion (e.g.
- * `icon_emoji` vs `icon_url`) which makes structural assignability impossible.
+ * The concrete output of `render()`. A flat type containing exactly the fields
+ * the renderer can produce, preserving `text: string` so spreads stay clean.
  */
 export type SlackMessageDraft = {
   text: string;
@@ -103,8 +97,41 @@ export type SlackMessageDraft = {
   unfurl_media?: boolean;
 };
 
-export type SlackPostMessagePayload = SlackMessageDraft & {channel: string};
-export type SlackPostEphemeralPayload = SlackMessageDraft & {channel: string; user: string};
+/**
+ * Fields from `SlackMessageDraft` that are safe to pass directly to the Slack
+ * SDK without casting. The SDK's `ChatPostMessageArguments` uses `?: never` to
+ * enforce mutual exclusion (e.g. `icon_emoji` vs `icon_url`, `reply_broadcast`
+ * vs `WithinThreadReply`) — those fields are omitted here so the payload type
+ * is structurally assignable to `ChatPostMessageArguments`.
+ *
+ * The runtime object produced by `render()` still carries all the original
+ * fields; only the declared type is narrowed for SDK compatibility.
+ */
+type BoltCompatiblePayload = Omit<SlackMessageDraft, 'icon_emoji' | 'icon_url' | 'username' | 'as_user' | 'reply_broadcast'>;
+
+/**
+ * Cast `render()` output to this when calling `client.chat.postMessage()` directly.
+ * Assignable to `ChatPostMessageArguments` — no further cast needed.
+ *
+ * @example
+ * ```ts
+ * const msg = render(<Message channel={channel}>...</Message>);
+ * await client.chat.postMessage(msg as SlackPostMessagePayload);
+ * ```
+ */
+export type SlackPostMessagePayload = BoltCompatiblePayload & {channel: string};
+
+/**
+ * Cast `render()` output to this when calling `client.chat.postEphemeral()` directly.
+ * Assignable to `ChatPostEphemeralArguments` — no further cast needed.
+ *
+ * @example
+ * ```ts
+ * const msg = render(<Message channel={channel} user={userId}>...</Message>);
+ * await client.chat.postEphemeral(msg as SlackPostEphemeralPayload);
+ * ```
+ */
+export type SlackPostEphemeralPayload = BoltCompatiblePayload & {channel: string; user: string};
 
 type AnyFunction = (...parameters: unknown[]) => unknown;
 
