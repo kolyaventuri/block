@@ -112,8 +112,8 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
     throw new TypeError('Provided top-level element must be a Message type.');
   }
 
-  if (!properties.children) {
-    throw new Error('Cannot render a Message with no children.');
+  if (!properties.children && !properties.text) {
+    throw new Error('Cannot render a Message with no children or text.');
   }
 
   pushPath('Message');

@@ -33,11 +33,14 @@ test('it throws an error if the passed component is not a <Message> component', 
   expect(function_).toThrow();
 });
 
-test('it throws an error if no children are passed', () => {
-  // @ts-expect-error - We want to explicitly check the lack of children
+test('it throws an error if no children and no text are passed', () => {
   const function_ = () => render(<Message/>);
 
   expect(function_).toThrow();
+});
+
+test('it does not throw when only a text prop is provided (no children)', () => {
+  expect(() => render(<Message text="hello"/>)).not.toThrow();
 });
 
 test('can render all props', () => {

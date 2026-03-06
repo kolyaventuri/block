@@ -88,7 +88,6 @@ export type Block = KnownBlock | SlackBlock;
 export type Attachment = MessageAttachment;
 
 export type InteractiveBlockElement = JSX.Element;
-export type StandardBlockElement = JSX.Element;
 
 export type InputBlockElement = JSX.Element;
 export type BlockElement = JSX.Element;
@@ -138,7 +137,7 @@ type AnyFunction = (...parameters: unknown[]) => unknown;
 
 type AnyConstructor = new (...parameters: unknown[]) => unknown;
 
-export type WithType = {
+type WithType = {
   type?: string | AnyFunction | AnyConstructor;
 };
 export type BElement = JSX.Element & WithType;
