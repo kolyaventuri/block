@@ -1,5 +1,4 @@
 import render from "slackblock";
-import { postMessage } from "./postMessage";
 import { Message, Section, Header, Text } from "slackblock/block";
 import {App} from '@slack/bolt';
 
@@ -11,38 +10,11 @@ export const app = new App({
 
 const channel = 'C123';
 const user = 'U123';
-const text = 'Please specify an instance name';
 
 /**
- * Example 1A: Simple ephemeral message (user presence implies ephemeral)
+ * Example 1: render() with channel option → SlackPostMessagePayload, no cast.
  */
-await postMessage({
-  channel,
-  user,
-  text,
-});
-
-
-/**
- * Example 1B: Rendered message via the postMessage wrapper.
- *
- * render() with no routing options returns BoltCompatiblePayload (no channel/user),
- * so they can be added by the caller without duplicate-key issues.
- */
-const message = render(
-  <Message text={text}/>
-);
-await postMessage({
-  channel,
-  user,
-  ...message,
-});
-
-
-/**
- * Example 2: render() with channel option → SlackPostMessagePayload, no cast.
- */
-const message2 = render(
+const message1 = render(
   <Message>
     <Header text="Your summary" />
     <Section
@@ -56,14 +28,23 @@ const message2 = render(
   {channel},
 );
 
-app.client.chat.postMessage(message2);
+app.client.chat.postMessage(message1);
 
 /**
- * Example 3: channel + user → SlackPostEphemeralPayload, no cast.
+ * Example 2: channel + user → SlackPostEphemeralPayload, no cast.
  */
-const message3 = render(
+const message2 = render(
   <Message text="Hi there" />,
   {channel, user},
 );
 
-app.client.chat.postEphemeral(message3);
+app.client.chat.postEphemeral(message2);
+
+/**
+ * Example 3: Mixed usage
+ */
+const message3 = render(<Message text="Hi there!" />);
+app.client.chat.postMessage({
+  channel,
+  ...message3,
+});
