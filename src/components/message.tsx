@@ -9,6 +9,8 @@ import {type Child} from '../constants/types';
  */
 export type Properties = {
   children: Child;
+  channel?: string;
+  user?: string;
   text?: string;
   asUser?: boolean;
   iconEmoji?: string;

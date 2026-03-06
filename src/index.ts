@@ -2,6 +2,7 @@
 export {default} from './renderer';
 export {type RenderOptions} from './renderer';
 export {renderToBlocks, renderToMessage} from './renderer';
+export {type SlackPostMessagePayload, type SlackPostEphemeralPayload} from './constants/types';
 export {type ValidationMode} from './utils/validation-context';
 export {SlackblockValidationError} from './errors';
 export {escapeMrkdwn} from './utils/escape-mrkdwn';

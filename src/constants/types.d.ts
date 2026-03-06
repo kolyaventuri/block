@@ -119,7 +119,13 @@ type SlackMessageBase = SlackMessageContents
   & ChatPostMessageMetadata
   & {mrkdwn?: boolean};
 
-export type SlackMessage = SlackMessageBase & Omit<ChatPostMessageArguments, 'channel' | 'token'>;
+export type SlackMessage = SlackMessageBase & Omit<ChatPostMessageArguments, 'channel' | 'token'> & {
+  channel?: string;
+  user?: string;
+};
+
+export type SlackPostMessagePayload = SlackMessage & {channel: string};
+export type SlackPostEphemeralPayload = SlackMessage & {channel: string; user: string};
 
 export type SlackMessageDraft = SlackMessage & {
   text?: string;

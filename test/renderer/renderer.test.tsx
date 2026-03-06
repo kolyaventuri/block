@@ -75,10 +75,38 @@ test('can render all props', () => {
   expect(parser).toHaveBeenCalledWith(content);
 });
 
-test('if no text prop is passed, uses a blank string', () => {
+test('if no text prop is passed, falls back to the parser text result', () => {
+  // Parser is mocked (returns undefined here), so text falls back to ''
   const res = render(<Message>Hello</Message>) as SlackMessageDraft;
 
   expect(res.text).toBe('');
+});
+
+test('if parser returns text (e.g. string children), it is used when no text prop is set', () => {
+  parser.mockReturnValue({text: 'Hello from children'});
+  const res = render(<Message>Hello from children</Message>) as SlackMessageDraft;
+
+  expect(res.text).toBe('Hello from children');
+});
+
+test('explicit text prop takes priority over parser text result', () => {
+  parser.mockReturnValue({text: 'children text'});
+  const res = render(<Message text="explicit text">Hello</Message>) as SlackMessageDraft;
+
+  expect(res.text).toBe('explicit text');
+});
+
+test('passes channel to output when provided', () => {
+  const res = render(<Message channel="C123456">content</Message>);
+
+  expect((res as SlackMessageDraft).channel).toBe('C123456');
+});
+
+test('passes user to output when provided', () => {
+  const res = render(<Message channel="C123456" user="U789">content</Message>);
+
+  expect((res as SlackMessageDraft).channel).toBe('C123456');
+  expect((res as SlackMessageDraft).user).toBe('U789');
 });
 
 test('if a color is passed, transforms the block elements to be within an attachment', () => {

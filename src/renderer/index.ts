@@ -1,5 +1,6 @@
 import {
-  type SlackMessage, type SlackMessageDraft, type Element, type Block, type Child,
+  type SlackMessage,
+  type SlackMessageDraft, type Element, type Block, type Child,
 } from '../constants/types';
 import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
@@ -76,21 +77,29 @@ const applyMessageMetadata = (json: SlackMessageDraft, properties: MessageProper
 /**
  * Renders a `<Message>` JSX tree to a full Slack message payload.
  *
- * The result is a plain object ready to spread into `chat.postMessage`.
- * The top-level element must be a `<Message>` — a `TypeError` is thrown otherwise.
+ * When `channel` is provided on `<Message>`, the result includes it and is
+ * suitable for `chat.postMessage`. When `user` is also provided, it is
+ * suitable for `chat.postEphemeral`. Cast to the specific payload type to
+ * satisfy the Bolt / web-api TypeScript signatures:
  *
  * @example
  * ```tsx
- * import render from 'slackblock';
- * import { Message, Header } from 'slackblock/block';
+ * // say / respond — no cast needed
+ * await say(render(<Message text="Hello"><Header text="Hi" /></Message>));
  *
- * const message = render(
- *   <Message text="Hello">
- *     <Header text="Hello world" />
- *   </Message>
+ * // chat.postMessage
+ * await client.chat.postMessage(
+ *   render(<Message channel="#general" text="Hello">...</Message>) as SlackPostMessagePayload
  * );
  *
- * await slackClient.chat.postMessage({ channel: '#general', ...message });
+ * // chat.postEphemeral
+ * await client.chat.postEphemeral(
+ *   render(<Message channel="#general" user={userId} text="Hello">...</Message>) as SlackPostEphemeralPayload
+ * );
+ *
+ * // string-only message
+ * render(<Message channel="#general">Hello, world!</Message>)
+ * // → { channel: '#general', text: 'Hello, world!' }
  * ```
  */
 const render = (element: Element, options?: RenderOptions): SlackMessage => {
@@ -120,12 +129,21 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
       json.mrkdwn = properties.markdown;
     }
 
-    json.text = properties.text ?? '';
+    // String children produce {text} from the parser; fall back to that if no explicit text prop.
+    json.text = properties.text ?? json.text ?? '';
 
     if (properties.text && properties.text.length > MAX_MESSAGE_TEXT) {
       warnIfTooLong(`Message text (Slack will truncate beyond ${MAX_MESSAGE_TEXT} chars)`, properties.text, MAX_MESSAGE_TEXT);
     } else if (properties.text) {
       warnIfTooLong('Message text (recommended max for best results)', properties.text, RECOMMENDED_MESSAGE_TEXT);
+    }
+
+    if (properties.channel) {
+      json.channel = properties.channel;
+    }
+
+    if (properties.user) {
+      json.user = properties.user;
     }
 
     applyMessageMetadata(json, properties);
