@@ -65,11 +65,12 @@ const message = render(
       <Button actionId="view_logs" url="https://example.com/logs">View logs</Button>
       <Button actionId="rollback" style="danger">Rollback</Button>
     </Actions>
-  </Message>
+  </Message>,
+  { channel: 'C0123456789' },
 );
 
-// message is ready to post — just add your channel:
-await slackClient.chat.postMessage({ channel: '#deploys', ...message });
+// message is typed as SlackPostMessagePayload — pass directly, no cast needed:
+await slackClient.chat.postMessage(message);
 ```
 
 The rendered output is a plain object you can spread directly into `chat.postMessage`.
@@ -80,13 +81,22 @@ The rendered output is a plain object you can spread directly into `chat.postMes
 
 ### `render(element, options?)` — default export
 
-Renders a `<Message>` tree to a full Slack message payload.
+Renders a `<Message>` tree to a full Slack message payload. The return type is narrowed automatically based on the options you pass:
 
 ```ts
 import render from 'slackblock';
 
-const message = render(<Message text="Hello">...</Message>);
-// → { text: "Hello", blocks: [...] }
+// No channel — BoltCompatiblePayload (for say/respond)
+const msg = render(<Message text="Hello">...</Message>);
+await say(msg);
+
+// channel — SlackPostMessagePayload (directly usable with chat.postMessage)
+const msg = render(<Message text="Hello">...</Message>, { channel: 'C0123456789' });
+await client.chat.postMessage(msg); // no cast needed
+
+// channel + user — SlackPostEphemeralPayload (directly usable with chat.postEphemeral)
+const msg = render(<Message text="Hello" />, { channel: '#general', user: userId });
+await client.chat.postEphemeral(msg); // no cast needed
 ```
 
 The top-level element must be a `<Message>`. Throws a `TypeError` otherwise.
@@ -144,6 +154,8 @@ Both `render` / `renderToMessage` / `renderToBlocks` accept an optional `options
 ```ts
 type RenderOptions = {
   validate?: 'off' | 'warn' | 'strict'; // default: 'warn'
+  channel?: string; // included in the payload; narrows return type to SlackPostMessagePayload
+  user?: string;    // requires channel; narrows return type to SlackPostEphemeralPayload
 };
 ```
 

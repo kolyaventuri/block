@@ -44,11 +44,9 @@ export function registerMessageCommands(app: App) {
           <Text>Deployed by @deploy-bot at 14:32 UTC</Text>
         </Context>
       </Message>,
+      {channel: command.channel_id},
     );
 
-    await client.chat.postMessage({
-      channel: command.channel_id,
-      ...message,
-    });
+    await client.chat.postMessage(message);
   });
 }

@@ -1,5 +1,6 @@
 import {
-  type SlackMessage, type SlackMessageDraft, type Element, type Block, type Child,
+  type SlackMessageDraft, type Element, type Block, type Child,
+  type SlackPostMessagePayload, type SlackPostEphemeralPayload, type BoltCompatiblePayload,
 } from '../constants/types';
 import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
@@ -17,8 +18,13 @@ import {MAX_BLOCKS, MAX_MESSAGE_TEXT, RECOMMENDED_MESSAGE_TEXT} from '../constan
  *   - `'warn'`   — log warnings via `console.warn` (default)
  *   - `'strict'` — throw `SlackblockValidationError` on any violation
  *   - `'off'`    — disable validation entirely
+ * @property channel - When provided, the result includes `channel` and is typed
+ *   as `SlackPostMessagePayload` (directly usable with `chat.postMessage`).
+ * @property user - When provided alongside `channel`, the result is typed as
+ *   `SlackPostEphemeralPayload` (directly usable with `chat.postEphemeral`).
+ *   Has no effect without `channel`.
  */
-export type RenderOptions = {validate?: ValidationMode};
+export type RenderOptions = {validate?: ValidationMode; channel?: string; user?: string};
 
 /**
  * Renders JSX children directly to a `Block[]` array, without requiring a
@@ -76,24 +82,28 @@ const applyMessageMetadata = (json: SlackMessageDraft, properties: MessageProper
 /**
  * Renders a `<Message>` JSX tree to a full Slack message payload.
  *
- * The result is a plain object ready to spread into `chat.postMessage`.
- * The top-level element must be a `<Message>` — a `TypeError` is thrown otherwise.
+ * Pass `channel` (and optionally `user`) in the `options` argument to get a
+ * fully-typed payload that can be passed directly to the Slack SDK without any
+ * cast:
  *
  * @example
  * ```tsx
- * import render from 'slackblock';
- * import { Message, Header } from 'slackblock/block';
+ * // say / respond — no options needed
+ * await say(render(<Message text="Hello"><Header text="Hi" /></Message>));
  *
- * const message = render(
- *   <Message text="Hello">
- *     <Header text="Hello world" />
- *   </Message>
- * );
+ * // chat.postMessage — channel in options → SlackPostMessagePayload, no cast
+ * const msg = render(<Message text="Hello">...</Message>, {channel: '#general'});
+ * await client.chat.postMessage(msg);
  *
- * await slackClient.chat.postMessage({ channel: '#general', ...message });
+ * // chat.postEphemeral — channel + user in options → SlackPostEphemeralPayload, no cast
+ * const msg = render(<Message text="Hello" />, {channel: '#general', user: userId});
+ * await client.chat.postEphemeral(msg);
  * ```
  */
-const render = (element: Element, options?: RenderOptions): SlackMessage => {
+function render(element: Element, options: RenderOptions & {channel: string; user: string}): SlackPostEphemeralPayload;
+function render(element: Element, options: RenderOptions & {channel: string}): SlackPostMessagePayload;
+function render(element: Element, options?: RenderOptions): BoltCompatiblePayload;
+function render(element: Element, options?: RenderOptions): SlackMessageDraft {
   initContext(options?.validate ?? 'warn');
 
   const properties = element.props as MessageProperties;
@@ -103,14 +113,16 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
     throw new TypeError('Provided top-level element must be a Message type.');
   }
 
-  if (!properties.children) {
-    throw new Error('Cannot render a Message with no children.');
+  if (!properties.children && !properties.text) {
+    throw new Error('Cannot render a Message with no children or text.');
   }
 
   pushPath('Message');
   let json: SlackMessageDraft;
   try {
-    json = {...parser(properties.children)};
+    // Parser returns a partial message (no required `text`); renderer sets it below.
+    // eslint-disable-next-line prefer-object-spread -- Object.assign avoids object-literal type assertion lint conflict
+    json = Object.assign({}, parser(properties.children)) as SlackMessageDraft;
 
     if (properties.replyTo) {
       json.thread_ts = properties.replyTo;
@@ -120,12 +132,25 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
       json.mrkdwn = properties.markdown;
     }
 
-    json.text = properties.text ?? '';
+    // String children produce {text} from the parser; fall back to that if no explicit text prop.
+    json.text = properties.text ?? json.text ?? '';
 
     if (properties.text && properties.text.length > MAX_MESSAGE_TEXT) {
       warnIfTooLong(`Message text (Slack will truncate beyond ${MAX_MESSAGE_TEXT} chars)`, properties.text, MAX_MESSAGE_TEXT);
     } else if (properties.text) {
       warnIfTooLong('Message text (recommended max for best results)', properties.text, RECOMMENDED_MESSAGE_TEXT);
+    }
+
+    // Options.channel / options.user take precedence over the Message JSX props.
+    const channel = options?.channel ?? properties.channel;
+    const user = options?.user ?? properties.user;
+
+    if (channel) {
+      json.channel = channel;
+    }
+
+    if (user) {
+      json.user = user;
     }
 
     applyMessageMetadata(json, properties);
@@ -149,8 +174,8 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
     popPath();
   }
 
-  return json as SlackMessage;
-};
+  return json;
+}
 
 export default render;
 

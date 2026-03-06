@@ -8,7 +8,9 @@ import {type Child} from '../constants/types';
  * Add blocks as children; use `text` as a fallback for notifications.
  */
 export type Properties = {
-  children: Child;
+  children?: Child;
+  channel?: string;
+  user?: string;
   text?: string;
   asUser?: boolean;
   iconEmoji?: string;

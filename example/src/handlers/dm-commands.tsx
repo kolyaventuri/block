@@ -47,12 +47,10 @@ export function registerDmCommands(app: App) {
           </Button>
         </Actions>
       </Message>,
+      {channel: channel.id},
     );
 
-    await client.chat.postMessage({
-      channel: channel.id,
-      ...message,
-    });
+    await client.chat.postMessage(message);
   });
 
   // Handle the "Dismiss" button from the DM message.

@@ -68,20 +68,30 @@ The result is already a plain object — no `.buildToJSON()` step needed.
 
 ---
 
-## Spreading into `chat.postMessage`
+## Posting to `chat.postMessage`
 
 **slack-block-builder:**
 ```ts
 await client.chat.postMessage({
-  channel: '#general',
+  channel: 'C0123456789',
   ...Message().text('Hello').blocks(...).buildToJSON(),
 });
 ```
 
 **slackblock:**
 ```tsx
+const msg = render(
+  <Message text="Hello"><Section text={<Text>Hello</Text>} /></Message>,
+  { channel: 'C0123456789' },
+);
+await client.chat.postMessage(msg); // typed as SlackPostMessagePayload, no cast needed
+```
+
+You can also spread if you prefer to supply the channel at call-site:
+
+```tsx
 await client.chat.postMessage({
-  channel: '#general',
+  channel: 'C0123456789',
   ...render(<Message text="Hello"><Section text={<Text>Hello</Text>} /></Message>),
 });
 ```
