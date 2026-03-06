@@ -5,7 +5,6 @@
  */
 
 import type {App} from '@slack/bolt';
-import type {ChatPostMessageArguments} from '@slack/web-api';
 import render from 'slackblock';
 import {
   Message,
@@ -48,9 +47,10 @@ export function registerDmCommands(app: App) {
           </Button>
         </Actions>
       </Message>,
+      {channel: channel.id},
     );
 
-    await client.chat.postMessage({channel: channel.id, ...message} as unknown as ChatPostMessageArguments);
+    await client.chat.postMessage(message);
   });
 
   // Handle the "Dismiss" button from the DM message.

@@ -1,5 +1,6 @@
 import {
   type SlackMessageDraft, type Element, type Block, type Child,
+  type SlackPostMessagePayload, type SlackPostEphemeralPayload, type BoltCompatiblePayload,
 } from '../constants/types';
 import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
@@ -17,8 +18,13 @@ import {MAX_BLOCKS, MAX_MESSAGE_TEXT, RECOMMENDED_MESSAGE_TEXT} from '../constan
  *   - `'warn'`   — log warnings via `console.warn` (default)
  *   - `'strict'` — throw `SlackblockValidationError` on any violation
  *   - `'off'`    — disable validation entirely
+ * @property channel - When provided, the result includes `channel` and is typed
+ *   as `SlackPostMessagePayload` (directly usable with `chat.postMessage`).
+ * @property user - When provided alongside `channel`, the result is typed as
+ *   `SlackPostEphemeralPayload` (directly usable with `chat.postEphemeral`).
+ *   Has no effect without `channel`.
  */
-export type RenderOptions = {validate?: ValidationMode};
+export type RenderOptions = {validate?: ValidationMode; channel?: string; user?: string};
 
 /**
  * Renders JSX children directly to a `Block[]` array, without requiring a
@@ -76,32 +82,28 @@ const applyMessageMetadata = (json: SlackMessageDraft, properties: MessageProper
 /**
  * Renders a `<Message>` JSX tree to a full Slack message payload.
  *
- * When `channel` is provided on `<Message>`, the result includes it and is
- * suitable for `chat.postMessage`. When `user` is also provided, it is
- * suitable for `chat.postEphemeral`. Cast to the specific payload type to
- * satisfy the Bolt / web-api TypeScript signatures:
+ * Pass `channel` (and optionally `user`) in the `options` argument to get a
+ * fully-typed payload that can be passed directly to the Slack SDK without any
+ * cast:
  *
  * @example
  * ```tsx
- * // say / respond — no cast needed
+ * // say / respond — no options needed
  * await say(render(<Message text="Hello"><Header text="Hi" /></Message>));
  *
- * // chat.postMessage
- * await client.chat.postMessage(
- *   render(<Message channel="#general" text="Hello">...</Message>) as SlackPostMessagePayload
- * );
+ * // chat.postMessage — channel in options → SlackPostMessagePayload, no cast
+ * const msg = render(<Message text="Hello">...</Message>, {channel: '#general'});
+ * await client.chat.postMessage(msg);
  *
- * // chat.postEphemeral
- * await client.chat.postEphemeral(
- *   render(<Message channel="#general" user={userId} text="Hello">...</Message>) as SlackPostEphemeralPayload
- * );
- *
- * // string-only message
- * render(<Message channel="#general">Hello, world!</Message>)
- * // → { channel: '#general', text: 'Hello, world!' }
+ * // chat.postEphemeral — channel + user in options → SlackPostEphemeralPayload, no cast
+ * const msg = render(<Message text="Hello" />, {channel: '#general', user: userId});
+ * await client.chat.postEphemeral(msg);
  * ```
  */
-const render = (element: Element, options?: RenderOptions): SlackMessageDraft => {
+function render(element: Element, options: RenderOptions & {channel: string; user: string}): SlackPostEphemeralPayload;
+function render(element: Element, options: RenderOptions & {channel: string}): SlackPostMessagePayload;
+function render(element: Element, options?: RenderOptions): BoltCompatiblePayload;
+function render(element: Element, options?: RenderOptions): SlackMessageDraft {
   initContext(options?.validate ?? 'warn');
 
   const properties = element.props as MessageProperties;
@@ -139,12 +141,16 @@ const render = (element: Element, options?: RenderOptions): SlackMessageDraft =>
       warnIfTooLong('Message text (recommended max for best results)', properties.text, RECOMMENDED_MESSAGE_TEXT);
     }
 
-    if (properties.channel) {
-      json.channel = properties.channel;
+    // Options.channel / options.user take precedence over the Message JSX props.
+    const channel = options?.channel ?? properties.channel;
+    const user = options?.user ?? properties.user;
+
+    if (channel) {
+      json.channel = channel;
     }
 
-    if (properties.user) {
-      json.user = properties.user;
+    if (user) {
+      json.user = user;
     }
 
     applyMessageMetadata(json, properties);
@@ -169,7 +175,7 @@ const render = (element: Element, options?: RenderOptions): SlackMessageDraft =>
   }
 
   return json;
-};
+}
 
 export default render;
 

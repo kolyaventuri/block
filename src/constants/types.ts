@@ -107,7 +107,7 @@ export type SlackMessageDraft = {
  * The runtime object produced by `render()` still carries all the original
  * fields; only the declared type is narrowed for SDK compatibility.
  */
-type BoltCompatiblePayload = Omit<SlackMessageDraft, 'icon_emoji' | 'icon_url' | 'username' | 'as_user' | 'reply_broadcast'>;
+export type BoltCompatiblePayload = Omit<SlackMessageDraft, 'icon_emoji' | 'icon_url' | 'username' | 'as_user' | 'reply_broadcast' | 'channel' | 'user'>;
 
 /**
  * Cast `render()` output to this when calling `client.chat.postMessage()` directly.
@@ -142,6 +142,7 @@ type WithType = {
 };
 export type BElement = JSX.Element & WithType;
 export type Element = BElement;
+
 export type Child =
   | string
   | Element

@@ -5,6 +5,7 @@ export {renderToBlocks, renderToMessage} from './renderer';
 export {
   type SlackPostMessagePayload,
   type SlackPostEphemeralPayload,
+  type BoltCompatiblePayload,
   type SlackMessageDraft,
   type SerializedBlock,
   type SerializedElement,
