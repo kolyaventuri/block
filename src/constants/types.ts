@@ -25,23 +25,6 @@ import {type RichTextType} from '../transformers/layout/rich-text';
 import {type SectionType} from '../transformers/layout/section';
 import {type VideoType} from '../transformers/layout/video';
 
-import {
-  type BroadcastedThreadReply,
-  type ChatPostMessageArguments,
-  type ChatPostMessageMetadata,
-  type ChannelAndAttachments,
-  type ChannelAndBlocks,
-  type ChannelAndMarkdownText,
-  type ChannelAndText,
-  type IconEmoji,
-  type IconURL,
-  type LinkNames,
-  type Parse,
-  type Unfurls,
-  type Username,
-  type WithinThreadReply,
-} from './slack-message-types';
-
 type ImageBlockType = BlockImageType | ImageLayoutType;
 
 export type SerializedOption = OptionType | OptionGroupType;
@@ -92,47 +75,32 @@ export type InteractiveBlockElement = JSX.Element;
 export type InputBlockElement = JSX.Element;
 export type BlockElement = JSX.Element;
 
-type SlackMessageContents =
-  | Omit<ChannelAndText, 'channel'>
-  | Omit<ChannelAndBlocks, 'channel'>
-  | Omit<ChannelAndAttachments, 'channel'>
-  | Omit<ChannelAndMarkdownText, 'channel'>;
-
-type SlackAuthorship =
-  | ((IconEmoji | IconURL) & Username)
-  | {
-    as_user: true;
-    icon_emoji?: never;
-    icon_url?: never;
-    username?: never;
-  };
-
-type SlackThreadReply = WithinThreadReply | BroadcastedThreadReply;
-
-type SlackMessageBase = SlackMessageContents
-  & SlackThreadReply
-  & SlackAuthorship
-  & Parse
-  & LinkNames
-  & Unfurls
-  & ChatPostMessageMetadata
-  & {mrkdwn?: boolean};
-
-export type SlackMessage = SlackMessageBase & Omit<ChatPostMessageArguments, 'channel' | 'token'> & {
-  channel?: string;
-  user?: string;
-};
-
 /**
- * The concrete output of `render()`. The renderer always sets `text` (defaulting
- * to `''`), so it is required here — which is what lets the payload subtypes
- * satisfy `ChatPostMessageArguments` without an explicit cast.
+ * The concrete output of `render()`. A flat type containing only the fields
+ * the renderer can produce — no inherited union — so spreading it preserves
+ * `text: string` without TypeScript union-distributing the result.
+ *
+ * Direct calls to `chat.postMessage` / `chat.postEphemeral` still require a
+ * cast to `SlackPostMessagePayload` / `SlackPostEphemeralPayload` because the
+ * Slack SDK's argument types use `?: never` for mutual exclusion (e.g.
+ * `icon_emoji` vs `icon_url`) which makes structural assignability impossible.
  */
-export type SlackMessageDraft = SlackMessage & {
+export type SlackMessageDraft = {
   text: string;
   blocks?: Block[];
   attachments?: Attachment[];
-  markdown_text?: string;
+  channel?: string;
+  user?: string;
+  thread_ts?: string;
+  mrkdwn?: boolean;
+  icon_emoji?: string;
+  icon_url?: string;
+  parse?: 'full' | 'none';
+  username?: string;
+  as_user?: boolean;
+  reply_broadcast?: boolean;
+  unfurl_links?: boolean;
+  unfurl_media?: boolean;
 };
 
 export type SlackPostMessagePayload = SlackMessageDraft & {channel: string};
