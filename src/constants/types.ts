@@ -123,15 +123,20 @@ export type SlackMessage = SlackMessageBase & Omit<ChatPostMessageArguments, 'ch
   user?: string;
 };
 
-export type SlackPostMessagePayload = SlackMessage & {channel: string};
-export type SlackPostEphemeralPayload = SlackMessage & {channel: string; user: string};
-
+/**
+ * The concrete output of `render()`. The renderer always sets `text` (defaulting
+ * to `''`), so it is required here — which is what lets the payload subtypes
+ * satisfy `ChatPostMessageArguments` without an explicit cast.
+ */
 export type SlackMessageDraft = SlackMessage & {
-  text?: string;
+  text: string;
   blocks?: Block[];
   attachments?: Attachment[];
   markdown_text?: string;
 };
+
+export type SlackPostMessagePayload = SlackMessageDraft & {channel: string};
+export type SlackPostEphemeralPayload = SlackMessageDraft & {channel: string; user: string};
 
 type AnyFunction = (...parameters: unknown[]) => unknown;
 

@@ -1,5 +1,4 @@
 import {
-  type SlackMessage,
   type SlackMessageDraft, type Element, type Block, type Child,
 } from '../constants/types';
 import {type Properties as MessageProperties} from '../components/message';
@@ -102,7 +101,7 @@ const applyMessageMetadata = (json: SlackMessageDraft, properties: MessageProper
  * // → { channel: '#general', text: 'Hello, world!' }
  * ```
  */
-const render = (element: Element, options?: RenderOptions): SlackMessage => {
+const render = (element: Element, options?: RenderOptions): SlackMessageDraft => {
   initContext(options?.validate ?? 'warn');
 
   const properties = element.props as MessageProperties;
@@ -119,7 +118,9 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
   pushPath('Message');
   let json: SlackMessageDraft;
   try {
-    json = {...parser(properties.children)};
+    // Parser returns a partial message (no required `text`); renderer sets it below.
+    // eslint-disable-next-line prefer-object-spread -- Object.assign avoids object-literal type assertion lint conflict
+    json = Object.assign({}, parser(properties.children)) as SlackMessageDraft;
 
     if (properties.replyTo) {
       json.thread_ts = properties.replyTo;
@@ -167,7 +168,7 @@ const render = (element: Element, options?: RenderOptions): SlackMessage => {
     popPath();
   }
 
-  return json as SlackMessage;
+  return json;
 };
 
 export default render;
