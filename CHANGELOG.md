@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0-beta.3
+
+### Patch Changes
+
+- fbb431b: Rendering updates to be more compatible
+
 ## 2.0.0-beta.2
 
 ### Patch Changes
