@@ -1,67 +1,49 @@
 # Changelog
 
-## 2.0.0-beta.3
-
-### Patch Changes
-
-- fbb431b: Rendering updates to be more compatible
-
-## 2.0.0-beta.2
-
-### Patch Changes
-
-- 787b509: Fix issue with any[] types
-
-## 2.0.0-beta.1
-
-### Patch Changes
-
-- 2dc3b09: Fixes included files
-
-## 2.0.0-beta.0
+## 2.0.0
 
 ### Major Changes
 
-- e243699: ---
+- e243699: ### Breaking Changes
+  - **React dependency removed** — change `"jsxImportSource": "react"` to `"jsxImportSource": "slackblock"` in your `tsconfig.json`. Remove `react` / `react-dom` from your dependencies. No JSX syntax changes required.
+  - **`@slack/web-api` runtime dependency removed** — Slack types are now bundled locally. No API surface changes; remove the package if it was only a transitive dependency.
+  - **Node.js >=20 required.**
+  - **`render()` validates by default** — output is checked against Slack Block Kit limits and a `console.warn` is emitted on violations. Pass `{ validate: 'off' }` to suppress all warnings.
 
-  React dependency removed — migrate jsxImportSource to "slackblock"
+  ### New API
 
-  In your tsconfig.json, change:
-  "jsxImportSource": "react" → "jsxImportSource": "slackblock"
+  **Render functions**
+  - `renderToBlocks(element, options?)` — returns `Block[]` directly. Use for modals and home tabs where no `<Message>` wrapper is needed; top-level Fragments are unwrapped automatically.
+  - `renderToMessage(element, options?)` — named alias for `render()`; both are equivalent.
 
-  Remove react / react-dom from your dependencies. No JSX syntax changes required.
+  **Typed `render()` overloads for Bolt**
+  - `render(el)` → `BoltCompatiblePayload` — for `say()` / `respond()`, no cast needed.
+  - `render(el, { channel })` → `SlackPostMessagePayload` — directly assignable to `client.chat.postMessage()`.
+  - `render(el, { channel, user })` → `SlackPostEphemeralPayload` — directly assignable to `client.chat.postEphemeral()`.
 
-  ***
+  **Helpers**
+  - `blockKitBuilderUrl(blocks)` — generates a Block Kit Builder preview URL for a block array.
+  - `escapeMrkdwn(text)` — escapes Slack mrkdwn special characters in a plain-text string.
 
-  Breaking changes:
-  - React peer dependency dropped; replaced with a zero-dependency custom JSX runtime
-  - @slack/web-api runtime dependency removed; Slack types are now bundled locally
-  - Node.js >=20 required (previously >=18 was tolerated in practice)
-  - render() now defaults to validate: 'warn', emitting console warnings when output
-    would violate Slack Block Kit limits (text too long, too many options, etc.).
-    Pass { validate: 'off' } to suppress all warnings.
+  **Validation**
+  - `validate` option on all render functions: `'warn'` (default), `'strict'` (throws), `'off'` (silent).
+  - `SlackblockValidationError` — structured error class with `.path`, `.rule`, and `.message` fields.
 
-  New API:
-  - renderToBlocks(element, options?) — returns Block[] directly; use for modals and
-    home tabs where no <Message> wrapper is needed. Fragments are unwrapped transparently.
-  - renderToMessage(element, options?) — named alias for render(); both are equivalent.
-  - blockKitBuilderUrl(blocks) — generates a Block Kit Builder preview URL for a block array.
-  - escapeMrkdwn(text) — escapes Slack mrkdwn special characters in plain text strings.
-  - validate option on render() / renderToBlocks() / renderToMessage():
-    'warn' (default) — console.warn on limit violations
-    'strict' — throws SlackblockValidationError on any violation
-    'off' — no validation
-  - SlackblockValidationError — structured error with .path, .rule, and .message fields.
-  - RenderOptions and ValidationMode types exported from package root.
+  **Exported types**
+  - `BoltCompatiblePayload`, `SlackPostMessagePayload`, `SlackPostEphemeralPayload`
+  - `SlackMessageDraft`, `SerializedBlock`, `SerializedElement`, `SerializedOption`
+  - `RenderOptions`, `ValidationMode`
 
-  Other improvements:
-  - strictNullChecks enabled; zero `any` types in source
-  - All public components and render functions have JSDoc
-  - Component reference at docs/components.md
-  - Validation guide at docs/validation.md
-  - Migration guides from jsx-slack and slack-block-builder at docs/migrating-\*.md
-  - 12 Block Kit JSON samples in examples/block-kit/ covering all validatable components
-  - Changesets-based release automation with npm provenance
+  ### Other Improvements
+  - `strictNullChecks` enabled throughout; zero `any` types in source.
+  - All public components and render functions documented with JSDoc.
+  - Component reference at `docs/components.md`.
+  - Validation guide at `docs/validation.md`.
+  - Migration guides from jsx-slack and slack-block-builder at `docs/migrating-*.md`.
+  - Practical Bolt example app at `examples/bolt-app/`.
+  - 12 Block Kit JSON samples in `examples/block-kit/` covering all validatable components.
+  - Golden test suite with full pipeline coverage.
+  - Changesets-based release automation with npm provenance.
 
 ### 1.1.0
 
