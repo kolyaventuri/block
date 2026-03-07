@@ -158,6 +158,7 @@ Both `render` / `renderToMessage` / `renderToBlocks` accept an optional `options
 ```ts
 type RenderOptions = {
   validate?: 'off' | 'warn' | 'strict'; // default: 'warn'
+  onValidation?: (issue: ValidationIssue) => void; // optional warn-mode reporter
   channel?: string; // included in the payload; narrows return type to SlackPostMessagePayload
   user?: string;    // requires channel; narrows return type to SlackPostEphemeralPayload
 };
@@ -182,6 +183,15 @@ const message = render(<Message>...</Message>, {validate: 'strict'});
 ```
 
 `SlackblockValidationError` exposes a stable contract: `message`, `path`, `rule`, optional `subcode`, optional `component`, optional `field`, and the normalized `issue` object.
+
+For structured logging in warn mode, pass `onValidation`:
+
+```ts
+render(<Message>...</Message>, {
+  validate: 'warn',
+  onValidation: issue => logger.warn(issue),
+});
+```
 
 See [docs/validation.md](docs/validation.md) for mode guidance, the error contract, rule categories, and common failures.
 

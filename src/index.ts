@@ -11,7 +11,7 @@ export {
   type SerializedElement,
   type SerializedOption,
 } from './constants/types';
-export {type ValidationMode} from './utils/validation-context';
+export {type ValidationMode, type ValidationReporter} from './utils/validation-context';
 export {
   SlackblockValidationError,
   type ValidationIssue,

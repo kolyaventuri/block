@@ -8,6 +8,7 @@ import {
 
 import render, {
   type RenderOptions,
+  type ValidationIssue,
   SlackblockValidationError,
   escapeMrkdwn,
 } from '../../src';
@@ -75,6 +76,20 @@ describe('off mode', () => {
         </Message>,
         {validate: 'off'},
       )).not.toThrow();
+  });
+
+  test('does not call onValidation in off mode', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Header text={longHeaderText}/>
+        </Message>,
+        {validate: 'off', onValidation},
+      )).not.toThrow();
+
+    expect(onValidation).not.toHaveBeenCalled();
   });
 });
 
@@ -170,6 +185,53 @@ describe('warn mode', () => {
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[slackblock]'));
     consoleSpy.mockRestore();
   });
+
+  test('uses onValidation reporter instead of console.warn when provided', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Header text={longHeaderText}/>
+        </Message>,
+        {onValidation},
+      )).not.toThrow();
+
+    expect(onValidation).toHaveBeenCalledTimes(1);
+    expect(onValidation).toHaveBeenCalledWith(expect.objectContaining({
+      path: 'Message > Header',
+      rule: 'too-long',
+      subcode: 'value-too-long',
+      component: 'Header',
+    }));
+    expect(consoleSpy).not.toHaveBeenCalled();
+    consoleSpy.mockRestore();
+  });
+
+  test('passes normalized issues to onValidation reporter', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Actions>
+            {/* @ts-expect-error - intentionally omit actionId */}
+            <Button actionId={undefined}>Click</Button>
+          </Actions>
+        </Message>,
+        {validate: 'warn', onValidation},
+      )).not.toThrow();
+
+    expect(onValidation).toHaveBeenCalledWith(expect.objectContaining({
+      path: 'Message > Actions > Button',
+      rule: 'required-field',
+      subcode: 'action-id-required',
+      field: 'actionId',
+      component: 'Button',
+    }));
+    expect(consoleSpy).not.toHaveBeenCalled();
+    consoleSpy.mockRestore();
+  });
 });
 
 // ─── strict mode ────────────────────────────────────────────────────────────
@@ -221,6 +283,20 @@ describe('strict mode', () => {
         </Message>,
         {validate: 'strict'},
       )).toThrow(SlackblockValidationError);
+  });
+
+  test('does not call onValidation in strict mode', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Header text={longHeaderText}/>
+        </Message>,
+        {validate: 'strict', onValidation},
+      )).toThrow(SlackblockValidationError);
+
+    expect(onValidation).not.toHaveBeenCalled();
   });
 
   test('error.rule is normalized for length violation', () => {

@@ -95,6 +95,7 @@ Status meanings:
 | `renderToMessage()` | Supported | Named alias of `render()` |
 | `renderToBlocks()` | Supported | Block-array renderer for modals/home tabs |
 | Validation modes | Supported | `off`, `warn`, `strict` |
+| Warn-mode validation reporter | Supported | `RenderOptions.onValidation` |
 | `SlackblockValidationError` | Supported | Stable rule categories with optional subcodes |
 | `escapeMrkdwn()` | Supported | Escapes untrusted mrkdwn input |
 | `blockKitBuilderUrl()` | Supported | Builder preview URL generator |

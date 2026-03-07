@@ -1,7 +1,8 @@
-import {test, expect} from 'vitest';
+import {test, expect, vi} from 'vitest';
 
 import Divider from '../../src/components/layout/divider';
 import Header from '../../src/components/layout/header';
+import {type ValidationIssue} from '../../src/errors';
 import {renderToBlocks} from '../../src/renderer';
 
 test('returns Block[] from a JSX element without a <Message> wrapper', () => {
@@ -33,6 +34,18 @@ test('passes validate option through — strict mode throws on unknown types', (
   const render = () => renderToBlocks(<div/>, {validate: 'strict'});
 
   expect(render).toThrow();
+});
+
+test('passes onValidation through in warn mode', () => {
+  const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+  const blocks = renderToBlocks(<div/>, {validate: 'warn', onValidation});
+
+  expect(blocks).toEqual([]);
+  expect(onValidation).toHaveBeenCalledWith(expect.objectContaining({
+    rule: 'unsupported-child',
+    subcode: 'unknown-type',
+  }));
 });
 
 test('works with a single element (no fragment)', () => {

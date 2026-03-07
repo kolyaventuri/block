@@ -14,7 +14,7 @@ renderToBlocks(element, {validate: 'strict'});
 
 | Mode | Default? | What happens |
 |---|---|---|
-| `'warn'` | Yes | Rendering continues and SlackBlock logs a warning with component path information |
+| `'warn'` | Yes | Rendering continues and SlackBlock logs a warning with component path information, or calls `onValidation` if provided |
 | `'strict'` | No | Rendering stops and SlackBlock throws `SlackblockValidationError` |
 | `'off'` | No | SlackBlock skips validation entirely |
 
@@ -22,6 +22,27 @@ Use cases:
 - `'warn'`: good default for app runtime when you want visibility without breaking message delivery.
 - `'strict'`: recommended for tests, CI, and template verification.
 - `'off'`: only for cases where you intentionally do not want runtime validation.
+
+## Warn-mode reporter hook
+
+If you want warn-mode issues to flow into your own logger instead of `console.warn`, pass `onValidation` in the render options.
+
+```ts
+import render from 'slackblock';
+
+render(element, {
+  validate: 'warn',
+  onValidation: issue => logger.warn(issue),
+});
+```
+
+The hook receives the normalized `ValidationIssue` object.
+
+Notes:
+- `onValidation` is only used in warn mode
+- if `onValidation` is omitted, SlackBlock falls back to `console.warn`
+- `strict` still throws
+- `off` still suppresses validation entirely
 
 ## Same violation in each mode
 
@@ -40,6 +61,17 @@ Given the same invalid payload:
 ```ts
 render(element, {validate: 'warn'});
 // console.warn("[slackblock] Message > Actions > Button: actionId is required.")
+// render still returns a payload
+```
+
+With a custom reporter:
+
+```ts
+render(element, {
+  validate: 'warn',
+  onValidation: issue => logger.warn(issue),
+});
+// your logger receives the ValidationIssue object
 // render still returns a payload
 ```
 
