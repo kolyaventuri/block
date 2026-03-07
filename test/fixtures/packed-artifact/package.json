@@ -1,0 +1,8 @@
+{
+  "name": "slackblock-packed-artifact-fixture",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "slackblock": "file:__TARBALL__"
+  }
+}
