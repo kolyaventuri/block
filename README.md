@@ -223,6 +223,19 @@ See [docs/validation.md](docs/validation.md) for the stable rule categories and 
 </Select>
 ```
 
+`<Section>` also supports an explicit `fields` prop and Slack's `expand` flag:
+
+```tsx
+<Section
+  text="Build status"
+  fields={[
+    <Text plainText>Commit</Text>,
+    <Text>{sha}</Text>,
+  ]}
+  expand
+/>
+```
+
 **Conditional rendering** — Use `<Container>` to wrap elements that may or may not render, or use standard JS short-circuit expressions:
 
 ```tsx

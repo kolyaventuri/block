@@ -51,29 +51,39 @@ A section block. Supports primary text, optional fields, and an optional accesso
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `text` | `JSX.Element` | Conditionally | Primary text — typically a `<Text>` element. Required when no field children are present |
+| `text` | `JSX.Element \| string` | Conditionally | Primary text. Required when no `fields` or field children are present |
+| `fields` | `<Text> \| string \| Array<...>` | — | Explicit field content for the two-column section fields area |
 | `blockId` | `string` | — | Unique identifier for the block |
-| `children` | `<Text> \| <Text>[]` | — | Fields displayed in a two-column grid below the text |
+| `children` | `<Text> \| string \| Array<...>` | — | Backward-compatible alias for section fields |
 | `accessory` | block element | — | An interactive element displayed to the right |
+| `expand` | `boolean` | — | Preserve expanded rendering when supported by Slack |
+
+```tsx
+<Section text="Hello *Block Kit*." />
+
+<Section
+  text="Hello *Block Kit*."
+  accessory={<Button actionId="more">More</Button>}
+  fields={[
+    <Text plainText>Field A</Text>,
+    <Text plainText>Field B</Text>,
+  ]}
+/>
+```
+
+Fields-only sections are supported:
 
 ```tsx
 <Section
-  text={<Text>Hello *Block Kit*.</Text>}
-  accessory={<Button actionId="more">More</Button>}
->
-  <Text plainText>Field A</Text>
-  <Text plainText>Field B</Text>
-</Section>
+  fields={[
+    <Text plainText>Status</Text>,
+    <Text>Ready</Text>,
+  ]}
+  expand
+/>
 ```
 
-Runtime validation also accepts fields-only sections. The current TypeScript prop type still requires `text`, so this pattern needs a cast until the `Section` API is widened:
-
-```tsx
-<Section text={undefined as never}>
-  <Text plainText>Status</Text>
-  <Text>Ready</Text>
-</Section>
-```
+`children` still works as a backward-compatible alias for `fields`.
 
 ---
 

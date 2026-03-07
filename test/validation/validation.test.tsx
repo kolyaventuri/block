@@ -582,9 +582,7 @@ describe('section fields count', () => {
     expect(() =>
       render(
         <Message>
-          <Section text={undefined as unknown as JSX.Element}>
-            <Text>Field only</Text>
-          </Section>
+          <Section fields={<Text>Field only</Text>}/>
         </Message>,
         {validate: 'strict'},
       )).not.toThrow();
@@ -596,7 +594,7 @@ describe('section fields count', () => {
     expect(() =>
       render(
         <Message>
-          <Section text={undefined as unknown as JSX.Element}/>
+          <Section/>
         </Message>,
         {validate: 'warn'},
       )).not.toThrow();
@@ -609,7 +607,7 @@ describe('section fields count', () => {
     expect(() =>
       render(
         <Message>
-          <Section text={undefined as unknown as JSX.Element}/>
+          <Section/>
         </Message>,
         {validate: 'strict'},
       )).toThrow(SlackblockValidationError);
@@ -653,7 +651,7 @@ describe('section fields count', () => {
     try {
       render(
         <Message>
-          <Section text={undefined as unknown as JSX.Element}/>
+          <Section/>
         </Message>,
         {validate: 'strict'},
       );
