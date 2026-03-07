@@ -1,6 +1,6 @@
 import {type Element} from '../../constants/types';
 import {type Props as TextProps} from '../../components/block/text';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
 
 export type TextType = {
   type: 'plain_text' | 'mrkdwn';
@@ -14,9 +14,10 @@ const transformText = (element: Element): TextType => {
 
   const res: TextType = {
     type: plainText ? 'plain_text' : 'mrkdwn',
-    text: children,
+    text: children ?? '',
   };
 
+  requireField('text', children);
   if (typeof children === 'string') {
     warnIfTooLong('Text', children, 3000);
   }

@@ -1,7 +1,7 @@
 import {type Element, type SerializedInteractiveBlockElement, type InteractiveBlockElement} from '../../constants/types';
 import {type Props as ActionProperties} from '../../components/layout/actions';
 import {transform} from '../transform';
-import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
+import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {MAX_BLOCK_ID_LENGTH, MAX_ACTIONS_ELEMENTS} from '../../constants/limits';
 
 export type ActionType = {
@@ -15,10 +15,8 @@ const transformActions = (child: Element): ActionType => {
 
   warnIfTooLong('block_id', blockId, MAX_BLOCK_ID_LENGTH);
 
-  let elements = children;
-  if (!Array.isArray(elements)) {
-    elements = [elements] as InteractiveBlockElement[];
-  }
+  const elements: InteractiveBlockElement[] = children ? (Array.isArray(children) ? children : [children]) : [];
+  requireField('elements', elements);
 
   const res: ActionType = {
     type: 'actions',

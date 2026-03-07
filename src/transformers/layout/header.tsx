@@ -22,7 +22,7 @@ const transformHeader = (child: Element): HeaderType => {
 
   const res: HeaderType = {
     type: 'header',
-    text: transform(<Text plainText emoji={emoji}>{text}</Text>) as TextType,
+    text: transform(<Text plainText emoji={emoji}>{text ?? ''}</Text>) as TextType,
   };
 
   if (blockId) {

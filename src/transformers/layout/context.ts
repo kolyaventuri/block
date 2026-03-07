@@ -3,11 +3,10 @@ import {type Props as ContextProperties, type ImageOrText as ImageOrTextElement}
 import {type TextType} from '../block/text';
 import {type ImageType} from '../block/image';
 import {transform} from '../transform';
-import {warnIfTooLong, warnIfTooMany} from '../../utils/validation';
+import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {MAX_BLOCK_ID_LENGTH, MAX_CONTEXT_ELEMENTS} from '../../constants/limits';
 
 type ImageOrText = ImageType | TextType;
-type ImageOrTextElementSet = ImageOrTextElement | ImageOrTextElement[];
 
 export type ContextType = {
   type: 'context';
@@ -20,10 +19,8 @@ const transformContext = (child: Element): ContextType => {
 
   warnIfTooLong('block_id', blockId, MAX_BLOCK_ID_LENGTH);
 
-  let elements = children as ImageOrTextElementSet;
-  if (!Array.isArray(elements)) {
-    elements = [elements] as ImageOrTextElement[];
-  }
+  const elements: ImageOrTextElement[] = children ? (Array.isArray(children) ? children : [children]) : [];
+  requireField('elements', elements);
 
   const res: ContextType = {
     type: 'context',
