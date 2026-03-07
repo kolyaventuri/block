@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "jsx": "react-jsx",
+    "jsxImportSource": "slackblock",
+    "noEmit": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*"]
+}
