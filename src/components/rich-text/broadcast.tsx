@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 import {type RichTextBroadcastRange} from './types';
 
@@ -13,7 +14,7 @@ export type Props = {
  * <RichTextBroadcast range="here" />
  * ```
  */
-export default class RichTextBroadcast {
+export default class RichTextBroadcast extends SlackComponent {
   static slackType = 'RichTextBroadcast';
   declare props: Props;
 }

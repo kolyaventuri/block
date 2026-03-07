@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   actionId: string;
@@ -18,7 +19,7 @@ export type Props = {
  * } />
  * ```
  */
-export default class DateTimePicker {
+export default class DateTimePicker extends SlackComponent {
   static slackType = 'DateTimePicker';
   declare props: Props;
 }

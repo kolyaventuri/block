@@ -1,12 +1,12 @@
-
-import {type BlockElement} from '../../constants/types';
+import {SlackComponent} from '../base';
+import {type BlockElement, type TextElement} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
-type TextElement = JSX.Element | string;
-type FieldElement = JSX.Element | string;
+type SectionTextValue = TextElement | string;
+type FieldElement = TextElement | string;
 
 export type Props = {
-  text?: TextElement;
+  text?: SectionTextValue;
   // eslint-disable-next-line @typescript-eslint/no-restricted-types -- We actually want to handle null fields
   fields?: SingleOrArray<FieldElement | null | undefined | false>;
   blockId?: string;
@@ -40,7 +40,7 @@ export type Props = {
  * <Section expand fields={<Text>Status</Text>} />
  * ```
  */
-export default class Section {
+export default class Section extends SlackComponent {
   static slackType = 'Section';
   declare props: Props;
 }

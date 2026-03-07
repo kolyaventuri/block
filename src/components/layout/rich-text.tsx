@@ -1,11 +1,12 @@
-
+import {SlackComponent} from '../base';
+import {type RichTextBlockChild} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export type RichTextElement = Record<string, unknown>;
 
 export type Props = {
   elements?: RichTextElement[];
-  children?: SingleOrArray<JSX.Element | string>;
+  children?: SingleOrArray<RichTextBlockChild>;
   blockId?: string;
 };
 
@@ -25,7 +26,7 @@ export type Props = {
  * </RichText>
  * ```
  */
-export default class RichText {
+export default class RichText extends SlackComponent {
   static slackType = 'RichText';
   declare props: Props;
 }

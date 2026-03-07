@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   externalId: string;
@@ -12,7 +13,7 @@ export type Props = {
  * <File externalId="my-report-id" />
  * ```
  */
-export default class File {
+export default class File extends SlackComponent {
   static slackType = 'File';
   declare props: Props;
 }

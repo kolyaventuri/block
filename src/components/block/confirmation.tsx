@@ -1,3 +1,5 @@
+import {SlackComponent} from '../base';
+import {type TextElement} from '../../constants/types';
 
 type TopProperties = {
   title: string;
@@ -7,7 +9,7 @@ type TopProperties = {
 
 /* This is a dumb workaround to merging props */
 export type ConfirmationProps = TopProperties & {
-  children: JSX.Element;
+  children: TextElement;
 };
 
 type Properties = ConfirmationProps;
@@ -29,7 +31,7 @@ type Properties = ConfirmationProps;
  * <Button actionId="delete" confirm={dialog} style="danger">Delete</Button>
  * ```
  */
-export default class Confirmation {
+export default class Confirmation extends SlackComponent {
   static slackType = 'Confirmation';
   declare props: Properties;
 }

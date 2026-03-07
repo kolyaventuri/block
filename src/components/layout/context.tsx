@@ -1,5 +1,7 @@
+import {SlackComponent} from '../base';
+import {type ContextElement} from '../../constants/types';
 
-export type ImageOrText = JSX.Element;
+export type ImageOrText = ContextElement;
 
 export type Props = {
   children: ImageOrText | ImageOrText[];
@@ -19,7 +21,7 @@ export type Props = {
  * </Context>
  * ```
  */
-export default class Context {
+export default class Context extends SlackComponent {
   static slackType = 'Context';
   declare props: Props;
 }

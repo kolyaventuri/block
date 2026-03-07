@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 import {type RichTextStyle} from './types';
 
@@ -17,7 +18,7 @@ export type Props = {
  * <RichTextText style={{ code: true }}>inline code</RichTextText>
  * ```
  */
-export default class RichTextText {
+export default class RichTextText extends SlackComponent {
   static slackType = 'RichTextText';
   declare props: Props;
 }

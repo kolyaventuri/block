@@ -2,7 +2,7 @@
 import {type Element, type SerializedInputBlockElement} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {type Props as InputProperties} from '../../components/layout/input';
-import {transform} from '../transform';
+import {transform, transformOptional} from '../transform';
 import Text from '../../components/block/text';
 import {warnIfTooLong, requireField} from '../../utils/validation';
 import {MAX_BLOCK_ID_LENGTH, MAX_INPUT_HINT, MAX_INPUT_LABEL} from '../../constants/limits';
@@ -19,7 +19,7 @@ export type InputType = {
 const transformInput = (child: Element): InputType => {
   const {label, element, hint, optional, blockId} = child.props as InputProperties;
   const resolvedElement: SerializedInputBlockElement = element
-    ? transform(element as Element) as SerializedInputBlockElement
+    ? transformOptional<SerializedInputBlockElement>(element as Element) ?? {type: 'plain_text_input', action_id: ''}
     : {type: 'plain_text_input', action_id: ''};
 
   requireField('label', label);

@@ -1,6 +1,6 @@
 
 import {type Element} from '../../constants/types';
-import {transform} from '../transform';
+import {transform, transformOptional} from '../transform';
 import {type ConfirmationProps} from '../../components/block/confirmation';
 import Text from '../../components/block/text';
 import {warnIfTooLong, requireField} from '../../utils/validation';
@@ -25,7 +25,7 @@ const transformConfirmation = (child: Element): ConfirmationType => {
   warnIfTooLong('Confirm title', title, MAX_CONFIRM_TITLE);
   warnIfTooLong('Confirm confirm', confirm, MAX_CONFIRM_BUTTON_TEXT);
   warnIfTooLong('Confirm deny', deny, MAX_CONFIRM_BUTTON_TEXT);
-  const text = transform(children ?? <Text plainText>{''}</Text>) as TextType;
+  const text = transformOptional<TextType>(children ?? <Text plainText>{''}</Text>) ?? transform(<Text plainText>{''}</Text>) as TextType;
   warnIfTooLong('Confirm text', text.text, MAX_CONFIRM_TEXT);
 
   const res: ConfirmationType = {

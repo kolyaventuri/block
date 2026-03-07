@@ -1,5 +1,5 @@
 import {type Element} from '../../constants/types';
-import {transform} from '../transform';
+import {transformOptional} from '../transform';
 
 type RichTextChild = Element | string;
 
@@ -27,27 +27,41 @@ const normalizeRichTextChildren = (children: unknown): RichTextChild[] => {
 
 export const toInlineElements = (children: unknown): Array<Record<string, unknown>> => {
   const items = normalizeRichTextChildren(children);
+  const elements: Array<Record<string, unknown>> = [];
 
-  return items.map(item => {
+  for (const item of items) {
     if (typeof item === 'string') {
-      return {type: 'text', text: item};
+      elements.push({type: 'text', text: item});
+      continue;
     }
 
-    return transform(item) as Record<string, unknown>;
-  });
+    const transformed = transformOptional<Record<string, unknown>>(item);
+    if (transformed) {
+      elements.push(transformed);
+    }
+  }
+
+  return elements;
 };
 
 export const toBlockElements = (children: unknown): Array<Record<string, unknown>> => {
   const items = normalizeRichTextChildren(children);
+  const elements: Array<Record<string, unknown>> = [];
 
-  return items.map(item => {
+  for (const item of items) {
     if (typeof item === 'string') {
-      return {
+      elements.push({
         type: 'rich_text_section',
         elements: [{type: 'text', text: item}],
-      };
+      });
+      continue;
     }
 
-    return transform(item) as Record<string, unknown>;
-  });
+    const transformed = transformOptional<Record<string, unknown>>(item);
+    if (transformed) {
+      elements.push(transformed);
+    }
+  }
+
+  return elements;
 };

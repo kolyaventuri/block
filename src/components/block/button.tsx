@@ -1,3 +1,5 @@
+import {SlackComponent} from '../base';
+import {type ConfirmationElement} from '../../constants/types';
 
 type TopProperties = {
   children: string;
@@ -9,7 +11,7 @@ type TopProperties = {
 };
 
 export type ButtonProps = TopProperties & {
-  confirm?: JSX.Element;
+  confirm?: ConfirmationElement;
 };
 
 type Properties = ButtonProps;
@@ -25,7 +27,7 @@ type Properties = ButtonProps;
  * <Button actionId="docs" url="https://example.com">View docs</Button>
  * ```
  */
-export default class Button {
+export default class Button extends SlackComponent {
   static slackType = 'Button';
   declare props: Properties;
 }

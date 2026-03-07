@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   title: string;
@@ -26,7 +27,7 @@ export type Props = {
  * />
  * ```
  */
-export default class Video {
+export default class Video extends SlackComponent {
   static slackType = 'Video';
   declare props: Props;
 }

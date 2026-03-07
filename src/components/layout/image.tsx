@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   url: string;
@@ -22,7 +23,7 @@ export type Props = {
  * />
  * ```
  */
-export default class Image {
+export default class Image extends SlackComponent {
   static slackType = 'ImageLayout';
   declare props: Props;
 }

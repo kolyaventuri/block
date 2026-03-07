@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   children: string;
@@ -16,7 +17,7 @@ export type Props = {
  * <Option value="opt_a" description="The first option">Option A</Option>
  * ```
  */
-export default class Option {
+export default class Option extends SlackComponent {
   static slackType = 'Option';
   declare props: Props;
 }

@@ -6,6 +6,7 @@ import {
   vi,
 } from 'vitest';
 
+import {SlackComponent} from '../../src/components/base';
 import {initContext} from '../../src/utils/validation-context';
 import {SlackblockValidationError} from '../../src/errors';
 import parser from '../../src/parser';
@@ -40,8 +41,9 @@ test('it returns a basic message if the child is just a string', () => {
   expect(result).toEqual(expected);
 });
 
-function Foo() {
-  return <p>Test</p>;
+class Foo extends SlackComponent {
+  static slackType = 'Foo';
+  declare props: Record<string, unknown>;
 }
 
 test('it passes the item to the right transformer', () => {

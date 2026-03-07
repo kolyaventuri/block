@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as OverflowProperties} from '../../components/input/overflow';
 import {type ConfirmationType} from '../block/confirmation';
-import {transform} from '../transform';
+import {transformElements, transformOptional} from '../transform';
 import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {MAX_ACTION_ID_LENGTH, MAX_OVERFLOW_OPTIONS} from '../../constants/limits';
 
@@ -25,13 +25,16 @@ const transformOverflow = (child: Element): OverflowType => {
   const res: OverflowType = {
     type: 'overflow',
     action_id: actionId,
-    options: elements.map(element => transform(element as Element)) as OptionType[],
+    options: transformElements<OptionType>(elements as Element[]),
   };
 
   warnIfTooMany('Overflow options', res.options, MAX_OVERFLOW_OPTIONS);
 
   if (confirm) {
-    res.confirm = transform(confirm as Element) as ConfirmationType;
+    const transformedConfirm = transformOptional<ConfirmationType>(confirm as Element);
+    if (transformedConfirm) {
+      res.confirm = transformedConfirm;
+    }
   }
 
   return res;

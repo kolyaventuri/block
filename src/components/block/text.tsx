@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   children: string;
@@ -18,7 +19,7 @@ export type Props = {
  * <Text plainText emoji>Hello :wave:</Text>
  * ```
  */
-export default class Text {
+export default class Text extends SlackComponent {
   static slackType = 'Text';
   declare props: Props;
 }

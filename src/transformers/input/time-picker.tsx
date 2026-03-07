@@ -3,7 +3,7 @@ import {type Element} from '../../constants/types';
 import {type TextType} from '../block/text';
 import {type ConfirmationType} from '../block/confirmation';
 import {type Props as TimePickerProperties} from '../../components/input/time-picker';
-import {transform} from '../transform';
+import {transform, transformOptional} from '../transform';
 import Text from '../../components/block/text';
 import {warnIfTooLong, requireField} from '../../utils/validation';
 import {report} from '../../utils/validation-context';
@@ -62,7 +62,10 @@ const transformTimePicker = (child: Element): TimePickerType => {
   }
 
   if (confirm) {
-    res.confirm = transform(confirm as Element) as ConfirmationType;
+    const transformedConfirm = transformOptional<ConfirmationType>(confirm as Element);
+    if (transformedConfirm) {
+      res.confirm = transformedConfirm;
+    }
   }
 
   if (focusOnLoad !== undefined) {
