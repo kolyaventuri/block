@@ -1,5 +1,5 @@
 import {SlackComponent} from '../base';
-import {type ConfirmationElement, type OptionElement, type OptionGroupElement} from '../../constants/types';
+import {type ConfirmationElement, type OptionElement} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export const selectTypes = {
