@@ -129,7 +129,9 @@ const blocks = renderToBlocks(
 
 ### `blockKitBuilderUrl(blocks)`
 
-Returns a [Block Kit Builder](https://app.slack.com/block-kit-builder) URL for the given blocks. Open it in a browser to preview layout and interactivity during development.
+Development helper that returns a [Block Kit Builder](https://app.slack.com/block-kit-builder) URL for the given blocks. Open it in a browser to preview layout and interactivity while working on a payload.
+
+Because the payload is encoded into the URL fragment, very large payloads can produce impractically long URLs. Treat it as a debugging convenience, not a transport format.
 
 ```ts
 import { renderToBlocks, blockKitBuilderUrl } from 'slackblock';
@@ -141,7 +143,7 @@ console.log(blockKitBuilderUrl(blocks));
 
 ### `escapeMrkdwn(text)`
 
-Escapes Slack mrkdwn special characters (`*`, `_`, `~`, `` ` ``, `>`, `&`, `<`, `>`) in a string. Use this when inserting untrusted user content into a mrkdwn text field.
+Escapes Slack mrkdwn special characters in a string. Use it when inserting untrusted user content into mrkdwn text. SlackBlock does not automatically escape every string for you.
 
 ```ts
 import { escapeMrkdwn } from 'slackblock';
@@ -167,43 +169,48 @@ See [docs/validation.md](docs/validation.md) for details.
 
 ## Validation
 
-SlackBlock validates your message against Slack's documented limits and required fields. The `validate` option controls what happens when a violation is detected:
+SlackBlock validates the supported surface against required fields, documented limits, supported format checks, and a small number of structural rules.
 
 | Mode | Behavior |
-|------|----------|
-| `'warn'` (default) | Logs a warning to `console.warn`; rendering continues |
-| `'strict'` | Throws a `SlackblockValidationError` |
-| `'off'` | No validation |
+|---|---|
+| `'warn'` (default) | Logs a warning and continues rendering |
+| `'strict'` | Throws `SlackblockValidationError` |
+| `'off'` | Skips validation entirely |
 
 ```tsx
-// Throw on any violation — recommended for tests
-const message = render(<Message>...</Message>, { validate: 'strict' });
+const message = render(<Message>...</Message>, {validate: 'strict'});
 ```
+
+`SlackblockValidationError` exposes a stable contract: `message`, `path`, `rule`, optional `subcode`, optional `component`, optional `field`, and the normalized `issue` object.
+
+See [docs/validation.md](docs/validation.md) for mode guidance, the error contract, rule categories, and common failures.
+
+---
+
+## Security And Escaping
+
+Slack `mrkdwn` is not plain text, and `<Text>` defaults to mrkdwn. SlackBlock does not automatically escape every string you pass into mrkdwn-capable content.
+
+Use `escapeMrkdwn()` for untrusted or user-generated values:
 
 ```ts
-import { SlackblockValidationError } from 'slackblock';
-
-try {
-  render(<Message>...</Message>, { validate: 'strict' });
-} catch (err) {
-  if (err instanceof SlackblockValidationError) {
-    console.error(err.message); // "Message > Header: Header text exceeds 150 characters."
-    console.error(err.path);    // "Message > Header"
-    console.error(err.rule);    // "too-long"
-    console.error(err.subcode); // "value-too-long"
-  }
-}
+const safe = escapeMrkdwn(userInput);
 ```
 
-Strict mode now catches missing required props and structural gaps across the supported surface, including:
-- missing `actionId` on interactive elements like `TextInput` and `Overflow`
-- missing `externalId` on `<File>`
-- missing `url` / `alt` on `<Image>` and `<ImageLayout>`
-- missing `label` / `element` on `<Input>`
-- incomplete `<Confirmation>` dialogs
-- `<Section>` blocks with neither primary text nor fields
+Use `plainText` when you want Slack `plain_text` semantics instead of mrkdwn formatting. See [docs/security.md](docs/security.md) for the full guidance.
 
-See [docs/validation.md](docs/validation.md) for the stable rule categories and current subcodes.
+---
+
+## Known Differences From Slack
+
+SlackBlock intentionally differs from raw Slack JSON in a few places:
+- it supports an explicit subset of Block Kit rather than the entire Slack surface
+- it uses JSX with `camelCase` props instead of raw `snake_case` JSON
+- `<Text>` defaults to `mrkdwn`, so untrusted text must be escaped explicitly
+- `validate: 'warn'` is the default; invalid input does not always throw
+- `Message.color` uses a legacy attachment wrapper for colored sidebars
+
+See [docs/known-differences.md](docs/known-differences.md) for the longer reference.
 
 ---
 
@@ -277,6 +284,8 @@ If a block, element, or composition object is not listed as `Supported` in the s
 - [Support matrix](docs/support-matrix.md) — current Block Kit coverage
 - [Roadmap](docs/roadmap.md) — tracked gaps and likely next additions
 - [Validation guide](docs/validation.md) — validation modes and error handling
+- [Security and escaping](docs/security.md) — handling untrusted text safely
+- [Known differences](docs/known-differences.md) — behavior that differs from raw Slack JSON
 - [Migrating from jsx-slack](docs/migrating-from-jsx-slack.md)
 - [Migrating from slack-block-builder](docs/migrating-from-slack-block-builder.md)
 - [Slack Block Kit reference](https://api.slack.com/block-kit)

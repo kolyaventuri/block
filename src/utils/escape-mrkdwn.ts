@@ -1,6 +1,7 @@
 /**
  * Escapes Slack mrkdwn special characters in a string to prevent unintended
- * formatting. Use this when inserting untrusted user content into mrkdwn fields.
+ * formatting. Use this for untrusted content that will be inserted into mrkdwn
+ * fields. SlackBlock does not automatically escape every string for you.
  *
  * Escapes: `&` `<` `>` `*` `_` `~` `` ` ``
  *

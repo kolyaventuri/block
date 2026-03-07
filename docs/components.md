@@ -297,6 +297,8 @@ Elements used as props or inside other blocks (not standalone blocks).
 
 Renders a mrkdwn or plain_text text object. Used as the `text` prop on `<Section>`, in `<Context>`, and other places.
 
+`<Text>` defaults to Slack `mrkdwn`. Escape untrusted content with `escapeMrkdwn()` or use `plainText` when you need literal `plain_text` behavior. See [security.md](./security.md).
+
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `children` | `string` | Yes | The text content |
