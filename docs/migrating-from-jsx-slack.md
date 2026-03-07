@@ -91,13 +91,17 @@ const blocks = renderToBlocks(<Section text={<Text>Hello</Text>} />);
 
 **slackblock** separates concerns explicitly:
 - `text` prop for the primary text (a `<Text>` element with mrkdwn)
-- Children of `<Section>` become fields
+- `fields` prop or children for section fields
 
 ```tsx
 <Section text={<Text>Hello *world*</Text>}>
   <Text>Field A</Text>
   <Text>Field B</Text>
 </Section>
+
+<Section
+  text="Hello *world*"
+  fields={[<Text>Field A</Text>, <Text>Field B</Text>]}/>
 ```
 
 ---

@@ -17,7 +17,7 @@ Internal implementation checklist for the currently supported SlackBlock surface
 | `ImageLayout` | `url`, `alt` | — | `url` 3,000, `alt` 2,000, `title` 2,000, `blockId` 255 | — | — |
 | `Input` | `label`, `element` | — | `label` 2,000, `hint` 2,000, `blockId` 255 | — | — |
 | `RichText` | `elements` | `elements` prop or rich-text children | `blockId` 255 | — | — |
-| `Section` | — | `text` or non-empty `fields` | `blockId` 255, field text 2,000 | `fields` max 10 | — |
+| `Section` | — | `text` or non-empty `fields` | `blockId` 255, field text 2,000 | `fields` max 10 | `expand` serializes when provided |
 | `Video` | `title`, `videoUrl`, `thumbnailUrl`, `altText` | — | `title` 200, `description` 200, `authorName` 50, `blockId` 255 | — | — |
 | `TextInput` | `actionId` | — | `actionId` 255, `placeholder` 150 | — | — |
 | `DatePicker` | `actionId` | — | `actionId` 255, `placeholder` 150 | — | `initialDate` must be `YYYY-MM-DD` |
