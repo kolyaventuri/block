@@ -146,15 +146,13 @@ Blocks.Section()
 **slackblock:**
 ```tsx
 <Section
-  text={<Text>Primary text</Text>}
+  text="Primary text"
+  fields={[<Text>Field one</Text>, <Text>Field two</Text>]}
   accessory={<Button actionId="btn">Click</Button>}
->
-  <Text>Field one</Text>
-  <Text>Field two</Text>
-</Section>
+/>
 ```
 
-Fields are passed as children of `<Section>`.
+Fields can be passed via the `fields` prop or as children of `<Section>`.
 
 ---
 

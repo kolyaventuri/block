@@ -8,6 +8,7 @@ import {
 
 import render, {
   type RenderOptions,
+  type ValidationIssue,
   SlackblockValidationError,
   escapeMrkdwn,
 } from '../../src';
@@ -15,11 +16,19 @@ import Message from '../../src/components/message';
 import Header from '../../src/components/layout/header';
 import Actions from '../../src/components/layout/actions';
 import Button from '../../src/components/block/button';
+import Confirmation from '../../src/components/block/confirmation';
+import Image from '../../src/components/block/image';
 import DatePicker from '../../src/components/input/date-picker';
 import TimePicker from '../../src/components/input/time-picker';
 import Option from '../../src/components/input/option';
+import Overflow from '../../src/components/input/overflow';
 import Select from '../../src/components/input/select';
+import TextInput from '../../src/components/input/text';
+import Checkboxes from '../../src/components/input/checkboxes';
 import Section from '../../src/components/layout/section';
+import File from '../../src/components/layout/file';
+import ImageLayout from '../../src/components/layout/image';
+import Input from '../../src/components/layout/input';
 import Text from '../../src/components/block/text';
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -67,6 +76,20 @@ describe('off mode', () => {
         </Message>,
         {validate: 'off'},
       )).not.toThrow();
+  });
+
+  test('does not call onValidation in off mode', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Header text={longHeaderText}/>
+        </Message>,
+        {validate: 'off', onValidation},
+      )).not.toThrow();
+
+    expect(onValidation).not.toHaveBeenCalled();
   });
 });
 
@@ -162,6 +185,53 @@ describe('warn mode', () => {
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[slackblock]'));
     consoleSpy.mockRestore();
   });
+
+  test('uses onValidation reporter instead of console.warn when provided', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Header text={longHeaderText}/>
+        </Message>,
+        {onValidation},
+      )).not.toThrow();
+
+    expect(onValidation).toHaveBeenCalledTimes(1);
+    expect(onValidation).toHaveBeenCalledWith(expect.objectContaining({
+      path: 'Message > Header',
+      rule: 'too-long',
+      subcode: 'value-too-long',
+      component: 'Header',
+    }));
+    expect(consoleSpy).not.toHaveBeenCalled();
+    consoleSpy.mockRestore();
+  });
+
+  test('passes normalized issues to onValidation reporter', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Actions>
+            {/* @ts-expect-error - intentionally omit actionId */}
+            <Button actionId={undefined}>Click</Button>
+          </Actions>
+        </Message>,
+        {validate: 'warn', onValidation},
+      )).not.toThrow();
+
+    expect(onValidation).toHaveBeenCalledWith(expect.objectContaining({
+      path: 'Message > Actions > Button',
+      rule: 'required-field',
+      subcode: 'action-id-required',
+      field: 'actionId',
+      component: 'Button',
+    }));
+    expect(consoleSpy).not.toHaveBeenCalled();
+    consoleSpy.mockRestore();
+  });
 });
 
 // ─── strict mode ────────────────────────────────────────────────────────────
@@ -215,7 +285,21 @@ describe('strict mode', () => {
       )).toThrow(SlackblockValidationError);
   });
 
-  test('error.rule is correct for length violation', () => {
+  test('does not call onValidation in strict mode', () => {
+    const onValidation = vi.fn<(issue: ValidationIssue) => void>();
+
+    expect(() =>
+      render(
+        <Message>
+          <Header text={longHeaderText}/>
+        </Message>,
+        {validate: 'strict', onValidation},
+      )).toThrow(SlackblockValidationError);
+
+    expect(onValidation).not.toHaveBeenCalled();
+  });
+
+  test('error.rule is normalized for length violation', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -232,10 +316,11 @@ describe('strict mode', () => {
     }
 
     expect(error_).toBeInstanceOf(SlackblockValidationError);
-    expect(error_?.rule).toBe('value-too-long');
+    expect(error_?.rule).toBe('too-long');
+    expect(error_?.subcode).toBe('value-too-long');
   });
 
-  test('error.rule is correct for count violation', () => {
+  test('error.rule is normalized for count violation', () => {
     const manyButtons = Array.from({length: 30}, (_, index) => (
       <Button actionId={`btn-${index}`}>Click</Button>
     ));
@@ -254,10 +339,11 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('too-many-items');
+    expect(error_?.rule).toBe('too-many');
+    expect(error_?.subcode).toBe('too-many-items');
   });
 
-  test('error.rule is correct for invalid date format', () => {
+  test('error.rule is normalized for invalid date format', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -275,10 +361,12 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('invalid-date-format');
+    expect(error_?.rule).toBe('invalid-format');
+    expect(error_?.subcode).toBe('invalid-date-format');
+    expect(error_?.field).toBe('initialDate');
   });
 
-  test('error.rule is correct for invalid time format', () => {
+  test('error.rule is normalized for invalid time format', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -296,10 +384,12 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('invalid-time-format');
+    expect(error_?.rule).toBe('invalid-format');
+    expect(error_?.subcode).toBe('invalid-time-format');
+    expect(error_?.field).toBe('initialTime');
   });
 
-  test('error.rule is correct for required field', () => {
+  test('error.rule is normalized for required fields', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -318,7 +408,10 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('action-id-required');
+    expect(error_?.rule).toBe('required-field');
+    expect(error_?.subcode).toBe('action-id-required');
+    expect(error_?.field).toBe('actionId');
+    expect(error_?.component).toBe('Button');
   });
 
   test('error.path includes component context', () => {
@@ -420,11 +513,182 @@ describe('strict mode', () => {
 
     expect(error_?.name).toBe('SlackblockValidationError');
   });
+
+  test('throws on missing text input actionId', () => {
+    expect(renderWith(
+      <Message>
+        <Input
+          label="Name"
+          element={
+            // @ts-expect-error - intentionally omit actionId
+            <TextInput actionId={undefined}/>
+          }
+        />
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing overflow actionId', () => {
+    expect(renderWith(
+      <Message>
+        <Actions>
+          {/* @ts-expect-error - intentionally omit actionId */}
+          <Overflow actionId={undefined}>
+            <Option value="edit">Edit</Option>
+          </Overflow>
+        </Actions>
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing file externalId', () => {
+    expect(renderWith(
+      <Message>
+        {/* @ts-expect-error - intentionally omit externalId */}
+        <File externalId={undefined}/>
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing image block url', () => {
+    expect(renderWith(
+      <Message>
+        {/* @ts-expect-error - intentionally omit url */}
+        <ImageLayout url={undefined} alt="Chart"/>
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing image element alt text', () => {
+    expect(renderWith(
+      <Message>
+        <Section
+          text={<Text>Hello</Text>}
+          accessory={
+            // @ts-expect-error - intentionally omit alt
+            <Image url="https://example.com/icon.png" alt={undefined}/>
+          }
+        />
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing input label', () => {
+    expect(renderWith(
+      <Message>
+        <Input
+          // @ts-expect-error - intentionally omit label
+          label={undefined}
+          element={<TextInput actionId="name"/>}
+        />
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing input element', () => {
+    expect(renderWith(
+      <Message>
+        <Input
+          label="Name"
+          // @ts-expect-error - intentionally omit element
+          element={undefined}
+        />
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing confirmation title', () => {
+    expect(renderWith(
+      <Message>
+        <Actions>
+          <Button
+            actionId="delete"
+            confirm={
+              <Confirmation
+                // @ts-expect-error - intentionally omit title
+                title={undefined}
+                confirm="Delete"
+                deny="Cancel"
+              >
+                <Text plainText>Delete it?</Text>
+              </Confirmation>
+            }
+          >
+            Delete
+          </Button>
+        </Actions>
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws on missing confirmation body text', () => {
+    expect(renderWith(
+      <Message>
+        <Actions>
+          <Button
+            actionId="delete"
+            confirm={
+              <Confirmation title="Confirm" confirm="Delete" deny="Cancel">
+                {/* @ts-expect-error - intentionally omit body text */}
+                {undefined}
+              </Confirmation>
+            }
+          >
+            Delete
+          </Button>
+        </Actions>
+      </Message>,
+      {validate: 'strict'},
+    )).toThrow(SlackblockValidationError);
+  });
 });
 
 // ─── section fields validation ───────────────────────────────────────────────
 
 describe('section fields count', () => {
+  test('allows fields-only sections', () => {
+    expect(() =>
+      render(
+        <Message>
+          <Section fields={<Text>Field only</Text>}/>
+        </Message>,
+        {validate: 'strict'},
+      )).not.toThrow();
+  });
+
+  test('warns when section is missing both text and fields', () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    expect(() =>
+      render(
+        <Message>
+          <Section/>
+        </Message>,
+        {validate: 'warn'},
+      )).not.toThrow();
+
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[slackblock]'));
+    consoleSpy.mockRestore();
+  });
+
+  test('throws in strict mode when section is missing both text and fields', () => {
+    expect(() =>
+      render(
+        <Message>
+          <Section/>
+        </Message>,
+        {validate: 'strict'},
+      )).toThrow(SlackblockValidationError);
+  });
+
   test('warns in warn mode when too many fields', () => {
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const fields = Array.from({length: 15}, (_, index) => (
@@ -452,6 +716,58 @@ describe('section fields count', () => {
       render(
         <Message>
           <Section text={<Text>Hello</Text>}>{fields}</Section>
+        </Message>,
+        {validate: 'strict'},
+      )).toThrow(SlackblockValidationError);
+  });
+
+  test('error.rule is normalized when section is missing both text and fields', () => {
+    let error_: SlackblockValidationError | undefined;
+
+    try {
+      render(
+        <Message>
+          <Section/>
+        </Message>,
+        {validate: 'strict'},
+      );
+    } catch (error) {
+      if (error instanceof SlackblockValidationError) {
+        error_ = error;
+      }
+    }
+
+    expect(error_?.rule).toBe('invalid-structure');
+    expect(error_?.subcode).toBe('text-or-fields-required');
+  });
+});
+
+describe('count validation gaps', () => {
+  test('throws in strict mode when overflow has too many options', () => {
+    const options = Array.from({length: 6}, (_, index) => (
+      <Option value={`value-${index}`}>{`Option ${index}`}</Option>
+    ));
+
+    expect(() =>
+      render(
+        <Message>
+          <Actions>
+            <Overflow actionId="more">{options}</Overflow>
+          </Actions>
+        </Message>,
+        {validate: 'strict'},
+      )).toThrow(SlackblockValidationError);
+  });
+
+  test('throws in strict mode when checkboxes exceed max options', () => {
+    const options = Array.from({length: 11}, (_, index) => (
+      <Option value={`value-${index}`}>{`Option ${index}`}</Option>
+    ));
+
+    expect(() =>
+      render(
+        <Message>
+          <Input label="Choices" element={<Checkboxes actionId="prefs">{options}</Checkboxes>}/>
         </Message>,
         {validate: 'strict'},
       )).toThrow(SlackblockValidationError);
@@ -505,7 +821,7 @@ describe('unknown-type rule', () => {
       )).toThrow(SlackblockValidationError);
   });
 
-  test('strict mode: error.rule is unknown-type', () => {
+  test('strict mode: error.rule is normalized for unknown components', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -521,7 +837,9 @@ describe('unknown-type rule', () => {
       }
     }
 
-    expect(error_?.rule).toBe('unknown-type');
+    expect(error_?.rule).toBe('unsupported-child');
+    expect(error_?.subcode).toBe('unknown-type');
+    expect(error_?.component).toBe('UnknownWidget');
   });
 
   test('warn mode: warns on unknown nested component and does not throw', () => {

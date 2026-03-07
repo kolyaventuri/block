@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Support matrix
+    url: https://github.com/kolyaventuri/block/blob/master/docs/support-matrix.md
+    about: Check the currently supported Slack Block Kit surface before filing a Slack surface request.
+  - name: Maintenance checklist
+    url: https://github.com/kolyaventuri/block/blob/master/docs/maintenance-checklist.md
+    about: Review the maintainer checklist for new Slack surface additions and semver guidance.

@@ -19,6 +19,7 @@ export type OptionType = {
 const transformOption = (child: Element): OptionType => {
   const {children: text, value, url, description} = child.props as OptionProperties;
 
+  requireField('text', text);
   requireField('value', value);
   warnIfTooLong('Option text', text, MAX_OPTION_TEXT);
   warnIfTooLong('Option value', value, MAX_OPTION_VALUE);
@@ -26,7 +27,7 @@ const transformOption = (child: Element): OptionType => {
   warnIfTooLong('Option url', url, MAX_OPTION_URL);
 
   const res: OptionType = {
-    text: transform(<Text plainText>{text}</Text>) as TextType,
+    text: transform(<Text plainText>{text ?? ''}</Text>) as TextType,
     value,
   };
 

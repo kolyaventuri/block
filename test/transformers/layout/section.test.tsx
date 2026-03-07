@@ -7,7 +7,7 @@ import transformer from '../../../src/transformers/layout/section';
 test('it transforms a basic Section component', () => {
   const element = (
     <Section
-      text={<Text>FooBar</Text>}
+      text="FooBar"
     />
   );
 
@@ -25,11 +25,11 @@ test('it transforms a basic Section component', () => {
 test('it transforms a more complex Section', () => {
   const res = transformer(<Section
     text={<Text>FooBar</Text>}
+    fields={<Text>OtherText</Text>}
     blockId="abc123"
     accessory={<Text>Accessory</Text>}
-  >
-    <Text>OtherText</Text>
-  </Section>);
+    expand
+  />);
 
   expect(res).toEqual({
     type: 'section',
@@ -48,6 +48,7 @@ test('it transforms a more complex Section', () => {
       type: 'mrkdwn',
       text: 'Accessory',
     },
+    expand: true,
   });
 });
 
@@ -67,6 +68,25 @@ test('it does not break if there is a null field', () => {
       type: 'mrkdwn',
       text: 'Foo',
     },
+    fields: [
+      {
+        type: 'mrkdwn',
+        text: 'More text',
+      },
+      {
+        type: 'mrkdwn',
+        text: 'Even more',
+      },
+    ],
+  });
+});
+
+test('it supports fields-only sections via the fields prop', () => {
+  const fields = [<Text>More text</Text>, null, <Text>Even more</Text>];
+  const res = transformer(<Section fields={fields}/>);
+
+  expect(res).toEqual({
+    type: 'section',
     fields: [
       {
         type: 'mrkdwn',

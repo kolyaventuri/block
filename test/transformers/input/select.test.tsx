@@ -244,11 +244,15 @@ test('applies min_query_length for external selects', () => {
 });
 
 test('applies focus_on_load for selects', () => {
+  const option = <Option value="v">O</Option>;
+
   const res = transformer(<Select
     placeholder="p"
     actionId="aid"
     focusOnLoad
-  />);
+  >
+    {option}
+  </Select>);
 
   expect(res).toEqual({
     type: 'static_select',
@@ -257,6 +261,7 @@ test('applies focus_on_load for selects', () => {
       text: 'p',
     },
     action_id: 'aid',
+    options: [optionTransformer(option)],
     focus_on_load: true,
   });
 });

@@ -6,8 +6,13 @@ import {type Props as SelectProperties, selectTypes} from '../../components/inpu
 import Text from '../../components/block/text';
 import {transform} from '../transform';
 import getType from '../../utils/get-type';
-import {warnIfTooLong, requireField} from '../../utils/validation';
-import {MAX_ACTION_ID_LENGTH, MAX_PLACEHOLDER_LENGTH} from '../../constants/limits';
+import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
+import {
+  MAX_ACTION_ID_LENGTH,
+  MAX_PLACEHOLDER_LENGTH,
+  MAX_SELECT_OPTIONS,
+  MAX_SELECT_OPTION_GROUPS,
+} from '../../constants/limits';
 
 import {type OptionGroupType} from './option-group';
 import {type OptionType} from './option';
@@ -89,6 +94,43 @@ const assignStaticOptions = (elements: JSX.Element[], result: SelectType): void 
     result.options = elements.map(element => transform(element as Element)) as OptionType[];
   } else if (elementType === OPTION_GROUP) {
     result.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
+  }
+};
+
+const applyConversationSettings = (
+  result: SelectType,
+  settings: Pick<SelectProperties, 'defaultToCurrentConversation' | 'responseUrlEnabled' | 'filter'>,
+): void => {
+  const {defaultToCurrentConversation, responseUrlEnabled, filter} = settings;
+
+  if (defaultToCurrentConversation !== undefined) {
+    result.default_to_current_conversation = defaultToCurrentConversation;
+  }
+
+  if (responseUrlEnabled !== undefined) {
+    result.response_url_enabled = responseUrlEnabled;
+  }
+
+  if (!filter) {
+    return;
+  }
+
+  const filterValue: SelectType['filter'] = {};
+
+  if (filter.include && filter.include.length > 0) {
+    filterValue.include = filter.include;
+  }
+
+  if (filter.excludeExternalSharedChannels !== undefined) {
+    filterValue.exclude_external_shared_channels = filter.excludeExternalSharedChannels;
+  }
+
+  if (filter.excludeBotUsers !== undefined) {
+    filterValue.exclude_bot_users = filter.excludeBotUsers;
+  }
+
+  if (Object.keys(filterValue).length > 0) {
+    result.filter = filterValue;
   }
 };
 
@@ -189,14 +231,18 @@ const transformSelect = (child: Element): SelectType => {
 
   const result: SelectType = {
     type: typeString,
-    placeholder: transform(<Text plainText>{placeholder}</Text>) as TextType,
+    placeholder: transform(<Text plainText>{placeholder ?? ''}</Text>) as TextType,
     action_id: actionId,
   };
 
   const elements = normalizeElements(children);
 
   if (type === selectTypes.STATIC) {
-    assignStaticOptions(elements, result);
+    requireField('options', elements);
+
+    if (elements.length > 0) {
+      assignStaticOptions(elements, result);
+    }
   }
 
   if (confirm) {
@@ -223,33 +269,15 @@ const transformSelect = (child: Element): SelectType => {
   }
 
   if (type === selectTypes.CONVERSATION) {
-    if (defaultToCurrentConversation !== undefined) {
-      result.default_to_current_conversation = defaultToCurrentConversation;
-    }
+    applyConversationSettings(result, {defaultToCurrentConversation, responseUrlEnabled, filter});
+  }
 
-    if (responseUrlEnabled !== undefined) {
-      result.response_url_enabled = responseUrlEnabled;
-    }
+  if (result.options) {
+    warnIfTooMany('Select options', result.options, MAX_SELECT_OPTIONS);
+  }
 
-    if (filter) {
-      const filterValue: SelectType['filter'] = {};
-
-      if (filter.include && filter.include.length > 0) {
-        filterValue.include = filter.include;
-      }
-
-      if (filter.excludeExternalSharedChannels !== undefined) {
-        filterValue.exclude_external_shared_channels = filter.excludeExternalSharedChannels;
-      }
-
-      if (filter.excludeBotUsers !== undefined) {
-        filterValue.exclude_bot_users = filter.excludeBotUsers;
-      }
-
-      if (Object.keys(filterValue).length > 0) {
-        result.filter = filterValue;
-      }
-    }
+  if (result.option_groups) {
+    warnIfTooMany('Select option_groups', result.option_groups, MAX_SELECT_OPTION_GROUPS);
   }
 
   return result;

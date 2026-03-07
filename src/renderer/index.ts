@@ -7,7 +7,7 @@ import parser from '../parser';
 import getType from '../utils/get-type';
 import {warnIfTooMany, warnIfTooLong} from '../utils/validation';
 import {
-  initContext, pushPath, popPath, type ValidationMode,
+  initContext, pushPath, popPath, type ValidationMode, type ValidationReporter,
 } from '../utils/validation-context';
 import {MAX_BLOCKS, MAX_MESSAGE_TEXT, RECOMMENDED_MESSAGE_TEXT} from '../constants/limits';
 
@@ -18,13 +18,21 @@ import {MAX_BLOCKS, MAX_MESSAGE_TEXT, RECOMMENDED_MESSAGE_TEXT} from '../constan
  *   - `'warn'`   — log warnings via `console.warn` (default)
  *   - `'strict'` — throw `SlackblockValidationError` on any violation
  *   - `'off'`    — disable validation entirely
+ * @property onValidation - Optional warn-mode hook. When provided alongside
+ *   warn mode, SlackBlock calls this reporter with the normalized issue
+ *   instead of writing to `console.warn`.
  * @property channel - When provided, the result includes `channel` and is typed
  *   as `SlackPostMessagePayload` (directly usable with `chat.postMessage`).
  * @property user - When provided alongside `channel`, the result is typed as
  *   `SlackPostEphemeralPayload` (directly usable with `chat.postEphemeral`).
  *   Has no effect without `channel`.
  */
-export type RenderOptions = {validate?: ValidationMode; channel?: string; user?: string};
+export type RenderOptions = {
+  validate?: ValidationMode;
+  onValidation?: ValidationReporter;
+  channel?: string;
+  user?: string;
+};
 
 /**
  * Renders JSX children directly to a `Block[]` array, without requiring a
@@ -32,7 +40,7 @@ export type RenderOptions = {validate?: ValidationMode; channel?: string; user?:
  * accept a blocks array rather than a full message payload.
  */
 export const renderToBlocks = (element: Child, options?: RenderOptions): Block[] => {
-  initContext(options?.validate ?? 'warn');
+  initContext(options?.validate ?? 'warn', options?.onValidation);
   // Unwrap top-level fragments so the parser receives their children directly.
   const child: Child
     = typeof element === 'object'
@@ -104,7 +112,7 @@ function render(element: Element, options: RenderOptions & {channel: string; use
 function render(element: Element, options: RenderOptions & {channel: string}): SlackPostMessagePayload;
 function render(element: Element, options?: RenderOptions): BoltCompatiblePayload;
 function render(element: Element, options?: RenderOptions): SlackMessageDraft {
-  initContext(options?.validate ?? 'warn');
+  initContext(options?.validate ?? 'warn', options?.onValidation);
 
   const properties = element.props as MessageProperties;
 

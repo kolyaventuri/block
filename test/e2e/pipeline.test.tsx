@@ -70,6 +70,54 @@ describe('e2e pipeline: basic layout blocks', () => {
     });
   });
 
+  test('renders a Section with explicit fields and expand', () => {
+    const fields = [
+      <Text plainText>Field A</Text>,
+      <Text plainText>Field B</Text>,
+    ];
+
+    const result = render(<Message text="Hello">
+      <Section
+        text="Hello *Block Kit*."
+        fields={fields}
+        expand
+      />
+    </Message>);
+
+    expect(result).toEqual({
+      text: 'Hello',
+      blocks: [
+        {
+          type: 'section',
+          text: {type: 'mrkdwn', text: 'Hello *Block Kit*.'},
+          fields: [
+            {type: 'plain_text', text: 'Field A'},
+            {type: 'plain_text', text: 'Field B'},
+          ],
+          expand: true,
+        },
+      ],
+    });
+  });
+
+  test('renders a Section with fields only', () => {
+    const result = render(<Message text="Hello">
+      <Section fields={<Text plainText>Status</Text>}/>
+    </Message>);
+
+    expect(result).toEqual({
+      text: 'Hello',
+      blocks: [
+        {
+          type: 'section',
+          fields: [
+            {type: 'plain_text', text: 'Status'},
+          ],
+        },
+      ],
+    });
+  });
+
   test('renders Header, Divider, and Context', () => {
     const result = render(<Message>
       <Header text="My Header" emoji/>

@@ -43,7 +43,12 @@ const parseChildren = (children: Child): ParsedMessage => {
         popPath();
       }
     } else if (type !== 'null') {
-      report(`No transformer for component type '${type}'.`, 'unknown-type');
+      report({
+        message: `No transformer for component type '${type}'.`,
+        rule: 'unsupported-child',
+        subcode: 'unknown-type',
+        component: type,
+      });
     }
   }
 

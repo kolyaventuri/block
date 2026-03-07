@@ -4,7 +4,7 @@ import {type TextType} from '../block/text';
 import {type Props as ImageProperties} from '../../components/layout/image';
 import {transform} from '../transform';
 import Text from '../../components/block/text';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
 import {
   MAX_IMAGE_URL, MAX_IMAGE_ALT_TEXT, MAX_IMAGE_TITLE, MAX_BLOCK_ID_LENGTH,
 } from '../../constants/limits';
@@ -20,14 +20,16 @@ export type ImageType = {
 const transformImageLayout = (child: Element): ImageType => {
   const {url, alt, title, blockId} = child.props as ImageProperties;
 
+  requireField('url', url);
+  requireField('alt', alt);
   warnIfTooLong('Image image_url', url, MAX_IMAGE_URL);
   warnIfTooLong('Image alt_text', alt, MAX_IMAGE_ALT_TEXT);
   warnIfTooLong('block_id', blockId, MAX_BLOCK_ID_LENGTH);
 
   const res: ImageType = {
     type: 'image',
-    image_url: url,
-    alt_text: alt,
+    image_url: url ?? '',
+    alt_text: alt ?? '',
   };
 
   if (title) {

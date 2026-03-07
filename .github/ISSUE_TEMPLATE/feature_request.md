@@ -1,8 +1,10 @@
 ---
 name: Feature request
-about: Suggest a new block, element, or API improvement
+about: Suggest a general API improvement or non-surface enhancement
 labels: enhancement
 ---
+
+<!-- For missing or outdated Slack Block Kit support, use the "Slack surface request" template instead. -->
 
 ## What problem does this solve?
 

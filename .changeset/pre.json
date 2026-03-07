@@ -1,0 +1,10 @@
+{
+  "mode": "exit",
+  "tag": "beta",
+  "initialVersions": {
+    "slackblock": "2.0.0"
+  },
+  "changesets": [
+    "fiery-seals-smile"
+  ]
+}
