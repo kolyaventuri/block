@@ -58,7 +58,12 @@ const transformDatePicker = (child: Element): DatePickerType => {
 
   if (initialDate) {
     if (!isValidDateString(initialDate)) {
-      report('Date must be valid and in format YYYY-MM-DD.', 'invalid-date-format');
+      report({
+        message: 'Date must be valid and in format YYYY-MM-DD.',
+        rule: 'invalid-format',
+        subcode: 'invalid-date-format',
+        field: 'initialDate',
+      });
     }
 
     res.initial_date = initialDate;

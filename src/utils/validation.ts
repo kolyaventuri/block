@@ -23,7 +23,11 @@ export const warnIfTooLong = (name: string, value: string | undefined, max: numb
   }
 
   if (value.length > max) {
-    report(`${name} exceeds ${max} characters.`, 'value-too-long');
+    report({
+      message: `${name} exceeds ${max} characters.`,
+      rule: 'too-long',
+      subcode: 'value-too-long',
+    });
   }
 };
 
@@ -33,13 +37,22 @@ export const warnIfTooMany = (name: string, values: unknown[] | undefined, max: 
   }
 
   if (values.length > max) {
-    report(`${name} exceeds ${max} items.`, 'too-many-items');
+    report({
+      message: `${name} exceeds ${max} items.`,
+      rule: 'too-many',
+      subcode: 'too-many-items',
+    });
   }
 };
 
 export const requireField = (fieldName: string, value: unknown): void => {
   if (isMissing(value)) {
-    report(`${fieldName} is required.`, `${toKebab(fieldName)}-required`);
+    report({
+      message: `${fieldName} is required.`,
+      rule: 'required-field',
+      subcode: `${toKebab(fieldName)}-required`,
+      field: fieldName,
+    });
   }
 };
 
@@ -48,5 +61,9 @@ export const requireOneOf = (fieldNames: string[], values: unknown[]): void => {
     return;
   }
 
-  report(`At least one of ${fieldNames.join(' or ')} is required.`, `${fieldNames.map(fieldName => toKebab(fieldName)).join('-or-')}-required`);
+  report({
+    message: `At least one of ${fieldNames.join(' or ')} is required.`,
+    rule: 'invalid-structure',
+    subcode: `${fieldNames.map(fieldName => toKebab(fieldName)).join('-or-')}-required`,
+  });
 };

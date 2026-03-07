@@ -8,7 +8,12 @@ export const transform = (element: Element): unknown => {
   const type = getType(element);
 
   if (!Transformers[type]) {
-    report(`No transformer for component type '${type}'.`, 'unknown-type');
+    report({
+      message: `No transformer for component type '${type}'.`,
+      rule: 'unsupported-child',
+      subcode: 'unknown-type',
+      component: type,
+    });
     return {};
   }
 

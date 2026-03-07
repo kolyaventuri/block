@@ -42,7 +42,11 @@ import { SlackblockValidationError } from 'slackblock';
 |-------|------|-------------|
 | `message` | `string` | Full error message including path (e.g. `"Message > Header: Header text exceeds 150 characters."`) |
 | `path` | `string` | Component path at the point of failure (e.g. `"Message > Header"`) |
-| `rule` | `string` | Rule identifier (see table below) |
+| `rule` | `ValidationRule` | Stable rule category |
+| `subcode` | `string \| undefined` | Optional machine-readable detail |
+| `component` | `string \| undefined` | Component that triggered the issue |
+| `field` | `string \| undefined` | Field associated with the issue when applicable |
+| `issue` | `ValidationIssue` | Full normalized issue object |
 
 ### Example
 
@@ -63,6 +67,9 @@ try {
     // → "Message > Header"
 
     console.error(err.rule);
+    // → "too-long"
+
+    console.error(err.subcode);
     // → "value-too-long"
   }
 }
@@ -70,15 +77,15 @@ try {
 
 ---
 
-## Current Rule Strings
+## Rule Categories
 
-SlackBlock currently emits granular `error.rule` values. The public contract is not normalized yet, so the exact string depends on the failing field.
+SlackBlock now emits stable top-level `rule` categories. When you need detail, inspect `subcode`.
 
-### Required-field rules
+### `required-field`
 
 Triggered when a required prop is missing.
 
-Examples:
+Example subcodes:
 - `action-id-required`
 - `external-id-required`
 - `label-required`
@@ -91,31 +98,19 @@ Examples:
 - `alt-required`
 - `options-required`
 - `elements-required`
-- `text-or-fields-required`
-
-Common components now covered:
-- `Button`: `actionId`, text
-- `TextInput`: `actionId`
-- `Overflow`: `actionId`, options
-- `File`: `externalId`
-- `Image` / `ImageLayout`: `url`, `alt`
-- `Input`: `label`, `element`
-- `Confirmation`: `title`, `confirm`, `deny`, body text
-- `Section`: `text` or field children
-- `Checkboxes`: `actionId`, options
-- `RadioGroup`: `actionId`, options
-- `Select`: `actionId`, `placeholder`, and static-select options
 
 ```tsx
 <Button>Submit</Button>
-// rule: "action-id-required"
+// rule: "required-field"
+// subcode: "action-id-required"
 ```
 
-### Length rules
+### `too-long`
 
 Triggered when a string prop exceeds Slack's documented character limit.
 
-Runtime rule: `value-too-long`
+Current subcode:
+- `value-too-long`
 
 | Component / Prop | Limit |
 |------------------|-------|
@@ -147,11 +142,12 @@ Runtime rule: `value-too-long`
 | `actionId` | 255 chars |
 | `placeholder` | 150 chars |
 
-### Count rules
+### `too-many`
 
 Triggered when a collection exceeds Slack's documented count limit.
 
-Runtime rule: `too-many-items`
+Current subcode:
+- `too-many-items`
 
 | Component / Collection | Limit |
 |------------------------|-------|
@@ -166,11 +162,11 @@ Runtime rule: `too-many-items`
 | `Select` option groups | 100 |
 | `OptionGroup` options | 100 |
 
-### Format rules
+### `invalid-format`
 
 Triggered when a date or time prop does not match the required format.
 
-Runtime rules:
+Current subcodes:
 - `invalid-date-format`
 - `invalid-time-format`
 
@@ -179,18 +175,37 @@ Runtime rules:
 | `DatePicker.initialDate` | `YYYY-MM-DD` |
 | `TimePicker.initialTime` | `HH:mm` (24-hour) |
 
-### Structural rules
+### `invalid-structure`
 
 Triggered when a supported component is missing one of several acceptable alternatives.
 
-Runtime rules:
+Current subcodes:
 - `text-or-fields-required`
 
-### Unknown transformer rule
+### `unsupported-child`
 
-Runtime rule: `unknown-type`
+Triggered when a component is not recognized by SlackBlock's transformer registry.
 
-Triggered when a component is not recognized by SlackBlock's transformer registry. Unrecognized components are silently dropped from the output unless validation is strict.
+Current subcode:
+- `unknown-type`
+
+Unrecognized components are silently dropped from the output unless validation is strict.
+
+---
+
+## Migration Notes
+
+If you previously matched against the old granular `error.rule` strings, switch to the stable category in `rule` and use `subcode` for the old detail.
+
+Examples:
+
+| Before | After |
+|---|---|
+| `error.rule === "action-id-required"` | `error.rule === "required-field" && error.subcode === "action-id-required"` |
+| `error.rule === "value-too-long"` | `error.rule === "too-long" && error.subcode === "value-too-long"` |
+| `error.rule === "too-many-items"` | `error.rule === "too-many" && error.subcode === "too-many-items"` |
+| `error.rule === "invalid-date-format"` | `error.rule === "invalid-format" && error.subcode === "invalid-date-format"` |
+| `error.rule === "unknown-type"` | `error.rule === "unsupported-child" && error.subcode === "unknown-type"` |
 
 ---
 

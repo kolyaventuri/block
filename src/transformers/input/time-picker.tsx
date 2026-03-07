@@ -50,7 +50,12 @@ const transformTimePicker = (child: Element): TimePickerType => {
 
   if (initialTime) {
     if (!isValidTimeString(initialTime)) {
-      report('Time must be valid and in format HH:MM.', 'invalid-time-format');
+      report({
+        message: 'Time must be valid and in format HH:MM.',
+        rule: 'invalid-format',
+        subcode: 'invalid-time-format',
+        field: 'initialTime',
+      });
     }
 
     res.initial_time = initialTime;
