@@ -72,7 +72,7 @@ try {
 
 ## Current Rule Strings
 
-Phase 1 still emits granular `error.rule` values. The public contract is not normalized yet, so the exact string depends on the failing field.
+SlackBlock currently emits granular `error.rule` values. The public contract is not normalized yet, so the exact string depends on the failing field.
 
 ### Required-field rules
 

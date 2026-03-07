@@ -1,6 +1,6 @@
 # Validation Matrix
 
-Internal implementation checklist for the supported SlackBlock surface in phase 1.
+Internal implementation checklist for the currently supported SlackBlock surface.
 
 | Component | Required Fields | One-of Constraints | Length Limits | Count Limits | Format Rules |
 |---|---|---|---|---|---|
