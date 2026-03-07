@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   channelId: string;
@@ -11,7 +12,7 @@ export type Props = {
  * <RichTextChannel channelId="C123456" />
  * ```
  */
-export default class RichTextChannel {
+export default class RichTextChannel extends SlackComponent {
   static slackType = 'RichTextChannel';
   declare props: Props;
 }

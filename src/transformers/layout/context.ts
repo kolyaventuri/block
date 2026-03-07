@@ -2,7 +2,7 @@ import {type Element} from '../../constants/types';
 import {type Props as ContextProperties, type ImageOrText as ImageOrTextElement} from '../../components/layout/context';
 import {type TextType} from '../block/text';
 import {type ImageType} from '../block/image';
-import {transform} from '../transform';
+import {transformElements} from '../transform';
 import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {MAX_BLOCK_ID_LENGTH, MAX_CONTEXT_ELEMENTS} from '../../constants/limits';
 
@@ -24,7 +24,7 @@ const transformContext = (child: Element): ContextType => {
 
   const res: ContextType = {
     type: 'context',
-    elements: elements.map(element => transform(element as Element)) as ImageOrText[],
+    elements: transformElements<ImageOrText>(elements as Element[]),
   };
 
   if (blockId) {

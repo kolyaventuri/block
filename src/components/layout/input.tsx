@@ -1,4 +1,4 @@
-
+import {SlackComponent} from '../base';
 import {type InputBlockElement} from '../../constants/types';
 
 export type Props = {
@@ -23,7 +23,7 @@ export type Props = {
  * />
  * ```
  */
-export default class Input {
+export default class Input extends SlackComponent {
   static slackType = 'Input';
   declare props: Props;
 }

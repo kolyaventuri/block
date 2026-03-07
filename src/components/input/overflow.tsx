@@ -1,10 +1,11 @@
-
+import {SlackComponent} from '../base';
+import {type ConfirmationElement, type OptionElement} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export type Props = {
   actionId: string;
-  children: SingleOrArray<JSX.Element>;
-  confirm?: JSX.Element;
+  children: SingleOrArray<OptionElement>;
+  confirm?: ConfirmationElement;
 };
 
 /**
@@ -21,7 +22,7 @@ export type Props = {
  * </Overflow>
  * ```
  */
-export default class Overflow {
+export default class Overflow extends SlackComponent {
   static slackType = 'Overflow';
   declare props: Props;
 }

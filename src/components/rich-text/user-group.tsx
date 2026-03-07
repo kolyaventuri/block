@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   usergroupId: string;
@@ -11,7 +12,7 @@ export type Props = {
  * <RichTextUserGroup usergroupId="S123456" />
  * ```
  */
-export default class RichTextUserGroup {
+export default class RichTextUserGroup extends SlackComponent {
   static slackType = 'RichTextUserGroup';
   declare props: Props;
 }

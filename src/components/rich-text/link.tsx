@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 import {type RichTextStyle} from './types';
 
@@ -16,7 +17,7 @@ export type Props = {
  * <RichTextLink url="https://example.com" style={{ bold: true }}>Visit us</RichTextLink>
  * ```
  */
-export default class RichTextLink {
+export default class RichTextLink extends SlackComponent {
   static slackType = 'RichTextLink';
   declare props: Props;
 }

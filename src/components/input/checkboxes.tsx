@@ -1,11 +1,12 @@
-
+import {SlackComponent} from '../base';
+import {type ConfirmationElement, type OptionElement} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export type Props = {
   actionId: string;
-  children: SingleOrArray<JSX.Element>;
-  initialOptions?: JSX.Element[];
-  confirm?: JSX.Element;
+  children: SingleOrArray<OptionElement>;
+  initialOptions?: OptionElement[];
+  confirm?: ConfirmationElement;
   focusOnLoad?: boolean;
 };
 
@@ -22,7 +23,7 @@ export type Props = {
  * </Checkboxes>
  * ```
  */
-export default class Checkboxes {
+export default class Checkboxes extends SlackComponent {
   static slackType = 'Checkboxes';
   declare props: Props;
 }

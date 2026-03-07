@@ -1,5 +1,6 @@
-
 import {type Child} from '../constants/types';
+
+import {SlackComponent} from './base';
 
 /**
  * Props for the `<Message>` component.
@@ -40,7 +41,7 @@ export type Properties = {
  * );
  * ```
  */
-export default class Message {
+export default class Message extends SlackComponent {
   static slackType = 'Message';
   declare props: Properties;
 }

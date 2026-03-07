@@ -1,4 +1,4 @@
-
+import {SlackComponent} from '../base';
 import {type SingleOrArray} from '../../utils/type-helpers';
 import {type Child} from '../../constants/types';
 
@@ -23,7 +23,7 @@ export type Props = {
  * </Message>
  * ```
  */
-export default class Container {
+export default class Container extends SlackComponent {
   static slackType = 'Container';
   declare props: Props;
 }

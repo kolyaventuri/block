@@ -1,8 +1,9 @@
-
+import {SlackComponent} from '../base';
+import {type RichTextInlineChild} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export type Props = {
-  children: SingleOrArray<JSX.Element | string>;
+  children: SingleOrArray<RichTextInlineChild>;
 };
 
 /**
@@ -17,7 +18,7 @@ export type Props = {
  * </RichTextSection>
  * ```
  */
-export default class RichTextSection {
+export default class RichTextSection extends SlackComponent {
   static slackType = 'RichTextSection';
   declare props: Props;
 }

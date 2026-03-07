@@ -1,7 +1,9 @@
+import {SlackComponent} from '../base';
+import {type OptionElement} from '../../constants/types';
 
 export type Props = {
   label: string;
-  children: JSX.Element | JSX.Element[];
+  children: OptionElement | OptionElement[];
 };
 
 /**
@@ -16,7 +18,7 @@ export type Props = {
  * </Select>
  * ```
  */
-export default class OptionGroup {
+export default class OptionGroup extends SlackComponent {
   static slackType = 'OptionGroup';
   declare props: Props;
 }

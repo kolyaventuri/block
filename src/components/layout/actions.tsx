@@ -1,4 +1,4 @@
-
+import {SlackComponent} from '../base';
 import {type InteractiveBlockElement} from '../../constants/types';
 
 export type Props = {
@@ -20,7 +20,7 @@ export type Props = {
  * </Actions>
  * ```
  */
-export default class Actions {
+export default class Actions extends SlackComponent {
   static slackType = 'Actions';
   declare props: Props;
 }

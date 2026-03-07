@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   blockId?: string;
@@ -11,7 +12,7 @@ export type Props = {
  * <Divider />
  * ```
  */
-export default class Divider {
+export default class Divider extends SlackComponent {
   static slackType = 'Divider';
   declare props: Props;
 }

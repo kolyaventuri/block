@@ -1,6 +1,7 @@
 import {type Child, type Block} from '../constants/types';
 import transformers from '../transformers';
 import getType from '../utils/get-type';
+import getTransformerType from '../utils/get-transformer-type';
 import normalizeChildren from '../utils/normalize-children';
 import {pushPath, popPath, report} from '../utils/validation-context';
 
@@ -32,7 +33,18 @@ const parseChildren = (children: Child): ParsedMessage => {
 
   const transformedBlocks: Block[] = [];
   for (const child of normalizedChildren) {
-    const type = getType(child);
+    const type = getTransformerType(child);
+    const component = getType(child);
+    if (!type) {
+      report({
+        message: `No transformer for component type '${component}'.`,
+        rule: 'unsupported-child',
+        subcode: 'unknown-type',
+        component,
+      });
+      continue;
+    }
+
     const transformer = transformers[type];
 
     if (transformer) {
@@ -44,10 +56,10 @@ const parseChildren = (children: Child): ParsedMessage => {
       }
     } else if (type !== 'null') {
       report({
-        message: `No transformer for component type '${type}'.`,
+        message: `No transformer for component type '${component}'.`,
         rule: 'unsupported-child',
         subcode: 'unknown-type',
-        component: type,
+        component,
       });
     }
   }

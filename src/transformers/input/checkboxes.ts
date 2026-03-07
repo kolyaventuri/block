@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as CheckboxesProperties} from '../../components/input/checkboxes';
 import {type ConfirmationType} from '../block/confirmation';
-import {transform} from '../transform';
+import {transformElements, transformOptional} from '../transform';
 import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {MAX_ACTION_ID_LENGTH, MAX_CHECKBOX_OPTIONS} from '../../constants/limits';
 
@@ -28,17 +28,20 @@ const transformCheckboxes = (child: Element): CheckboxesType => {
   const res: CheckboxesType = {
     type: 'checkboxes',
     action_id: actionId,
-    options: elements.map(element => transform(element as Element)) as OptionType[],
+    options: transformElements<OptionType>(elements as Element[]),
   };
 
   warnIfTooMany('Checkboxes options', res.options, MAX_CHECKBOX_OPTIONS);
 
   if (initialOptions && initialOptions.length > 0) {
-    res.initial_options = initialOptions.map(option => transform(option as Element)) as OptionType[];
+    res.initial_options = transformElements<OptionType>(initialOptions as Element[]);
   }
 
   if (confirm) {
-    res.confirm = transform(confirm as Element) as ConfirmationType;
+    const transformedConfirm = transformOptional<ConfirmationType>(confirm as Element);
+    if (transformedConfirm) {
+      res.confirm = transformedConfirm;
+    }
   }
 
   if (focusOnLoad !== undefined) {

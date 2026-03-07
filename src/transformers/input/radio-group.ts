@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as RadioGroupProperties} from '../../components/input/radio-group';
 import {type ConfirmationType} from '../block/confirmation';
-import {transform} from '../transform';
+import {transformElements, transformOptional} from '../transform';
 import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {MAX_ACTION_ID_LENGTH, MAX_RADIO_OPTIONS} from '../../constants/limits';
 
@@ -28,17 +28,23 @@ const transformRadioGroup = (child: Element): RadioGroupType => {
   const res: RadioGroupType = {
     type: 'radio_buttons',
     action_id: actionId,
-    options: elements.map(element => transform(element as Element)) as OptionType[],
+    options: transformElements<OptionType>(elements as Element[]),
   };
 
   warnIfTooMany('RadioGroup options', res.options, MAX_RADIO_OPTIONS);
 
   if (initialOption) {
-    res.initial_option = transform(initialOption as Element) as OptionType;
+    const transformedOption = transformOptional<OptionType>(initialOption as Element);
+    if (transformedOption) {
+      res.initial_option = transformedOption;
+    }
   }
 
   if (confirm) {
-    res.confirm = transform(confirm as Element) as ConfirmationType;
+    const transformedConfirm = transformOptional<ConfirmationType>(confirm as Element);
+    if (transformedConfirm) {
+      res.confirm = transformedConfirm;
+    }
   }
 
   if (focusOnLoad !== undefined) {

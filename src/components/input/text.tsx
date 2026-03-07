@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   actionId: string;
@@ -27,7 +28,7 @@ export type Props = {
  * } />
  * ```
  */
-export default class TextInput {
+export default class TextInput extends SlackComponent {
   static slackType = 'TextInput';
   declare props: Props;
 }

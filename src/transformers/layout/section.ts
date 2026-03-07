@@ -1,7 +1,7 @@
 import {type Element, type SerializedBlockElement} from '../../constants/types';
 import {type Props as SectionComponentProps} from '../../components/layout/section';
 import {type TextType as Text} from '../block/text';
-import {transform} from '../transform';
+import {transform, transformOptional} from '../transform';
 import {warnIfTooLong, warnIfTooMany, requireOneOf} from '../../utils/validation';
 import {MAX_BLOCK_ID_LENGTH, MAX_SECTION_FIELD_TEXT, MAX_SECTION_FIELDS} from '../../constants/limits';
 import TextComponent from '../../components/block/text';
@@ -64,7 +64,10 @@ const transformSection = (element: Element): SectionType => {
   }
 
   if (accessory) {
-    res.accessory = transform(accessory) as SerializedBlockElement;
+    const transformedAccessory = transformOptional<SerializedBlockElement>(accessory);
+    if (transformedAccessory) {
+      res.accessory = transformedAccessory;
+    }
   }
 
   if (expand !== undefined) {
@@ -75,9 +78,11 @@ const transformSection = (element: Element): SectionType => {
     res.fields = [];
     for (const field of normalizedFields) {
       if (field) {
-        const t = transform(toTextElement(field)) as Text;
-        warnIfTooLong('Section field text', t.text, MAX_SECTION_FIELD_TEXT);
-        res.fields.push(t);
+        const transformedField = transformOptional<Text>(toTextElement(field));
+        if (transformedField) {
+          warnIfTooLong('Section field text', transformedField.text, MAX_SECTION_FIELD_TEXT);
+          res.fields.push(transformedField);
+        }
       }
     }
 

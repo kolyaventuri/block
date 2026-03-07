@@ -1,7 +1,7 @@
 
 import {type Element} from '../../constants/types';
 import {type ButtonProps} from '../../components/block/button';
-import {transform} from '../transform';
+import {transform, transformOptional} from '../transform';
 import Text from '../../components/block/text';
 import {warnIfTooLong, requireField} from '../../utils/validation';
 import {
@@ -59,7 +59,10 @@ const transformButton = (child: Element): ButtonType => {
   }
 
   if (confirm) {
-    res.confirm = transform(confirm) as ConfirmationType;
+    const transformedConfirm = transformOptional<ConfirmationType>(confirm);
+    if (transformedConfirm) {
+      res.confirm = transformedConfirm;
+    }
   }
 
   if (accessibilityLabel) {

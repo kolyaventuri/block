@@ -1,7 +1,7 @@
 import {type Element} from '../../constants/types';
 import {type Props as DateTimePickerProperties} from '../../components/input/date-time-picker';
 import {type ConfirmationType} from '../block/confirmation';
-import {transform} from '../transform';
+import {transformOptional} from '../transform';
 import {warnIfTooLong, requireField} from '../../utils/validation';
 import {MAX_ACTION_ID_LENGTH} from '../../constants/limits';
 
@@ -33,7 +33,10 @@ const transformDateTimePicker = (child: Element): DateTimePickerType => {
   }
 
   if (confirm) {
-    res.confirm = transform(confirm as Element) as ConfirmationType;
+    const transformedConfirm = transformOptional<ConfirmationType>(confirm as Element);
+    if (transformedConfirm) {
+      res.confirm = transformedConfirm;
+    }
   }
 
   if (focusOnLoad !== undefined) {

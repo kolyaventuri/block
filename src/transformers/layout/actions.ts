@@ -1,6 +1,6 @@
 import {type Element, type SerializedInteractiveBlockElement, type InteractiveBlockElement} from '../../constants/types';
 import {type Props as ActionProperties} from '../../components/layout/actions';
-import {transform} from '../transform';
+import {transformElements} from '../transform';
 import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {MAX_BLOCK_ID_LENGTH, MAX_ACTIONS_ELEMENTS} from '../../constants/limits';
 
@@ -20,7 +20,7 @@ const transformActions = (child: Element): ActionType => {
 
   const res: ActionType = {
     type: 'actions',
-    elements: elements.map(element => transform(element as Element) as SerializedInteractiveBlockElement),
+    elements: transformElements<SerializedInteractiveBlockElement>(elements as Element[]),
   };
 
   if (blockId) {

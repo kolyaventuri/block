@@ -4,7 +4,7 @@ import {
 } from '../constants/types';
 import {type Properties as MessageProperties} from '../components/message';
 import parser from '../parser';
-import getType from '../utils/get-type';
+import getTransformerType from '../utils/get-transformer-type';
 import {warnIfTooMany, warnIfTooLong} from '../utils/validation';
 import {
   initContext, pushPath, popPath, type ValidationMode, type ValidationReporter,
@@ -116,8 +116,7 @@ function render(element: Element, options?: RenderOptions): SlackMessageDraft {
 
   const properties = element.props as MessageProperties;
 
-  const typeName = getType(element);
-  if (typeName !== 'Message') {
+  if (getTransformerType(element) !== 'Message') {
     throw new TypeError('Provided top-level element must be a Message type.');
   }
 

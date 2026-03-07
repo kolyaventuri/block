@@ -1,3 +1,4 @@
+import {SlackComponent} from '../base';
 
 export type Props = {
   timestamp: number;
@@ -22,7 +23,7 @@ export type Props = {
  * />
  * ```
  */
-export default class RichTextDate {
+export default class RichTextDate extends SlackComponent {
   static slackType = 'RichTextDate';
   declare props: Props;
 }

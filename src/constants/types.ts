@@ -70,9 +70,31 @@ export type SerializedElement =
 export type Block = KnownBlock | SlackBlock;
 export type Attachment = MessageAttachment;
 
+export type TextElement = JSX.Element;
+export type ConfirmationElement = JSX.Element;
+export type ImageElement = JSX.Element;
+export type OptionElement = JSX.Element;
+export type OptionGroupElement = JSX.Element;
+export type ButtonElement = JSX.Element;
+export type CheckboxesElement = JSX.Element;
+export type DatePickerElement = JSX.Element;
+export type DateTimePickerElement = JSX.Element;
+export type OverflowElement = JSX.Element;
+export type RadioGroupElement = JSX.Element;
+export type SelectElement = JSX.Element;
+export type TextInputElement = JSX.Element;
+export type TimePickerElement = JSX.Element;
+export type ContextElement = JSX.Element;
+export type RichTextInlineElement = JSX.Element;
+export type RichTextInlineChild = JSX.Element | string;
+export type RichTextBlockElement = JSX.Element;
+export type RichTextBlockChild = JSX.Element | string;
+export type LayoutElement = JSX.Element;
+
 export type InteractiveBlockElement = JSX.Element;
 
 export type InputBlockElement = JSX.Element;
+
 export type BlockElement = JSX.Element;
 
 /**

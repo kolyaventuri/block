@@ -1,11 +1,12 @@
-
+import {SlackComponent} from '../base';
+import {type ConfirmationElement, type OptionElement} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export type Props = {
   actionId: string;
-  children: SingleOrArray<JSX.Element>;
-  initialOption?: JSX.Element;
-  confirm?: JSX.Element;
+  children: SingleOrArray<OptionElement>;
+  initialOption?: OptionElement;
+  confirm?: ConfirmationElement;
   focusOnLoad?: boolean;
 };
 
@@ -23,7 +24,7 @@ export type Props = {
  * </RadioGroup>
  * ```
  */
-export default class RadioGroup {
+export default class RadioGroup extends SlackComponent {
   static slackType = 'RadioGroup';
   declare props: Props;
 }

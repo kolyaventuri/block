@@ -1,4 +1,5 @@
-
+import {SlackComponent} from '../base';
+import {type ConfirmationElement, type OptionElement, type OptionGroupElement} from '../../constants/types';
 import {type SingleOrArray} from '../../utils/type-helpers';
 
 export const selectTypes = {
@@ -22,9 +23,9 @@ export type Props = {
   actionId: string;
   type?: SelectType;
   multi?: boolean;
-  children?: SingleOrArray<JSX.Element>;
-  initialOptions?: JSX.Element[];
-  confirm?: JSX.Element;
+  children?: SingleOrArray<OptionElement>;
+  initialOptions?: OptionElement[];
+  confirm?: ConfirmationElement;
   maxSelectedItems?: number;
   minQueryLength?: number;
   focusOnLoad?: boolean;
@@ -55,7 +56,7 @@ export type Props = {
  * <Select type="user" multi placeholder="Pick users" actionId="mentions" />
  * ```
  */
-export default class Select {
+export default class Select extends SlackComponent {
   static slackType = 'Select';
   declare props: Props;
 }

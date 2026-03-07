@@ -4,8 +4,8 @@ import {type TextType} from '../block/text';
 import {type ConfirmationType} from '../block/confirmation';
 import {type Props as SelectProperties, selectTypes} from '../../components/input/select';
 import Text from '../../components/block/text';
-import {transform} from '../transform';
-import getType from '../../utils/get-type';
+import {transform, transformElements, transformOptional} from '../transform';
+import getTransformerType from '../../utils/get-transformer-type';
 import {warnIfTooLong, warnIfTooMany, requireField} from '../../utils/validation';
 import {
   MAX_ACTION_ID_LENGTH,
@@ -79,11 +79,11 @@ const normalizeElements = (elements?: SelectProperties['children']): JSX.Element
 };
 
 const assignStaticOptions = (elements: JSX.Element[], result: SelectType): void => {
-  const elementType = getType(elements[0] as Element);
-  if (elements.some(element => getType(element as Element) !== elementType)) {
-    if (elementType === OPTION && elements.some(element => getType(element as Element) !== OPTION_GROUP)) {
+  const elementType = getTransformerType(elements[0] as Element);
+  if (elements.some(element => getTransformerType(element as Element) !== elementType)) {
+    if (elementType === OPTION && elements.some(element => getTransformerType(element as Element) !== OPTION_GROUP)) {
       throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
-    } else if (elementType === OPTION_GROUP && elements.some(element => getType(element as Element) !== OPTION)) {
+    } else if (elementType === OPTION_GROUP && elements.some(element => getTransformerType(element as Element) !== OPTION)) {
       throw new TypeError('You cannot mix OptionGroup types with Option types in a Select block.');
     }
 
@@ -91,9 +91,9 @@ const assignStaticOptions = (elements: JSX.Element[], result: SelectType): void 
   }
 
   if (elementType === OPTION) {
-    result.options = elements.map(element => transform(element as Element)) as OptionType[];
+    result.options = transformElements<OptionType>(elements as Element[]);
   } else if (elementType === OPTION_GROUP) {
-    result.option_groups = elements.map(element => transform(element as Element)) as OptionGroupType[];
+    result.option_groups = transformElements<OptionGroupType>(elements as Element[]);
   }
 };
 
@@ -187,7 +187,7 @@ const applyInitialSelections = (
     case selectTypes.STATIC:
     case selectTypes.EXTERNAL: {
       if (initialOptions && initialOptions.length > 0) {
-        const transformedOptions = initialOptions.map(element => transform(element as Element)) as OptionType[];
+        const transformedOptions = transformElements<OptionType>(initialOptions as Element[]);
 
         if (isMulti) {
           result.initial_options = transformedOptions;
@@ -236,17 +236,28 @@ const transformSelect = (child: Element): SelectType => {
   };
 
   const elements = normalizeElements(children);
+  const knownElements = elements.filter(element => {
+    if (getTransformerType(element as Element)) {
+      return true;
+    }
+
+    transformOptional(element as Element);
+    return false;
+  });
 
   if (type === selectTypes.STATIC) {
     requireField('options', elements);
 
-    if (elements.length > 0) {
-      assignStaticOptions(elements, result);
+    if (knownElements.length > 0) {
+      assignStaticOptions(knownElements, result);
     }
   }
 
   if (confirm) {
-    result.confirm = transform(confirm as Element) as ConfirmationType;
+    const transformedConfirm = transformOptional<ConfirmationType>(confirm as Element);
+    if (transformedConfirm) {
+      result.confirm = transformedConfirm;
+    }
   }
 
   applyInitialSelections(type, Boolean(multi), result, {
