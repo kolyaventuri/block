@@ -4,8 +4,13 @@ import {type Props as VideoProperties} from '../../components/layout/video';
 import {type TextType} from '../block/text';
 import {transform} from '../transform';
 import Text from '../../components/block/text';
-import {warnIfTooLong} from '../../utils/validation';
-import {MAX_BLOCK_ID_LENGTH, MAX_VIDEO_DESCRIPTION} from '../../constants/limits';
+import {warnIfTooLong, requireField} from '../../utils/validation';
+import {
+  MAX_BLOCK_ID_LENGTH,
+  MAX_VIDEO_AUTHOR_NAME,
+  MAX_VIDEO_DESCRIPTION,
+  MAX_VIDEO_TITLE,
+} from '../../constants/limits';
 
 export type VideoType = {
   type: 'video';
@@ -35,14 +40,20 @@ const transformVideo = (child: Element): VideoType => {
     blockId,
   } = child.props as VideoProperties;
 
+  requireField('title', title);
+  requireField('videoUrl', videoUrl);
+  requireField('thumbnailUrl', thumbnailUrl);
+  requireField('altText', altText);
+  warnIfTooLong('Video title', title, MAX_VIDEO_TITLE);
+  warnIfTooLong('Video author_name', authorName, MAX_VIDEO_AUTHOR_NAME);
   warnIfTooLong('block_id', blockId, MAX_BLOCK_ID_LENGTH);
 
   const res: VideoType = {
     type: 'video',
-    title: transform(<Text plainText>{title}</Text>) as TextType,
-    video_url: videoUrl,
-    thumbnail_url: thumbnailUrl,
-    alt_text: altText,
+    title: transform(<Text plainText>{title ?? ''}</Text>) as TextType,
+    video_url: videoUrl ?? '',
+    thumbnail_url: thumbnailUrl ?? '',
+    alt_text: altText ?? '',
   };
 
   if (titleUrl) {

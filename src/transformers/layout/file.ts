@@ -1,6 +1,6 @@
 import {type Element} from '../../constants/types';
 import {type Props as FileProperties} from '../../components/layout/file';
-import {warnIfTooLong} from '../../utils/validation';
+import {warnIfTooLong, requireField} from '../../utils/validation';
 
 export type FileType = {
   type: 'file';
@@ -11,11 +11,12 @@ export type FileType = {
 
 const transformFile = (child: Element): FileType => {
   const {externalId, blockId} = child.props as FileProperties;
+  requireField('externalId', externalId);
   warnIfTooLong('block_id', blockId, 255);
   const res: FileType = {
     type: 'file',
     source: 'remote',
-    external_id: externalId,
+    external_id: externalId ?? '',
   };
 
   if (blockId) {

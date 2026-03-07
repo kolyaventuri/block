@@ -186,13 +186,21 @@ try {
 } catch (err) {
   if (err instanceof SlackblockValidationError) {
     console.error(err.message); // "Message > Header: Header text exceeds 150 characters."
-    console.error(err.path);    // ["Message", "Header"]
-    console.error(err.rule);    // "too-long"
+    console.error(err.path);    // "Message > Header"
+    console.error(err.rule);    // "value-too-long"
   }
 }
 ```
 
-See [docs/validation.md](docs/validation.md) for the full rule reference.
+Strict mode now catches missing required props and structural gaps across the supported surface, including:
+- missing `actionId` on interactive elements like `TextInput` and `Overflow`
+- missing `externalId` on `<File>`
+- missing `url` / `alt` on `<Image>` and `<ImageLayout>`
+- missing `label` / `element` on `<Input>`
+- incomplete `<Confirmation>` dialogs
+- `<Section>` blocks with neither primary text nor fields
+
+See [docs/validation.md](docs/validation.md) for the current runtime rule reference.
 
 ---
 

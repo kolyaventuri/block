@@ -63,38 +63,74 @@ try {
     // → "Message > Header"
 
     console.error(err.rule);
-    // → "too-long"
+    // → "value-too-long"
   }
 }
 ```
 
 ---
 
-## Validation rules
+## Current Rule Strings
 
-### `required-field`
+SlackBlock currently emits granular `error.rule` values. The public contract is not normalized yet, so the exact string depends on the failing field.
 
-Triggered when a required prop is missing from a component.
+### Required-field rules
 
-Applies to: `Button` (`actionId`), `Select` (`actionId`, `placeholder`), `TextInput` (`actionId`), `DatePicker` (`actionId`), `TimePicker` (`actionId`), `DateTimePicker` (`actionId`), `Checkboxes` (`actionId`), `RadioGroup` (`actionId`), `Overflow` (`actionId`).
+Triggered when a required prop is missing.
+
+Examples:
+- `action-id-required`
+- `external-id-required`
+- `label-required`
+- `element-required`
+- `title-required`
+- `confirm-required`
+- `deny-required`
+- `text-required`
+- `url-required`
+- `alt-required`
+- `options-required`
+- `elements-required`
+- `text-or-fields-required`
+
+Common components now covered:
+- `Button`: `actionId`, text
+- `TextInput`: `actionId`
+- `Overflow`: `actionId`, options
+- `File`: `externalId`
+- `Image` / `ImageLayout`: `url`, `alt`
+- `Input`: `label`, `element`
+- `Confirmation`: `title`, `confirm`, `deny`, body text
+- `Section`: `text` or field children
+- `Checkboxes`: `actionId`, options
+- `RadioGroup`: `actionId`, options
+- `Select`: `actionId`, `placeholder`, and static-select options
 
 ```tsx
-// Triggers required-field violation:
 <Button>Submit</Button>
-//       ^^^ missing actionId
+// rule: "action-id-required"
 ```
 
-### `too-long`
+### Length rules
 
 Triggered when a string prop exceeds Slack's documented character limit.
+
+Runtime rule: `value-too-long`
 
 | Component / Prop | Limit |
 |------------------|-------|
 | `Message.text` (hard limit) | 40,000 chars |
 | `Message.text` (recommended) | 4,000 chars |
 | `Header.text` | 150 chars |
+| `Input.label` | 2,000 chars |
+| `Input.hint` | 2,000 chars |
+| `Confirmation.title` | 100 chars |
+| `Confirmation.text` | 300 chars |
+| `Confirmation.confirm` | 30 chars |
+| `Confirmation.deny` | 30 chars |
 | `Button` label | 75 chars |
 | `Button.accessibilityLabel` | 75 chars |
+| `Button.url` | 3,000 chars |
 | `Button.value` | 2,000 chars |
 | `Option` label | 75 chars |
 | `Option.value` | 150 chars |
@@ -104,13 +140,18 @@ Triggered when a string prop exceeds Slack's documented character limit.
 | `Image.url` | 3,000 chars |
 | `Image.alt` | 2,000 chars |
 | `Image.title` | 2,000 chars |
+| `Video.title` | 200 chars |
+| `Video.description` | 200 chars |
+| `Video.authorName` | 50 chars |
 | `blockId` | 255 chars |
 | `actionId` | 255 chars |
 | `placeholder` | 150 chars |
 
-### `too-many`
+### Count rules
 
 Triggered when a collection exceeds Slack's documented count limit.
+
+Runtime rule: `too-many-items`
 
 | Component / Collection | Limit |
 |------------------------|-------|
@@ -118,18 +159,36 @@ Triggered when a collection exceeds Slack's documented count limit.
 | `Section` fields (children) | 10 |
 | `Actions` elements | 25 |
 | `Context` elements | 10 |
+| `Checkboxes` options | 10 |
+| `RadioGroup` options | 10 |
+| `Overflow` options | 5 |
+| `Select` options | 100 |
+| `Select` option groups | 100 |
 | `OptionGroup` options | 100 |
 
-### `invalid-format`
+### Format rules
 
 Triggered when a date or time prop does not match the required format.
+
+Runtime rules:
+- `invalid-date-format`
+- `invalid-time-format`
 
 | Prop | Required format |
 |------|----------------|
 | `DatePicker.initialDate` | `YYYY-MM-DD` |
 | `TimePicker.initialTime` | `HH:mm` (24-hour) |
 
-### `unknown-type`
+### Structural rules
+
+Triggered when a supported component is missing one of several acceptable alternatives.
+
+Runtime rules:
+- `text-or-fields-required`
+
+### Unknown transformer rule
+
+Runtime rule: `unknown-type`
 
 Triggered when a component is not recognized by SlackBlock's transformer registry. Unrecognized components are silently dropped from the output unless validation is strict.
 

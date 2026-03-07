@@ -72,3 +72,5 @@ example/node_modules/
 example/dist/
 example/.env
 
+UPGRADE_PLAN.md
+VALIDATION_REPORT.md
