@@ -9,6 +9,8 @@ JSX-based Slack Block Kit message renderer
 
 Build Slack messages with JSX. No React required — SlackBlock ships its own lightweight JSX runtime. Write your blocks as components, call `render()`, and post the result straight to the Slack API.
 
+SlackBlock supports a documented subset of Slack Block Kit rather than the full surface area. See [docs/support-matrix.md](docs/support-matrix.md) for the current coverage and [docs/roadmap.md](docs/roadmap.md) for the main gaps being tracked.
+
 ---
 
 ## Compatibility
@@ -257,25 +259,23 @@ See [docs/validation.md](docs/validation.md) for the stable rule categories and 
 
 ---
 
-## Supported components
+## Support Coverage
 
-**Layout blocks:** `Message`, `Section`, `Actions`, `Context`, `Divider`, `File`, `Header`, `Image` (block), `Input`, `RichText`, `Video`
+SlackBlock does not try to mirror every Slack Block Kit primitive immediately. The supported subset is explicit:
 
-**Block elements:** `Text`, `Image` (element), `Button`, `Confirmation`
+- supported coverage: [docs/support-matrix.md](docs/support-matrix.md)
+- public component API: [docs/components.md](docs/components.md)
+- planned gaps: [docs/roadmap.md](docs/roadmap.md)
 
-**Input elements:** `Select`, `Option`, `OptionGroup`, `Overflow`, `Checkboxes`, `RadioGroup`, `TextInput`, `DatePicker`, `TimePicker`, `DateTimePicker`
-
-**Rich text helpers:** `RichTextSection`, `RichTextList`, `RichTextQuote`, `RichTextPreformatted`, `RichTextText`, `RichTextLink`, `RichTextUser`, `RichTextChannel`, `RichTextEmoji`, `RichTextDate`, `RichTextBroadcast`, `RichTextUserGroup`
-
-**Utility:** `Container`
-
-See [docs/components.md](docs/components.md) for the full props reference.
+If a block, element, or composition object is not listed as `Supported` in the support matrix, do not assume it is available.
 
 ---
 
 ## Further reading
 
 - [Component reference](docs/components.md) — all components with props tables
+- [Support matrix](docs/support-matrix.md) — current Block Kit coverage
+- [Roadmap](docs/roadmap.md) — tracked gaps and likely next additions
 - [Validation guide](docs/validation.md) — validation modes and error handling
 - [Migrating from jsx-slack](docs/migrating-from-jsx-slack.md)
 - [Migrating from slack-block-builder](docs/migrating-from-slack-block-builder.md)

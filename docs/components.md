@@ -9,6 +9,8 @@ import {
 } from 'slackblock/block';
 ```
 
+For current support status across Slack Block Kit features, see [support-matrix.md](./support-matrix.md).
+
 ---
 
 ## Layout blocks
