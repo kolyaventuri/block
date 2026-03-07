@@ -6,6 +6,7 @@ import render, {
   escapeMrkdwn,
   renderToBlocks,
   renderToMessage,
+  type ValidationReporter,
 } from '../../src';
 import * as block from '../../src/block';
 import * as jsxDevRuntime from '../../src/jsx-dev-runtime';
@@ -18,6 +19,14 @@ test('root entrypoint exports renderer and helpers', () => {
   expect(escapeMrkdwn).toBeTypeOf('function');
   expect(blockKitBuilderUrl).toBeTypeOf('function');
   expect(SlackblockValidationError).toBeTypeOf('function');
+});
+
+test('root entrypoint exports validation reporter type compatibility', () => {
+  const reporter: ValidationReporter = issue => {
+    expect(issue.rule).toBeTypeOf('string');
+  };
+
+  expect(reporter).toBeTypeOf('function');
 });
 
 test('block entrypoint exports the public component barrel', () => {

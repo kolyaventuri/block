@@ -8,20 +8,24 @@ import {SlackblockValidationError, type ValidationIssue, type ValidationRule} fr
  * - `'off'`    — suppress all validation
  */
 export type ValidationMode = 'off' | 'warn' | 'strict';
+export type ValidationReporter = (issue: ValidationIssue) => void;
 
 type ValidationContext = {
   mode: ValidationMode;
   path: string[];
+  reporter?: ValidationReporter;
 };
 
 const context: ValidationContext = {
   mode: 'warn',
   path: [],
+  reporter: undefined,
 };
 
-export const initContext = (mode: ValidationMode): void => {
+export const initContext = (mode: ValidationMode, reporter?: ValidationReporter): void => {
   context.mode = mode;
   context.path = [];
+  context.reporter = reporter;
 };
 
 export const pushPath = (segment: string): void => {
@@ -68,7 +72,12 @@ export const report = (input: ReportInput): void => {
   const issue = toIssue(input);
 
   if (context.mode === 'warn') {
-    console.warn(`[slackblock] ${issue.path}: ${issue.message}`);
+    if (context.reporter) {
+      context.reporter(issue);
+    } else {
+      console.warn(`[slackblock] ${issue.path}: ${issue.message}`);
+    }
+
     return;
   }
 
