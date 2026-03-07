@@ -47,11 +47,11 @@ The required root element for `render()` / `renderToMessage()`. Represents a Sla
 
 ### `<Section>`
 
-A section block. Supports a text label, optional fields column, and an optional accessory element.
+A section block. Supports primary text, optional fields, and an optional accessory element.
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `text` | `JSX.Element` | Yes | Primary text — typically a `<Text>` element |
+| `text` | `JSX.Element` | Conditionally | Primary text — typically a `<Text>` element. Required when no field children are present |
 | `blockId` | `string` | — | Unique identifier for the block |
 | `children` | `<Text> \| <Text>[]` | — | Fields displayed in a two-column grid below the text |
 | `accessory` | block element | — | An interactive element displayed to the right |
@@ -63,6 +63,15 @@ A section block. Supports a text label, optional fields column, and an optional 
 >
   <Text plainText>Field A</Text>
   <Text plainText>Field B</Text>
+</Section>
+```
+
+Runtime validation also accepts fields-only sections. The current TypeScript prop type still requires `text`, so this pattern needs a cast until the `Section` API is widened:
+
+```tsx
+<Section text={undefined as never}>
+  <Text plainText>Status</Text>
+  <Text>Ready</Text>
 </Section>
 ```
 
@@ -147,11 +156,6 @@ A block that wraps a single interactive input element with a label.
 | `blockId` | `string` | — | Unique identifier for the block |
 
 ```tsx
-<Input label="Your name" hint="Use your full name">
-  {/* element prop, not children */}
-</Input>
-
-// Correct usage:
 <Input
   label="Your name"
   element={<TextInput actionId="name" placeholder="Jane Doe" />}
@@ -214,7 +218,7 @@ A video block that embeds an external video.
 | `altText` | `string` | Yes | Alt text for the thumbnail |
 | `titleUrl` | `string` | — | URL the title links to |
 | `description` | `string` | — | Description text (max 200 characters) |
-| `authorName` | `string` | — | Author name |
+| `authorName` | `string` | — | Author name (max 50 characters) |
 | `providerName` | `string` | — | Video provider name (e.g. `"YouTube"`) |
 | `providerIconUrl` | `string` | — | URL of the provider icon |
 | `blockId` | `string` | — | Unique identifier for the block |
@@ -322,7 +326,7 @@ A button element.
 | `children` | `string` | Yes | Button label (max 75 characters) |
 | `actionId` | `string` | Yes | Unique identifier for the action |
 | `value` | `string` | — | Value sent with the action payload |
-| `url` | `string` | — | URL to open when the button is clicked |
+| `url` | `string` | — | URL to open when the button is clicked (max 3000 characters) |
 | `style` | `'primary' \| 'danger'` | — | Button style |
 | `accessibilityLabel` | `string` | — | Screen reader label (max 75 characters) |
 | `confirm` | `<Confirmation>` | — | Confirmation dialog before triggering the action |
@@ -340,9 +344,9 @@ A confirmation dialog attached to interactive elements.
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `title` | `string` | Yes | Dialog title (max 300 characters) |
-| `confirm` | `string` | Yes | Text of the confirm button |
-| `deny` | `string` | Yes | Text of the cancel button |
+| `title` | `string` | Yes | Dialog title (max 100 characters) |
+| `confirm` | `string` | Yes | Text of the confirm button (max 30 characters) |
+| `deny` | `string` | Yes | Text of the cancel button (max 30 characters) |
 | `children` | `<Text>` | Yes | Body text of the dialog |
 
 ```tsx
@@ -379,10 +383,6 @@ A plain text input field.
 | `dispatchActionConfig` | `{ triggerActionsOn: Array<'on_enter_pressed' \| 'on_character_entered'> }` | — | When to dispatch block actions |
 
 ```tsx
-<Input label="Your message">
-  {/* pass as element prop */}
-</Input>
-
 <Input
   label="Your message"
   element={
@@ -408,7 +408,7 @@ A dropdown select menu. Supports static, external, user, conversation, and chann
 | `actionId` | `string` | Yes | Unique identifier for the action |
 | `type` | `'static' \| 'external' \| 'user' \| 'conversation' \| 'channel'` | — | Data source (default: `'static'`) |
 | `multi` | `boolean` | — | Allow multiple selections |
-| `children` | `<Option> \| <OptionGroup>` | — | Options (for `static` type) |
+| `children` | `<Option> \| <OptionGroup>` | Conditionally | Required for `static` selects. Use either options or option groups, not both |
 | `initialOptions` | `<Option>[]` | — | Pre-selected options |
 | `initialUsers` | `string[]` | — | Pre-selected user IDs (for `user` type) |
 | `initialConversations` | `string[]` | — | Pre-selected conversation IDs |
@@ -432,6 +432,12 @@ A dropdown select menu. Supports static, external, user, conversation, and chann
 <Select type="user" multi placeholder="Pick users" actionId="mentions" />
 ```
 
+Static select limits:
+- `options`: up to 100
+- `option_groups`: up to 100
+- `placeholder`: max 150 characters
+- `actionId`: max 255 characters
+
 ---
 
 ### `<Option>`
@@ -453,7 +459,7 @@ An option item for `<Select>`, `<Checkboxes>`, `<RadioGroup>`, or `<Overflow>`.
 
 ### `<OptionGroup>`
 
-Groups options under a label in a static or external `<Select>`.
+Groups options under a label in a static `<Select>`.
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
@@ -481,7 +487,7 @@ A group of checkboxes.
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `actionId` | `string` | Yes | Unique identifier for the action |
-| `children` | `<Option> \| <Option>[]` | Yes | Checkbox options |
+| `children` | `<Option> \| <Option>[]` | Yes | Checkbox options (up to 10) |
 | `initialOptions` | `<Option>[]` | — | Pre-checked options |
 | `confirm` | `<Confirmation>` | — | Confirmation dialog |
 | `focusOnLoad` | `boolean` | — | Auto-focus on view load |
@@ -502,7 +508,7 @@ A group of radio buttons (single selection).
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `actionId` | `string` | Yes | Unique identifier for the action |
-| `children` | `<Option> \| <Option>[]` | Yes | Radio options |
+| `children` | `<Option> \| <Option>[]` | Yes | Radio options (up to 10) |
 | `initialOption` | `<Option>` | — | Pre-selected option |
 | `confirm` | `<Confirmation>` | — | Confirmation dialog |
 | `focusOnLoad` | `boolean` | — | Auto-focus on view load |
@@ -524,7 +530,7 @@ An overflow menu (the "..." button) with a list of options.
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `actionId` | `string` | Yes | Unique identifier for the action |
-| `children` | `<Option> \| <Option>[]` | Yes | Menu options (minimum 2) |
+| `children` | `<Option> \| <Option>[]` | Yes | Menu options (up to 5) |
 | `confirm` | `<Confirmation>` | — | Confirmation dialog |
 
 ```tsx
