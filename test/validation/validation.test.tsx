@@ -223,7 +223,7 @@ describe('strict mode', () => {
       )).toThrow(SlackblockValidationError);
   });
 
-  test('error.rule is correct for length violation', () => {
+  test('error.rule is normalized for length violation', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -240,10 +240,11 @@ describe('strict mode', () => {
     }
 
     expect(error_).toBeInstanceOf(SlackblockValidationError);
-    expect(error_?.rule).toBe('value-too-long');
+    expect(error_?.rule).toBe('too-long');
+    expect(error_?.subcode).toBe('value-too-long');
   });
 
-  test('error.rule is correct for count violation', () => {
+  test('error.rule is normalized for count violation', () => {
     const manyButtons = Array.from({length: 30}, (_, index) => (
       <Button actionId={`btn-${index}`}>Click</Button>
     ));
@@ -262,10 +263,11 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('too-many-items');
+    expect(error_?.rule).toBe('too-many');
+    expect(error_?.subcode).toBe('too-many-items');
   });
 
-  test('error.rule is correct for invalid date format', () => {
+  test('error.rule is normalized for invalid date format', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -283,10 +285,12 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('invalid-date-format');
+    expect(error_?.rule).toBe('invalid-format');
+    expect(error_?.subcode).toBe('invalid-date-format');
+    expect(error_?.field).toBe('initialDate');
   });
 
-  test('error.rule is correct for invalid time format', () => {
+  test('error.rule is normalized for invalid time format', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -304,10 +308,12 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('invalid-time-format');
+    expect(error_?.rule).toBe('invalid-format');
+    expect(error_?.subcode).toBe('invalid-time-format');
+    expect(error_?.field).toBe('initialTime');
   });
 
-  test('error.rule is correct for required field', () => {
+  test('error.rule is normalized for required fields', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -326,7 +332,10 @@ describe('strict mode', () => {
       }
     }
 
-    expect(error_?.rule).toBe('action-id-required');
+    expect(error_?.rule).toBe('required-field');
+    expect(error_?.subcode).toBe('action-id-required');
+    expect(error_?.field).toBe('actionId');
+    expect(error_?.component).toBe('Button');
   });
 
   test('error.path includes component context', () => {
@@ -638,7 +647,7 @@ describe('section fields count', () => {
       )).toThrow(SlackblockValidationError);
   });
 
-  test('error.rule is correct when section is missing both text and fields', () => {
+  test('error.rule is normalized when section is missing both text and fields', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -654,7 +663,8 @@ describe('section fields count', () => {
       }
     }
 
-    expect(error_?.rule).toBe('text-or-fields-required');
+    expect(error_?.rule).toBe('invalid-structure');
+    expect(error_?.subcode).toBe('text-or-fields-required');
   });
 });
 
@@ -737,7 +747,7 @@ describe('unknown-type rule', () => {
       )).toThrow(SlackblockValidationError);
   });
 
-  test('strict mode: error.rule is unknown-type', () => {
+  test('strict mode: error.rule is normalized for unknown components', () => {
     let error_: SlackblockValidationError | undefined;
 
     try {
@@ -753,7 +763,9 @@ describe('unknown-type rule', () => {
       }
     }
 
-    expect(error_?.rule).toBe('unknown-type');
+    expect(error_?.rule).toBe('unsupported-child');
+    expect(error_?.subcode).toBe('unknown-type');
+    expect(error_?.component).toBe('UnknownWidget');
   });
 
   test('warn mode: warns on unknown nested component and does not throw', () => {

@@ -12,6 +12,10 @@ export {
   type SerializedOption,
 } from './constants/types';
 export {type ValidationMode} from './utils/validation-context';
-export {SlackblockValidationError} from './errors';
+export {
+  SlackblockValidationError,
+  type ValidationIssue,
+  type ValidationRule,
+} from './errors';
 export {escapeMrkdwn} from './utils/escape-mrkdwn';
 export {blockKitBuilderUrl} from './utils/block-kit-builder';

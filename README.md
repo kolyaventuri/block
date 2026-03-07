@@ -187,7 +187,8 @@ try {
   if (err instanceof SlackblockValidationError) {
     console.error(err.message); // "Message > Header: Header text exceeds 150 characters."
     console.error(err.path);    // "Message > Header"
-    console.error(err.rule);    // "value-too-long"
+    console.error(err.rule);    // "too-long"
+    console.error(err.subcode); // "value-too-long"
   }
 }
 ```
@@ -200,7 +201,7 @@ Strict mode now catches missing required props and structural gaps across the su
 - incomplete `<Confirmation>` dialogs
 - `<Section>` blocks with neither primary text nor fields
 
-See [docs/validation.md](docs/validation.md) for the current runtime rule reference.
+See [docs/validation.md](docs/validation.md) for the stable rule categories and current subcodes.
 
 ---
 
