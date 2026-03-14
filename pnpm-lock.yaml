@@ -15,7 +15,7 @@ importers:
     dependencies:
       '@slack/types':
         specifier: ^2.20.0
-        version: 2.20.0
+        version: 2.20.1
     devDependencies:
       '@changesets/cli':
         specifier: ^2.30.0
@@ -691,8 +691,8 @@ packages:
     resolution: {integrity: sha512-i5K04hLAP44Af16zmDjG07E1NHuDgCM07SJAT4gY0LZSRrWYzwt4qkLem6TIbIVh0k51RkN2bF+lP+lM5eC9fw==}
     engines: {node: '>=18'}
 
-  '@slack/types@2.20.0':
-    resolution: {integrity: sha512-PVF6P6nxzDMrzPC8fSCsnwaI+kF8YfEpxf3MqXmdyjyWTYsZQURpkK7WWUWvP5QpH55pB7zyYL9Qem/xSgc5VA==}
+  '@slack/types@2.20.1':
+    resolution: {integrity: sha512-eWX2mdt1ktpn8+40iiMc404uGrih+2fxiky3zBcPjtXKj6HLRdYlmhrPkJi7JTJm8dpXR6BWVWEDBXtaWMKD6A==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
 
   '@standard-schema/spec@1.1.0':
@@ -3644,7 +3644,7 @@ snapshots:
 
   '@sindresorhus/tsconfig@7.0.0': {}
 
-  '@slack/types@2.20.0': {}
+  '@slack/types@2.20.1': {}
 
   '@standard-schema/spec@1.1.0': {}
 
