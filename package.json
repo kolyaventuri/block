@@ -105,7 +105,7 @@
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18",
-    "xo": "^1.2.3"
+    "xo": "^2.0.0"
   },
   "dependencies": {
     "@slack/types": "^2.20.0"
